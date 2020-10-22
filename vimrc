@@ -30,9 +30,6 @@ set expandtab       " expand tab to spaces so that tabs are spaces
 " Show matching parenthesis
 set showmatch
 
-" Set matching pairs of characters and highlight matching brackets
-set matchpairs+=<:>,「:」
-
 " Show line number
 set number
 
@@ -53,7 +50,7 @@ set linebreak
 set showbreak=↪
 
 " List all items and start selecting matches in cmd completion
-set wildmode=list:full
+set wildmode=long:full:full
 
 " Show current line where the cursor is
 set cursorline
@@ -78,6 +75,9 @@ set ffs=unix,dos,mac
 
 " The mode in which cursorline text can be concealed
 set concealcursor=nc
+
+" Disable all blinking:
+set guicursor+=a:blinkon0
 
 " Ignore certain files and folders when globbing
 set wildignore+=*.o,*.obj,*.bin,*.dll,*.exe
@@ -134,7 +134,7 @@ set autowrite
 set title
 set titlestring=
 set titlestring+=%(%{hostname()}\ \ %)
-"set titlestring+=%(%{expand('%:p')}\ \ %)
+set titlestring+=%(%{expand('%:p')}\ \ %)
 "set titlestring+=%{strftime('%Y-%m-%d\ %H:%M',getftime(expand('%')))}
 
 " Persistent undo even after you close a file and re-open it.
@@ -207,7 +207,6 @@ function! InsertConsoleLog()
 endfunction
 
 map <silent> ,v :call InsertConsoleLog()<CR>bbbbi
-"}
 
 "{ Variables
 let mapleader = ','
@@ -264,6 +263,9 @@ augroup non_utf8_file_warn
     autocmd BufRead * if &fileencoding != 'utf-8' && expand('%:e') != 'gz'
                 \ | unsilent echomsg 'File not in UTF-8 format!' | endif
 augroup END
+
+" Disable hover YCM
+autocmd FileType typescript let b:ycm_hover = { 'command': '' }
 "}
 
 "{ Custom key mappings
@@ -366,23 +368,6 @@ nnoremap <silent> <M-up> <C-w>k
 xnoremap < <gv
 xnoremap > >gv
 
-" When completion menu is shown, use <cr> to select an item
-" and do not add an annoying newline. Otherwise, <enter> is what it is.
-" For more info , see https://goo.gl/KTHtrr and https://goo.gl/MH7w3b
-inoremap <expr> <cr> ((pumvisible())?("\<C-Y>"):("\<cr>"))
-" Use <esc> to close auto-completion menu
-inoremap <expr> <esc> ((pumvisible())?("\<C-e>"):("\<esc>"))
-
-" Use <tab> to navigate down the completion menu.
-inoremap <expr> <tab>  pumvisible()?"\<C-n>":"\<tab>"
-
-" Search in selected region
-vnoremap / :<C-U>call feedkeys('/\%>'.(line("'<")-1).'l\%<'.(line("'>")+1)."l")<CR>
-
-" Find and replace (like Sublime Text 3)
-nnoremap <C-H> :%s/
-xnoremap <C-H> :s/
-
 " Change current working directory locally and print cwd after that,
 " see https://vim.fandom.com/wiki/Set_working_directory_to_the_current_file
 nnoremap <silent> <leader>cd :lcd %:p:h<CR>:pwd<CR>
@@ -450,14 +435,12 @@ if has("gui_running")
   set background=dark
   colorscheme gruvbox
   set cursorline
-  " Removing scrollbars
-  set guitablabel=%-0.12t%M
+" Removing scrollbars
   set guioptions-=T
   set guioptions-=r
   set guioptions-=L
   set guioptions+=a
   set guioptions-=m
-  set listchars=tab:▸\ ,eol:¬
 else
   colorscheme badwolf
   set t_Co=256
@@ -489,12 +472,10 @@ Plugin 'maximbaz/lightline-ale'
 Plugin 'yegappan/mru'
 Plugin 'dense-analysis/ale'
 Plugin 'ycm-core/YouCompleteMe.git'
+Plugin 'jiangmiao/auto-pairs'
 Plugin 'preservim/nerdcommenter'
-" Plugin 'ctrlpvim/ctrlp.vim'
-" Plugin 'vimwiki/vimwiki'
 
 " Disabled Plugins
-" Plugin 'jiangmiao/auto-pairs'
 " Plugin 'tpope/vim-fugitive' " Git
 " Plugin 'junegunn/gv.vim' " Show commits
 " Plugin 'mbbill/undotree'
@@ -507,6 +488,8 @@ Plugin 'preservim/nerdcommenter'
 " Plugin 'kamykn/spelunker.vim'
 " Plugin 'tomlion/vim-solidity'
 " Plugin 'lervag/vimtex'
+" Plugin 'ctrlpvim/ctrlp.vim'
+" Plugin 'vimwiki/vimwiki'
 
 call vundle#end()
 filetype plugin indent on
@@ -543,8 +526,6 @@ map <leader>nf :NERDTreeFocus<cr>
 nnoremap <silent> <Leader>mm :NERDTreeFind<CR>
 let NERDTreeShowBookmarks=1
 let NERDTreeIgnore=['\.vim$', '\~$', '\.pyc$', 'node_modules']
-let g:NERDTreeWinPos = 'left'
-let g:NERDTreeWinSize = 30
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 " ========== End NerdTree =========="
 "
@@ -585,15 +566,16 @@ let g:ale_pattern_options = {
 " ======== End ALE ========"
 
 " ========== YouCompleteMe =========="
-" Use esc to accept or exit from YCM
-let g:ycm_key_list_stop_completion = ['<c-y', '<esc>']
+let g:ycm_auto_hover = 0
+let g:ycm_hover_popup = 0
 " ======== End YouCompleteMe ========"
 
 " ========== NerdCommenter =========="
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
-" Use compact syntax for prettified multi-line comments
-let g:NERDCompactSexyComs = 1
-" Align line-wise comment delimiters flush left instead of following code indentation
-let g:NERDDefaultAlign = 'left'
 " ======== End NerCommenter ========="
+
+" ========== Auto-Pairs =========="
+au Filetype html let b:AutoPairs = AutoPairsDefine({'<!--' : '-->'})
+au Filetype txt let b:AutoPairs = {"(": ")"}
+" ======== End Auto-Pairs ========"
