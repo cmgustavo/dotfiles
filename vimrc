@@ -1,4 +1,10 @@
-" Basic
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" My Ultimate Vim Configuration
+" https://github.com/cmgustavo/dotfiles/blob/main/vimrc
+" 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"############################## Basic ###################################
 filetype plugin indent on
 syntax enable
 
@@ -18,8 +24,8 @@ set timeoutlen=500
 " For CursorHold events
 set updatetime=800
 
-" Disable creating swapfiles, see https://goo.gl/FA6m6h
-set noswapfile
+" Auto readload file if it changed
+set autoread
 
 " General tab settings
 set tabstop=2       " number of visual spaces per TAB
@@ -127,13 +133,18 @@ set nolist
 " Auto-write the file based on some condition
 set autowrite
 
+" Turn backup off, since most stuff is in SVN, git et.c anyway...
+set nobackup
+set nowb
+set noswapfile
+
 " Show hostname, full path of file and last-mod time on the window title.
 " The meaning of the format str for strftime can be found in
 " http://tinyurl.com/l9nuj4a. The function to get lastmod time is drawn from
 " http://tinyurl.com/yxd23vo8
 set title
 set titlestring=
-set titlestring+=%(%{hostname()}\ \ %)
+"set titlestring+=%(%{hostname()}\ \ %)
 set titlestring+=%(%{expand('%:p')}\ \ %)
 "set titlestring+=%{strftime('%Y-%m-%d\ %H:%M',getftime(expand('%')))}
 
@@ -191,8 +202,9 @@ set wildmenu
 
 " Do not use corsorcolumn
 set nocursorcolumn
+"#######################################################################
 
-" Functions
+"############################ Functions #################################
 " Remove trailing white space, see https://vi.stackexchange.com/a/456/15292
 function! StripTrailingWhitespaces() abort
     let l:save = winsaveview()
@@ -208,7 +220,7 @@ endfunction
 
 map <silent> ,v :call InsertConsoleLog()<CR>bbbbi
 
-"{ Variables
+"############################ Variables #################################
 let mapleader = ','
 
 " Do not load netrw by default since I do not use it, see
@@ -217,10 +229,10 @@ let g:loaded_netrwPlugin = 1
 
 " Do not load tohtml.vim
 let g:loaded_2html_plugin = 1
-"}
+"#######################################################################
 
 
-"{ Auto commands
+"########################## Auto commands ###############################
 " Do not use smart case in command line mode,
 " extracted from https://goo.gl/vCTYdK
 if exists('##CmdLineEnter')
@@ -266,9 +278,9 @@ augroup END
 
 " Disable hover YCM
 autocmd FileType typescript let b:ycm_hover = { 'command': '' }
-"}
+"#######################################################################
 
-"{ Custom key mappings
+"####################### Custom key mappings ############################
 " used by vim-sneak
 nnoremap ; :
 xnoremap ; :
@@ -277,8 +289,8 @@ xnoremap ; :
 nnoremap q; q:
 
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-"map <space> /
-"map <c-space> ?
+map <space> /
+map <c-space> ?
 
 " Quicker <Esc> in insert mode
 inoremap <silent> jk <Esc>
@@ -428,9 +440,10 @@ if has("gui_running")
 else
   map <silent> <leader><cr> :noh<cr>
 endif
-"}
 
-"{ UI settings
+"#######################################################################
+
+"######################### UI Settings #################################
 if has("gui_running")
   set background=dark
   colorscheme gruvbox
@@ -451,7 +464,9 @@ if has("gui_running") && (has("mac") || has("macunix"))
 elseif has("unix")
   set gfn=Monospace\ 11
 endif
+"#######################################################################
 
+"####################### Plugins Settings ##############################
 " ===== Plugin Settings ======"
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -474,27 +489,30 @@ Plugin 'dense-analysis/ale'
 Plugin 'ycm-core/YouCompleteMe.git'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'preservim/nerdcommenter'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'lervag/vimtex'
+Plugin 'Valloric/MatchTagAlways.git'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+Plugin 'tpope/vim-fugitive' " Git
+Plugin 'junegunn/gv.vim' " Show commits
 
 " Disabled Plugins
-" Plugin 'tpope/vim-fugitive' " Git
-" Plugin 'junegunn/gv.vim' " Show commits
 " Plugin 'mbbill/undotree'
 " Plugin 'cakebaker/scss-syntax.vim'
 " Plugin 'Xuyuanp/nerdtree-git-plugin'
 " Plugin 'ryanoasis/vim-devicons'
 " Plugin 'mattn/emmet-vim'
-" Plugin 'SirVer/ultisnips'
-" Plugin 'honza/vim-snippets'
 " Plugin 'kamykn/spelunker.vim'
 " Plugin 'tomlion/vim-solidity'
-" Plugin 'lervag/vimtex'
-" Plugin 'ctrlpvim/ctrlp.vim'
 " Plugin 'vimwiki/vimwiki'
 
 call vundle#end()
 filetype plugin indent on
 
-" ===== END Plugin Settings ======"
+"#######################################################################
+
+"#################### Plugins Configurations ###########################
 
 " ========== Lightline =========="
 let g:lightline = {}
@@ -579,3 +597,42 @@ let g:NERDSpaceDelims = 1
 au Filetype html let b:AutoPairs = AutoPairsDefine({'<!--' : '-->'})
 au Filetype txt let b:AutoPairs = {"(": ")"}
 " ======== End Auto-Pairs ========"
+ 
+" ========== Ctrl P =========="
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_user_command = 'find %s -type f'
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+" ======= End Ctrl P ========"
+
+" ========== UltiSnip - Snippets =========="
+let g:UltiSnipsExpandTrigger           = '<tab>'
+let g:UltiSnipsJumpForwardTrigger      = '<C-b>'
+let g:UltiSnipsJumpBackwardTrigger     = '<C-z>'
+let g:ycm_key_list_select_completion   = ['<C-j>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
+" ======== End UltiSnip - Snippets ========"
+
+" ========== Vimtex =========="
+let g:tex_flavor = 'latex'
+" ======= End Vimtex ========"
+
+" ========== Fugitive =========="
+nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gc :Gcommit<CR>
+nnoremap <leader>gC :Gcommit -n<CR> " commit but ignore hooks
+nnoremap <leader>gP :Gpush<CR>
+nnoremap <leader>gfP :Gpush --force-with-lease<CR>
+nnoremap <leader>gp :Gpull<CR>
+nnoremap <leader>gf :Gfetch<CR>
+nnoremap <leader>gl :GV!<CR> " Git log for the current file
+nnoremap <leader>gL :GV<CR> " Full git log
+nnoremap <leader>gd :Gvdiff<CR>
+nnoremap <leader>gb :Gblame<CR>
+nnoremap <leader>gm :Git checkout master<CR>
+nnoremap <leader>g- :Git checkout -<CR>
+nnoremap <leader>grm :Grebase -i master<CR>
+" ======== End Fugitive ========"
+
+"#######################################################################
