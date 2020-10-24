@@ -326,7 +326,11 @@ nnoremap<silent> \x :windo lclose <bar> cclose<CR>
 nnoremap <silent> \d :bprevious <bar> bdelete #<CR>
 
 " Switch to latest buffer opened
-map <D-*> :b#<CR>
+if has("gui_win32")
+  map <M-*> :b#<CR>
+else
+  map <D-*> :b#<CR>
+endif
 
 " Insert a blank line below or above current line (do not move the cursor),
 " see https://stackoverflow.com/a/16136133/6064933
@@ -498,15 +502,11 @@ Plugin 'jiangmiao/auto-pairs'
 Plugin 'preservim/nerdcommenter'
 Plugin 'tpope/vim-fugitive' " Git
 Plugin 'junegunn/gv.vim' " Show commits
-
-if has("gui_macvim")
-  Plugin 'maximbaz/lightline-ale'
-  Plugin 'ctrlpvim/ctrlp.vim'
-  Plugin 'lervag/vimtex'
-  Plugin 'Valloric/MatchTagAlways.git'
-  Plugin 'SirVer/ultisnips'
-  Plugin 'honza/vim-snippets'  
-endif
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'lervag/vimtex'
+Plugin 'Valloric/MatchTagAlways.git'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'  
 
 " Disabled Plugins
 " Plugin 'mbbill/undotree'
@@ -526,27 +526,6 @@ filetype plugin indent on
 "#################### Plugins Configurations ###########################
 
 " ========== Lightline =========="
-
-if has("gui_macvim")
-let g:lightline = {}
-
-let g:lightline.component_expand = {
-      \  'linter_checking': 'lightline#ale#checking',
-      \  'linter_infos': 'lightline#ale#infos',
-      \  'linter_warnings': 'lightline#ale#warnings',
-      \  'linter_errors': 'lightline#ale#errors',
-      \  'linter_ok': 'lightline#ale#ok',
-      \ }
-let g:lightline.component_type = {
-      \     'linter_checking': 'right',
-      \     'linter_infos': 'right',
-      \     'linter_warnings': 'warning',
-      \     'linter_errors': 'error',
-      \     'linter_ok': 'right',
-      \ }
-let g:lightline.active = { 'right': [[ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok' ]] }
-endif
-
 " Do not show mode on command line since vim-airline can show it
 set noshowmode
 " ========== End Lightline =========="
@@ -562,7 +541,11 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " ========== End NerdTree =========="
 "
 " ========== BufExplorer =========="
-nnoremap <silent> <D-+> :BufExplorer<CR>
+if has("gui_win32")
+  nnoremap <silent> <M-+> :BufExplorer<CR>
+else
+  nnoremap <silent> <D-+> :BufExplorer<CR>
+endif
 " ======== End BufExplorer ========"
 
 " ========== MRU =========="
@@ -612,13 +595,16 @@ au Filetype html let b:AutoPairs = AutoPairsDefine({'<!--' : '-->'})
 au Filetype txt let b:AutoPairs = {"(": ")"}
 " ======== End Auto-Pairs ========"
  
- if has("gui_macvim")
 " ========== Ctrl P =========="
-set runtimepath^=~/.vim/bundle/ctrlp.vim
+if has("gui_win32")
+  set runtimepath^=$HOME/vimfiles/bundle/ctrlp.vim
+  let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'  " Windows
+else
+  let g:ctrlp_user_command = 'find %s -type f'
+  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+endif
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-let g:ctrlp_user_command = 'find %s -type f'
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 " ======= End Ctrl P ========"
 
 " ========== UltiSnip - Snippets =========="
@@ -632,7 +618,6 @@ let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
 " ========== Vimtex =========="
 let g:tex_flavor = 'latex'
 " ======= End Vimtex ========"
-endif
 
 " ========== Fugitive =========="
 nnoremap <leader>gs :Gstatus<CR>
