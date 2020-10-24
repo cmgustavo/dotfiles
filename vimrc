@@ -47,16 +47,12 @@ set ignorecase smartcase
 
 " File and script encoding settings for vim
 set fileencoding=utf-8
-set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
-scriptencoding utf-8
-
-" Break line at predefined characters
-set linebreak
-" Character to show before the lines that have been soft-wrapped
-set showbreak=↪
+set encoding=utf-8
 
 " List all items and start selecting matches in cmd completion
-set wildmode=long:full:full
+if has("gui_macvim")
+  set wildmode=long:full:full
+endif
 
 " Show current line where the cursor is
 set cursorline
@@ -137,6 +133,9 @@ set autowrite
 set nobackup
 set nowb
 set noswapfile
+
+" Allow delete with backspace
+set backspace=indent,eol,start
 
 " Show hostname, full path of file and last-mod time on the window title.
 " The meaning of the format str for strftime can be found in
@@ -459,21 +458,30 @@ else
   set t_Co=256
 endif
 
-if has("gui_running") && (has("mac") || has("macunix"))
-  set gfn=Menlo:h12
-elseif has("unix")
-  set gfn=Monospace\ 11
+if has("gui_running")
+  if has("gui_gtk2")
+    set guifont=Monospace\ 11
+  elseif has("gui_macvim")
+    set guifont=Menlo\ Regular:h12
+  elseif has("gui_win32")
+    set guifont=Consolas:h11:cANSI
+  endif
 endif
 "#######################################################################
 
 "####################### Plugins Settings ##############################
 " ===== Plugin Settings ======"
 set nocompatible              " be iMproved, required
-filetype off                  " required
+filetype off       " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+if has("gui_win32")
+  set shellslash
+  set rtp+=$HOME/vimfiles/bundle/Vundle.vim
+  call vundle#begin('$HOME/vimfiles/bundle')
+else
+  set rtp+=~/.vim/bundle/Vundle.vim
+  call vundle#begin()
+endif
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
@@ -483,19 +491,22 @@ Plugin 'flazz/vim-colorschemes'
 Plugin 'scrooloose/nerdtree.git'
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'itchyny/lightline.vim'
-Plugin 'maximbaz/lightline-ale'
 Plugin 'yegappan/mru'
 Plugin 'dense-analysis/ale'
 Plugin 'ycm-core/YouCompleteMe.git'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'preservim/nerdcommenter'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'lervag/vimtex'
-Plugin 'Valloric/MatchTagAlways.git'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
 Plugin 'tpope/vim-fugitive' " Git
 Plugin 'junegunn/gv.vim' " Show commits
+
+if has("gui_macvim")
+  Plugin 'maximbaz/lightline-ale'
+  Plugin 'ctrlpvim/ctrlp.vim'
+  Plugin 'lervag/vimtex'
+  Plugin 'Valloric/MatchTagAlways.git'
+  Plugin 'SirVer/ultisnips'
+  Plugin 'honza/vim-snippets'  
+endif
 
 " Disabled Plugins
 " Plugin 'mbbill/undotree'
@@ -515,6 +526,8 @@ filetype plugin indent on
 "#################### Plugins Configurations ###########################
 
 " ========== Lightline =========="
+
+if has("gui_macvim")
 let g:lightline = {}
 
 let g:lightline.component_expand = {
@@ -532,6 +545,7 @@ let g:lightline.component_type = {
       \     'linter_ok': 'right',
       \ }
 let g:lightline.active = { 'right': [[ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok' ]] }
+endif
 
 " Do not show mode on command line since vim-airline can show it
 set noshowmode
@@ -598,6 +612,7 @@ au Filetype html let b:AutoPairs = AutoPairsDefine({'<!--' : '-->'})
 au Filetype txt let b:AutoPairs = {"(": ")"}
 " ======== End Auto-Pairs ========"
  
+ if has("gui_macvim")
 " ========== Ctrl P =========="
 set runtimepath^=~/.vim/bundle/ctrlp.vim
 let g:ctrlp_working_path_mode = 'ra'
@@ -617,6 +632,7 @@ let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
 " ========== Vimtex =========="
 let g:tex_flavor = 'latex'
 " ======= End Vimtex ========"
+endif
 
 " ========== Fugitive =========="
 nnoremap <leader>gs :Gstatus<CR>
