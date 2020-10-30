@@ -58,7 +58,7 @@ endif
 set cursorline
 
 " Set a ruler at column 80, see https://goo.gl/vEkF5i
-set colorcolumn=80
+" set colorcolumn=80
 
 " Minimum lines to keep above and below cursor when scrolling
 set scrolloff=3
@@ -526,6 +526,17 @@ filetype plugin indent on
 "#################### Plugins Configurations ###########################
 
 " ========== Lightline =========="
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ },
+      \ }
+
 " Do not show mode on command line since vim-airline can show it
 set noshowmode
 " ========== End Lightline =========="
