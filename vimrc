@@ -447,9 +447,9 @@ endif
 "#######################################################################
 
 "######################### UI Settings #################################
+colorscheme gruvbox
+set background=dark
 if has("gui_running")
-  set background=dark
-  colorscheme gruvbox
   set cursorline
 " Removing scrollbars
   set guioptions-=T
@@ -458,7 +458,6 @@ if has("gui_running")
   set guioptions+=a
   set guioptions-=m
 else
-  colorscheme badwolf
   set t_Co=256
 endif
 
