@@ -506,6 +506,7 @@ Plugin 'lervag/vimtex'
 Plugin 'Valloric/MatchTagAlways.git'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'  
+Plugin 'vimwiki/vimwiki'
 
 " Disabled Plugins
 " Plugin 'mbbill/undotree'
@@ -515,7 +516,6 @@ Plugin 'honza/vim-snippets'
 " Plugin 'mattn/emmet-vim'
 " Plugin 'kamykn/spelunker.vim'
 " Plugin 'tomlion/vim-solidity'
-" Plugin 'vimwiki/vimwiki'
 
 call vundle#end()
 filetype plugin indent on
@@ -645,5 +645,9 @@ nnoremap <leader>gm :Git checkout master<CR>
 nnoremap <leader>g- :Git checkout -<CR>
 nnoremap <leader>grm :Grebase -i master<CR>
 " ======== End Fugitive ========"
+
+" ========== VimWiki =========="
+let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'default', 'ext': '.txt'}]
+" ======== End VimWiki ========"
 
 "#######################################################################
