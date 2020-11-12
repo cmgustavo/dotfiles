@@ -247,7 +247,13 @@ augroup text_file_width
     autocmd!
     " Sometimes, automatic filetype detection is not right, so we need to
     " detect the filetype based on the file extensions
-    autocmd BufNewFile,BufRead *.md,*.MD,*.markdown setlocal textwidth=79
+    autocmd BufNewFile,BufRead *.md,*.MD,*.markdown,*.txt setlocal textwidth=79
+augroup END
+
+" No line number for txt
+augroup noline_number_txt
+  autocmd!
+  autocmd BufNewFile,BufRead *.txt setlocal nonumber
 augroup END
 
 " More accurate syntax highlighting? (see `:h syn-sync`)
@@ -449,6 +455,7 @@ endif
 "######################### UI Settings #################################
 colorscheme gruvbox
 set background=dark
+
 if has("gui_running")
   set cursorline
 " Removing scrollbars
@@ -506,7 +513,6 @@ Plugin 'lervag/vimtex'
 Plugin 'Valloric/MatchTagAlways.git'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'  
-Plugin 'vimwiki/vimwiki'
 
 " Disabled Plugins
 " Plugin 'mbbill/undotree'
@@ -516,6 +522,7 @@ Plugin 'vimwiki/vimwiki'
 " Plugin 'mattn/emmet-vim'
 " Plugin 'kamykn/spelunker.vim'
 " Plugin 'tomlion/vim-solidity'
+" Plugin 'vimwiki/vimwiki'
 
 call vundle#end()
 filetype plugin indent on
@@ -645,9 +652,5 @@ nnoremap <leader>gm :Git checkout master<CR>
 nnoremap <leader>g- :Git checkout -<CR>
 nnoremap <leader>grm :Grebase -i master<CR>
 " ======== End Fugitive ========"
-
-" ========== VimWiki =========="
-let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'default', 'ext': '.txt'}]
-" ======== End VimWiki ========"
 
 "#######################################################################
