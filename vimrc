@@ -170,6 +170,10 @@ set spelllang=en  " Spell languages
 " Increment search
 set incsearch
 
+" Keep more info in memory to speed things up
+set hidden
+set history=50
+
 "#######################################################################
 
 "############################ Functions #################################
