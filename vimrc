@@ -35,8 +35,6 @@ Plugin 'junegunn/gv.vim' " Show commits
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'lervag/vimtex'
 Plugin 'Valloric/MatchTagAlways.git'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'  
 
 " Disabled Plugins
 " Plugin 'mbbill/undotree'
@@ -47,6 +45,8 @@ Plugin 'honza/vim-snippets'
 " Plugin 'kamykn/spelunker.vim'
 " Plugin 'tomlion/vim-solidity'
 " Plugin 'vimwiki/vimwiki'
+" Plugin 'SirVer/ultisnips'
+" Plugin 'honza/vim-snippets'
 
 call vundle#end()
 "#######################################################################
@@ -88,13 +88,9 @@ if has("gui_macvim")
   set wildmode=long:full:full
 endif
 
-" Show current line where the cursor is
-set cursorline
-
 " Use mouse to select and resize windows, etc.
 if has('mouse')
     set mouse=nv          " Enable mouse in several mode
-    set mousemodel=popup  " Set the behaviour of mouse
 endif
 
 " Fileformats to use for new files
@@ -173,6 +169,10 @@ set incsearch
 " Keep more info in memory to speed things up
 set hidden
 set history=50
+
+" Fix syntax highlight
+noremap <F12> <Esc>:syntax sync fromstart<CR>
+inoremap <F12> <C-o>:syntax sync fromstart<CR>
 
 "#######################################################################
 
@@ -296,7 +296,7 @@ set background=dark
 
 if has("gui_running")
   set cursorline
-" Removing scrollbars
+  " Removing scrollbars
   set guioptions-=T
   set guioptions-=r
   set guioptions-=L
@@ -354,7 +354,7 @@ endif
 " ======== End BufExplorer ========"
 
 " ========== MRU =========="
-let MRU_Max_Entries = 50
+let MRU_Max_Entries = 20
 map <leader>f :MRU<CR>
 " ======== End MRU ========"
 
@@ -365,7 +365,7 @@ let g:ale_fixers = {
 \}
 let g:ale_fix_on_save = 1
 nnoremap <leader>aa :ALEGoToDefinition<CR>
-nnoremap <leader>av :ALEGoToDefinitionInVSplit<CR>
+nnoremap <leader>av :ALEGoToTypeDefinition -vsplit<CR>
 nmap ]w :ALENextWrap<CR>
 nmap [w :ALEPreviousWrap<CR>
 augroup VimDiff
@@ -410,11 +410,11 @@ let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 " ======= End Ctrl P ========"
 
 " ========== UltiSnip - Snippets =========="
-let g:UltiSnipsExpandTrigger           = '<tab>'
-let g:UltiSnipsJumpForwardTrigger      = '<C-b>'
-let g:UltiSnipsJumpBackwardTrigger     = '<C-z>'
-let g:ycm_key_list_select_completion   = ['<C-j>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
+" let g:UltiSnipsExpandTrigger           = '<tab>'
+" let g:UltiSnipsJumpForwardTrigger      = '<C-b>'
+" let g:UltiSnipsJumpBackwardTrigger     = '<C-z>'
+" let g:ycm_key_list_select_completion   = ['<C-j>', '<Down>']
+" let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
 " ======== End UltiSnip - Snippets ========"
 
 " ========== Vimtex =========="
@@ -437,5 +437,15 @@ nnoremap <leader>gm :Git checkout master<CR>
 nnoremap <leader>g- :Git checkout -<CR>
 nnoremap <leader>grm :Grebase -i master<CR>
 " ======== End Fugitive ========"
+
+" ========== Python 3 support ==========
+if has("gui_macvim")
+  Python Setting {
+    set pythondll=/usr/local/Frameworks/Python.framework/Versions/3.8/Python
+    set pythonhome=/usr/local/Frameworks/Python.framework/Versions/3.8
+    set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/3.8/Python
+    set pythonthreehome=/usr/local/Frameworks/Python.framework/Versions/3.8
+  }
+endif
 
 "#######################################################################
