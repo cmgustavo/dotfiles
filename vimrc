@@ -35,6 +35,9 @@ Plugin 'junegunn/gv.vim' " Show commits
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'lervag/vimtex'
 Plugin 'Valloric/MatchTagAlways.git'
+Plugin 'vimwiki/vimwiki'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
 
 " Disabled Plugins
 " Plugin 'mbbill/undotree'
@@ -44,9 +47,6 @@ Plugin 'Valloric/MatchTagAlways.git'
 " Plugin 'mattn/emmet-vim'
 " Plugin 'kamykn/spelunker.vim'
 " Plugin 'tomlion/vim-solidity'
-" Plugin 'vimwiki/vimwiki'
-" Plugin 'SirVer/ultisnips'
-" Plugin 'honza/vim-snippets'
 
 call vundle#end()
 "#######################################################################
@@ -202,6 +202,13 @@ augroup END
 augroup noline_number_txt
   autocmd!
   autocmd BufNewFile,BufRead *.txt setlocal nonumber
+augroup END
+
+" Disable vimwiki format for json files
+augroup noformat_json_file
+  autocmd!
+  autocmd BufEnter,BufRead,BufNewFile *.md setlocal filetype=markdown nonumber
+  autocmd BufEnter,BufRead,BufNewFile *.json setlocal filetype=json nonumber
 augroup END
 
 " Return to last edit position when opening a file
@@ -438,13 +445,23 @@ nnoremap <leader>g- :Git checkout -<CR>
 nnoremap <leader>grm :Grebase -i master<CR>
 " ======== End Fugitive ========"
 
+" ========== Vim Wiki =========="
+let g:vimwiki_list = [{'path': '~/.vimwiki/', 'syntax': 'default', 'ext': '.txt'}]
+"let g:vimwiki-option-auto_toc = 1
+"let g:vimwiki-option-list_margin = 0
+hi VimwikiCode term=bold ctermfg=Cyan guifg=#80a0ff gui=bold
+hi VimwikiPre term=bold ctermfg=Cyan guifg=#80a0ff gui=bold
+hi VimwikiBold term=bold ctermfg=Cyan guifg=#80a0ff gui=bold
+hi VimwikiItalic term=italic ctermfg=Red guifg=#cc0000 gui=italic
+" ======== End Vim Wiki ========"
+
 " ========== Python 3 support ==========
 if has("gui_macvim")
   Python Setting {
-    set pythondll=/usr/local/Frameworks/Python.framework/Versions/3.8/Python
-    set pythonhome=/usr/local/Frameworks/Python.framework/Versions/3.8
-    set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/3.8/Python
-    set pythonthreehome=/usr/local/Frameworks/Python.framework/Versions/3.8
+    set pythondll=/usr/local/Frameworks/Python.framework/Versions/Current/Python
+    set pythonhome=/usr/local/Frameworks/Python.framework/Versions/Current
+    set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/Current/Python
+    set pythonthreehome=/usr/local/Frameworks/Python.framework/Versions/Current
   }
 endif
 
