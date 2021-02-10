@@ -35,7 +35,6 @@ Plugin 'junegunn/gv.vim' " Show commits
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'lervag/vimtex'
 Plugin 'Valloric/MatchTagAlways.git'
-Plugin 'vimwiki/vimwiki'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 
@@ -47,6 +46,7 @@ Plugin 'honza/vim-snippets'
 " Plugin 'mattn/emmet-vim'
 " Plugin 'kamykn/spelunker.vim'
 " Plugin 'tomlion/vim-solidity'
+" Plugin 'vimwiki/vimwiki'
 
 call vundle#end()
 "#######################################################################
@@ -205,11 +205,11 @@ augroup noline_number_txt
 augroup END
 
 " Disable vimwiki format for json files
-augroup noformat_json_file
-  autocmd!
-  autocmd BufEnter,BufRead,BufNewFile *.md setlocal filetype=markdown nonumber
-  autocmd BufEnter,BufRead,BufNewFile *.json setlocal filetype=json nonumber
-augroup END
+" augroup noformat_json_file
+  " autocmd!
+  " autocmd BufEnter,BufRead,BufNewFile *.md setlocal filetype=markdown nonumber
+  " autocmd BufEnter,BufRead,BufNewFile *.json setlocal filetype=json nonumber
+" augroup END
 
 " Return to last edit position when opening a file
 augroup resume_edit_position
@@ -317,7 +317,7 @@ if has("gui_running")
   if has("gui_gtk2")
     set guifont=Monospace\ 12
   elseif has("gui_macvim")
-    set guifont=Menlo\ Regular:h12
+    set guifont=Hack\ Regular:h12
   elseif has("gui_win32")
     set guifont=Consolas:h12:cANSI
   endif
@@ -328,7 +328,7 @@ endif
 
 " ========== Lightline =========="
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
+      \ 'colorscheme': 'jellybeans',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
@@ -446,13 +446,13 @@ nnoremap <leader>grm :Grebase -i master<CR>
 " ======== End Fugitive ========"
 
 " ========== Vim Wiki =========="
-let g:vimwiki_list = [{'path': '~/.vimwiki/', 'syntax': 'default', 'ext': '.txt'}]
+" let g:vimwiki_list = [{'path': '~/.vimwiki/', 'syntax': 'default', 'ext': '.txt'}]
 "let g:vimwiki-option-auto_toc = 1
 "let g:vimwiki-option-list_margin = 0
-hi VimwikiCode term=bold ctermfg=Cyan guifg=#80a0ff gui=bold
-hi VimwikiPre term=bold ctermfg=Cyan guifg=#80a0ff gui=bold
-hi VimwikiBold term=bold ctermfg=Cyan guifg=#80a0ff gui=bold
-hi VimwikiItalic term=italic ctermfg=Red guifg=#cc0000 gui=italic
+" hi VimwikiCode term=bold ctermfg=Cyan guifg=#80a0ff gui=bold
+" hi VimwikiPre term=bold ctermfg=Cyan guifg=#80a0ff gui=bold
+" hi VimwikiBold term=bold ctermfg=Cyan guifg=#80a0ff gui=bold
+" hi VimwikiItalic term=italic ctermfg=Red guifg=#cc0000 gui=italic
 " ======== End Vim Wiki ========"
 
 " ========== Python 3 support ==========
