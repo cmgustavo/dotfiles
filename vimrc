@@ -319,7 +319,7 @@ if has("gui_running")
   elseif has("gui_macvim")
     set guifont=Hack\ Regular:h12
   elseif has("gui_win32")
-    set guifont=Consolas:h12:cANSI
+    set guifont=Source\ Code\ Pro:h12
   endif
 endif
 "#######################################################################
