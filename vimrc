@@ -444,11 +444,11 @@ let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 " ======= End Ctrl P ========"
 
 " ========== UltiSnip - Snippets =========="
-" let g:UltiSnipsExpandTrigger           = '<tab>'
-" let g:UltiSnipsJumpForwardTrigger      = '<C-b>'
-" let g:UltiSnipsJumpBackwardTrigger     = '<C-z>'
-" let g:ycm_key_list_select_completion   = ['<C-j>', '<Down>']
-" let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
+let g:UltiSnipsExpandTrigger           = '<tab>'
+let g:UltiSnipsJumpForwardTrigger      = '<C-b>'
+let g:UltiSnipsJumpBackwardTrigger     = '<C-z>'
+let g:ycm_key_list_select_completion   = ['<C-j>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
 " ======== End UltiSnip - Snippets ========"
 
 " ========== Vimtex =========="
