@@ -37,6 +37,7 @@ Plugin 'lervag/vimtex'
 Plugin 'Valloric/MatchTagAlways.git'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
+"Plugin 'christoomey/vim-tmux-navigator'
 
 " Disabled Plugins
 " Plugin 'mbbill/undotree'
@@ -169,6 +170,18 @@ set incsearch
 " Keep more info in memory to speed things up
 set hidden
 set history=50
+
+" Scroll off
+set scrolloff=8
+
+" Give more space for displaying messages
+set cmdheight=2
+
+" Having longer updatetime
+set updatetime=50
+
+" Don't pass message to |ins-completion-menu|
+set shortmess+=c
 
 " Fix syntax highlight
 noremap <F12> <Esc>:syntax sync fromstart<CR>
