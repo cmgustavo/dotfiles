@@ -37,16 +37,17 @@ Plugin 'lervag/vimtex'
 Plugin 'Valloric/MatchTagAlways.git'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
-"Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'mbbill/undotree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 
 " Disabled Plugins
-" Plugin 'mbbill/undotree'
 " Plugin 'cakebaker/scss-syntax.vim'
 " Plugin 'Xuyuanp/nerdtree-git-plugin'
 " Plugin 'ryanoasis/vim-devicons'
 " Plugin 'mattn/emmet-vim'
 " Plugin 'kamykn/spelunker.vim'
 " Plugin 'tomlion/vim-solidity'
+" Plugin 'christoomey/vim-tmux-navigator'
 " Plugin 'vimwiki/vimwiki'
 
 call vundle#end()
@@ -135,6 +136,7 @@ set wildignore+=*/tmp/*,*.so,*.zip
 
 " Do not use visual and error bells
 set novisualbell noerrorbells
+set belloff=all
 
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup
@@ -173,15 +175,6 @@ set history=50
 
 " Scroll off
 set scrolloff=8
-
-" Give more space for displaying messages
-set cmdheight=2
-
-" Having longer updatetime
-set updatetime=50
-
-" Don't pass message to |ins-completion-menu|
-set shortmess+=c
 
 " Fix syntax highlight
 noremap <F12> <Esc>:syntax sync fromstart<CR>
@@ -330,7 +323,7 @@ if has("gui_running")
   if has("gui_gtk2")
     set guifont=Monospace\ 12
   elseif has("gui_macvim")
-    set guifont=Hack\ Regular:h12
+    set guifont=Hack:h14
   elseif has("gui_win32")
     set guifont=Source\ Code\ Pro:h12
   endif
@@ -432,6 +425,21 @@ let g:ale_pattern_options = {
 " ======== End ALE ========"
 
 " ========== YouCompleteMe =========="
+let g:ycm_auto_hover = -1
+let s:ycm_hover_popup = -1
+function s:Hover()
+  let response = youcompleteme#GetCommandResponse( 'GetDoc' )
+  if response == ''
+    return
+  endif
+
+  call popup_hide( s:ycm_hover_popup )
+  let s:ycm_hover_popup = popup_atcursor( balloon_split( response ), {} )
+endfunction
+nnoremap <silent> <leader>D :call <SID>Hover()<CR>
+" set previewpopup=height:10,width:60,highlight:PMenuSbar " I see error here
+set completeopt+=popup
+set completepopup=height:15,width:60,border:off,highlight:PMenuSbar
 " ======== End YouCompleteMe ========"
 
 " ========== NerdCommenter =========="
@@ -486,9 +494,12 @@ nnoremap <leader>grm :Grebase -i master<CR>
 " ======== End Fugitive ========"
 
 " ========== Vim Wiki =========="
-" let g:vimwiki_list = [{'path': '~/.vimwiki/', 'syntax': 'default', 'ext': '.txt'}]
+"let g:vimwiki_list = [{'path': '~/.vimwiki/', 'syntax': 'default', 'ext': '.txt'}]
+" let g:vimwiki_list = [{'path': '~/.vimwiki/'}]
 "let g:vimwiki-option-auto_toc = 1
 "let g:vimwiki-option-list_margin = 0
+" let g:vimwiki_hl_headers=1
+" let g:vimwiki_hl_cb_checked=1
 " hi VimwikiCode term=bold ctermfg=Cyan guifg=#80a0ff gui=bold
 " hi VimwikiPre term=bold ctermfg=Cyan guifg=#80a0ff gui=bold
 " hi VimwikiBold term=bold ctermfg=Cyan guifg=#80a0ff gui=bold
