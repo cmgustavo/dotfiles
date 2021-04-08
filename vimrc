@@ -38,7 +38,6 @@ Plugin 'Valloric/MatchTagAlways.git'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'mbbill/undotree'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
 
 " Disabled Plugins
 " Plugin 'cakebaker/scss-syntax.vim'
@@ -49,6 +48,7 @@ Plugin 'Xuyuanp/nerdtree-git-plugin'
 " Plugin 'tomlion/vim-solidity'
 " Plugin 'christoomey/vim-tmux-navigator'
 " Plugin 'vimwiki/vimwiki'
+" Plugin 'Xuyuanp/nerdtree-git-plugin'
 
 call vundle#end()
 "#######################################################################
@@ -505,6 +505,10 @@ nnoremap <leader>grm :Grebase -i master<CR>
 " hi VimwikiBold term=bold ctermfg=Cyan guifg=#80a0ff gui=bold
 " hi VimwikiItalic term=italic ctermfg=Red guifg=#cc0000 gui=italic
 " ======== End Vim Wiki ========"
+
+" ========== UndoTree ==========
+nnoremap <F5> :UndotreeToggle<CR>
+" ======== End UndoTree ========"
 
 " ========== Python 3 support ==========
 if has("gui_macvim")
