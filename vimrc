@@ -49,8 +49,8 @@ Plugin 'junegunn/fzf.vim'
 " Disabled Plugins
 " Plugin 'tomlion/vim-solidity'
 " Plugin 'christoomey/vim-tmux-navigator'
-" Plugin 'vimwiki/vimwiki'
 " Plugin 'kamykn/spelunker.vim'
+" Plugin 'vimwiki/vimwiki'
 
 call vundle#end()
 "#######################################################################
@@ -166,9 +166,8 @@ set completeopt-=preview  " Disable the preview window
 " Scan files given by `dictionary` option
 set complete+=k,kspell complete-=w complete-=b complete-=u complete-=t
 
-" No spell
-set nospell
-" set spelllang=en  " Spell languages
+" Spell EN, ES
+set spelllang=en,es  " Spell languages
 
 " Increment search
 set incsearch
@@ -229,6 +228,16 @@ augroup resume_edit_position
         \ | execute "normal! g`\"zvzz"
         \ | endif
 augroup END
+
+" Create own custom autogroup to enable spelunker.vim for specific filetypes.
+" augroup spelunker
+  " autocmd!
+  " " Setting for g:spelunker_check_type = 1:
+  " autocmd BufWinEnter,BufWritePost *.txt,*.md,vimrc call spelunker#check()
+
+  " " Setting for g:spelunker_check_type = 2:
+  " autocmd CursorHold *.txt,*.md,vimrc call spelunker#check_displayed_words()
+" augroup END
 "#######################################################################
 
 "####################### Custom key mappings ############################
@@ -308,7 +317,7 @@ endif
 "#######################################################################
 
 "######################### UI Settings #################################
-colorscheme jellybeans
+colorscheme gruvbox
 set background=dark
 
 if has("gui_running")
@@ -498,8 +507,7 @@ nnoremap <leader>grm :Grebase -i master<CR>
 " ======== End Fugitive ========"
 
 " ========== Vim Wiki =========="
-"let g:vimwiki_list = [{'path': '~/.vimwiki/', 'syntax': 'default', 'ext': '.txt'}]
-" let g:vimwiki_list = [{'path': '~/.vimwiki/'}]
+" let g:vimwiki_list = [{'path': '~/.vimwiki/', 'syntax': 'default', 'ext': '.txt'}]
 "let g:vimwiki-option-auto_toc = 1
 "let g:vimwiki-option-list_margin = 0
 " let g:vimwiki_hl_headers=1
@@ -513,6 +521,19 @@ nnoremap <leader>grm :Grebase -i master<CR>
 " ========== UndoTree ==========
 nnoremap <F5> :UndotreeToggle<CR>
 " ======== End UndoTree ========"
+
+" ========== Spelunker ==========
+" let g:spelunker_check_type = 2
+" let g:spelunker_disable_uri_checking = 1
+" let g:spelunker_disable_email_checking = 1
+" let g:spelunker_disable_account_name_checking = 1
+" let g:spelunker_disable_acronym_checking = 1
+" let g:spelunker_disable_backquoted_checking = 1
+" let g:spelunker_spell_bad_group = 'SpelunkerSpellBad'
+" let g:spelunker_complex_or_compound_word_group = 'SpelunkerComplexOrCompoundWord'
+" highlight SpelunkerSpellBad cterm=underline ctermfg=247 gui=underline guifg=#9e9e9e
+" highlight SpelunkerComplexOrCompoundWord cterm=underline ctermfg=NONE gui=underline guifg=NONE
+" ======== End Spelunker ========"
 
 " ========== Python 3 support ==========
 if has("gui_macvim")
