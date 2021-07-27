@@ -38,17 +38,19 @@ Plugin 'Valloric/MatchTagAlways.git'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'mbbill/undotree'
+Plugin 'cakebaker/scss-syntax.vim'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'ryanoasis/vim-devicons'
+Plugin 'mattn/emmet-vim'
+
+Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plugin 'junegunn/fzf.vim'
 
 " Disabled Plugins
-" Plugin 'cakebaker/scss-syntax.vim'
-" Plugin 'Xuyuanp/nerdtree-git-plugin'
-" Plugin 'ryanoasis/vim-devicons'
-" Plugin 'mattn/emmet-vim'
-" Plugin 'kamykn/spelunker.vim'
 " Plugin 'tomlion/vim-solidity'
 " Plugin 'christoomey/vim-tmux-navigator'
 " Plugin 'vimwiki/vimwiki'
-" Plugin 'Xuyuanp/nerdtree-git-plugin'
+" Plugin 'kamykn/spelunker.vim'
 
 call vundle#end()
 "#######################################################################
@@ -82,8 +84,8 @@ set hlsearch
 set ignorecase smartcase
 
 " File and script encoding settings for vim
-set fileencoding=utf-8
-set encoding=utf-8
+set fileencoding=UTF-8
+set encoding=UTF-8
 
 " List all items and start selecting matches in cmd completion
 if has("gui_macvim")
@@ -164,7 +166,9 @@ set completeopt-=preview  " Disable the preview window
 " Scan files given by `dictionary` option
 set complete+=k,kspell complete-=w complete-=b complete-=u complete-=t
 
-set spelllang=en  " Spell languages
+" No spell
+set nospell
+" set spelllang=en  " Spell languages
 
 " Increment search
 set incsearch
@@ -304,7 +308,7 @@ endif
 "#######################################################################
 
 "######################### UI Settings #################################
-colorscheme gruvbox
+colorscheme jellybeans
 set background=dark
 
 if has("gui_running")
@@ -323,7 +327,7 @@ if has("gui_running")
   if has("gui_gtk2")
     set guifont=Monospace\ 12
   elseif has("gui_macvim")
-    set guifont=Hack:h14
+    set guifont=Hack\ Nerd\ Font:h14
   elseif has("gui_win32")
     set guifont=Source\ Code\ Pro:h12
   endif
