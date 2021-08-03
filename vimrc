@@ -412,12 +412,14 @@ map <leader>f :MRU<CR>
 " ======== End MRU ========"
 
 " ========== ALE =========="
+let g:ale_completion_enabled = 1
+let g:ale_completion_autoimport = 1
 let g:ale_fixers = {
 \   'javascript': ['eslint', 'prettier'],
 \   'typescript': ['prettier']
 \}
 let g:ale_fix_on_save = 1
-nnoremap <leader>aa :ALEGoToDefinition :NERDTreeFocus<CR>
+nnoremap <leader>aa :ALEGoToDefinition<CR>
 nnoremap <leader>av :ALEGoToTypeDefinition -vsplit<CR>
 nmap ]w :ALENextWrap<CR>
 nmap [w :ALEPreviousWrap<CR>
@@ -452,7 +454,7 @@ endfunction
 nnoremap <silent> <leader>D :call <SID>Hover()<CR>
 " set previewpopup=height:10,width:60,highlight:PMenuSbar " I see error here
 set completeopt+=popup
-set completepopup=height:15,width:60,border:off,highlight:PMenuSbar
+set completepopup=height:25,width:80,border:on,highlight:PMenuSbar
 " ======== End YouCompleteMe ========"
 
 " ========== NerdCommenter =========="
