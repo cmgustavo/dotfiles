@@ -389,13 +389,18 @@ set noshowmode
 " ========== End Lightline =========="
 
 " ========== NerdTree =========="
-map <leader>nn :NERDTreeToggle<cr>
-map <leader>nc :NERDTreeToggle Copay<cr>
-map <leader>nf :NERDTreeFocus<cr>
-nnoremap <silent> <Leader>mm :NERDTreeFind<CR>
+nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <leader>t :NERDTreeToggle<CR>
+nnoremap <leader>m :NERDTreeFind<CR>
 let NERDTreeShowBookmarks=1
+let NERDTreeWinPos="right"
+let NERDTreeWinSize=40
 let NERDTreeIgnore=['\.vim$', '\~$', '\.pyc$', 'node_modules']
+" Close the tab if NERDTree is the only window remaining in it.
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
+autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
+      \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
 " ========== End NerdTree =========="
 "
 " ========== BufExplorer =========="
