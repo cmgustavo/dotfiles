@@ -493,7 +493,7 @@ let g:tex_flavor = 'latex'
 nnoremap <leader>gs :Gstatus<CR>
 nnoremap <leader>gc :Gcommit<CR>
 nnoremap <leader>gC :Gcommit -n<CR> " commit but ignore hooks
-nnoremap <leader>gP :Gpush<CR>
+nnoremap <leader>gP :Git push<CR>
 nnoremap <leader>gfP :Gpush --force-with-lease<CR>
 nnoremap <leader>gp :Gpull<CR>
 nnoremap <leader>gf :Gfetch<CR>
