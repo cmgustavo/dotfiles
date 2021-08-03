@@ -417,7 +417,7 @@ let g:ale_fixers = {
 \   'typescript': ['prettier']
 \}
 let g:ale_fix_on_save = 1
-nnoremap <leader>aa :ALEGoToDefinition<CR>
+nnoremap <leader>aa :ALEGoToDefinition :NERDTreeFocus<CR>
 nnoremap <leader>av :ALEGoToTypeDefinition -vsplit<CR>
 nmap ]w :ALENextWrap<CR>
 nmap [w :ALEPreviousWrap<CR>
