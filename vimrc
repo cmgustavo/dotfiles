@@ -43,14 +43,14 @@ Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'ryanoasis/vim-devicons'
 Plugin 'mattn/emmet-vim'
 
-Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plugin 'junegunn/fzf.vim'
-
 " Disabled Plugins
 " Plugin 'tomlion/vim-solidity'
 " Plugin 'christoomey/vim-tmux-navigator'
 " Plugin 'kamykn/spelunker.vim'
 " Plugin 'vimwiki/vimwiki'
+" Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Plugin 'junegunn/fzf.vim'
+
 
 call vundle#end()
 "#######################################################################
@@ -84,8 +84,8 @@ set hlsearch
 set ignorecase smartcase
 
 " File and script encoding settings for vim
-set fileencoding=UTF-8
-set encoding=UTF-8
+set fileencoding=utf8
+set encoding=utf8
 
 " List all items and start selecting matches in cmd completion
 if has("gui_macvim")
@@ -270,9 +270,14 @@ else
   map <D-*> :b#<CR>
 endif
 
-" Toggle spell checking
-nnoremap <silent> <F11> :set spell!<cr>
-inoremap <silent> <F11> <C-O>:set spell!<cr>
+" Pressing ,ss will toggle and untoggle spell checking
+map <leader>ss :setlocal spell!<cr>
+
+" Shortcuts using <leader>
+map <leader>sn ]s
+map <leader>sp [s
+map <leader>sa zg
+map <leader>s? z=
 
 " Decrease indent level in insert mode with shift+tab
 inoremap <S-Tab> <ESC><<i
@@ -285,6 +290,12 @@ nnoremap <left> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
 " Adds current datetime
 nnoremap <F5> "=strftime("%a %d %b %Y")<CR>P
 inoremap <F5> <C-R>=strftime("%a %d %b %Y")<CR>
+
+" Smart way to move between windows
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
 
 " Tabs window
 if has("gui_macvim")
@@ -313,6 +324,20 @@ if has("gui_running")
 else
   map <silent> <leader><cr> :noh<cr>
 endif
+
+" Close the current buffer
+map <leader>bd :Bclose<cr>:tabclose<cr>gT
+
+" Close all the buffers
+map <leader>ba :bufdo bd<cr>
+
+map <leader>l :bnext<cr>
+map <leader>h :bprevious<cr>
+
+" Useful mappings for managing tabs
+map <leader>tn :tabnew<cr>
+map <leader>to :tabonly<cr>
+map <leader>tc :tabclose<cr>
 
 "#######################################################################
 
