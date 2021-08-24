@@ -32,9 +32,6 @@ Plugin 'preservim/nerdcommenter'
 Plugin 'tpope/vim-fugitive' " Git
 Plugin 'junegunn/gv.vim' " Show commits
 Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'Valloric/MatchTagAlways.git'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
 Plugin 'neoclide/coc.nvim', {'branch': 'release'}
 Plugin 'cakebaker/scss-syntax.vim'
 
@@ -54,6 +51,9 @@ Plugin 'cakebaker/scss-syntax.vim'
 " Plugin 'vimwiki/vimwiki'
 " Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 " Plugin 'junegunn/fzf.vim'
+" Plugin 'Valloric/MatchTagAlways.git'
+" Plugin 'SirVer/ultisnips'
+" Plugin 'honza/vim-snippets'
 
 
 call vundle#end()
@@ -146,6 +146,7 @@ set belloff=all
 
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup
+set nowritebackup
 set nowb
 set noswapfile
 
@@ -186,6 +187,20 @@ set scrolloff=8
 " Fix syntax highlight
 noremap <F12> <Esc>:syntax sync fromstart<CR>
 inoremap <F12> <C-o>:syntax sync fromstart<CR>
+
+" Give more space for displaying messages.
+set cmdheight=2
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
+
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+set signcolumn=yes
 
 "#######################################################################
 
@@ -446,17 +461,17 @@ map <leader>f :MRU<CR>
 " ======== End MRU ========"
 
 " ========== ALE =========="
-let g:ale_completion_enabled = 1
-let g:ale_completion_autoimport = 1
+let g:ale_completion_enabled = 0
+let g:ale_completion_autoimport = 0
 let g:ale_fixers = {
 \   'javascript': ['eslint', 'prettier'],
 \   'typescript': ['prettier']
 \}
 let g:ale_fix_on_save = 1
-nnoremap <leader>aa :ALEGoToDefinition<CR>
-nnoremap <leader>av :ALEGoToTypeDefinition -vsplit<CR>
-nmap ]w :ALENextWrap<CR>
-nmap [w :ALEPreviousWrap<CR>
+" nnoremap <leader>aa :ALEGoToDefinition<CR>
+" nnoremap <leader>av :ALEGoToTypeDefinition -vsplit<CR>
+" nmap ]w :ALENextWrap<CR>
+" nmap [w :ALEPreviousWrap<CR>
 augroup VimDiff
   autocmd!
   autocmd VimEnter,BufEnter,FilterWritePre * if &diff | ALEDisable | endif
@@ -474,21 +489,21 @@ let g:ale_pattern_options = {
 " ======== End ALE ========"
 
 " ========== YouCompleteMe =========="
-let g:ycm_auto_hover = -1
-let s:ycm_hover_popup = -1
-function s:Hover()
-  let response = youcompleteme#GetCommandResponse( 'GetDoc' )
-  if response == ''
-    return
-  endif
+" let g:ycm_auto_hover = -1
+" let s:ycm_hover_popup = -1
+" function s:Hover()
+  " let response = youcompleteme#GetCommandResponse( 'GetDoc' )
+  " if response == ''
+    " return
+  " endif
 
-  call popup_hide( s:ycm_hover_popup )
-  let s:ycm_hover_popup = popup_atcursor( balloon_split( response ), {} )
-endfunction
-nnoremap <silent> <leader>D :call <SID>Hover()<CR>
-" set previewpopup=height:10,width:60,highlight:PMenuSbar " I see error here
-set completeopt+=popup
-set completepopup=height:25,width:80,border:on,highlight:PMenuSbar
+  " call popup_hide( s:ycm_hover_popup )
+  " let s:ycm_hover_popup = popup_atcursor( balloon_split( response ), {} )
+" endfunction
+" nnoremap <silent> <leader>D :call <SID>Hover()<CR>
+" " set previewpopup=height:10,width:60,highlight:PMenuSbar " I see error here
+" set completeopt+=popup
+" set completepopup=height:25,width:80,border:on,highlight:PMenuSbar
 " ======== End YouCompleteMe ========"
 
 " ========== NerdCommenter =========="
@@ -514,15 +529,15 @@ let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 " ======= End Ctrl P ========"
 
 " ========== UltiSnip - Snippets =========="
-let g:UltiSnipsExpandTrigger           = '<tab>'
-let g:UltiSnipsJumpForwardTrigger      = '<C-b>'
-let g:UltiSnipsJumpBackwardTrigger     = '<C-z>'
-let g:ycm_key_list_select_completion   = ['<C-j>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
+" let g:UltiSnipsExpandTrigger           = '<tab>'
+" let g:UltiSnipsJumpForwardTrigger      = '<C-b>'
+" let g:UltiSnipsJumpBackwardTrigger     = '<C-z>'
+" let g:ycm_key_list_select_completion   = ['<C-j>', '<Down>']
+" let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
 " ======== End UltiSnip - Snippets ========"
 
 " ========== Vimtex =========="
-let g:tex_flavor = 'latex'
+" let g:tex_flavor = 'latex'
 " ======= End Vimtex ========"
 
 " ========== Fugitive =========="
@@ -543,7 +558,33 @@ nnoremap <leader>grm :Grebase -i master<CR>
 " ======== End Fugitive ========"
 
 " ========== Coc =========="
-let g:coc_global_extensions = ['coc-tsserver', 'coc-html', 'coc-css' , 'coc-json', 'coc-git']
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+let g:coc_global_extensions = ['coc-tsserver', 'coc-html', 'coc-css' , 'coc-json', 'coc-git', 'coc-snippets']
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
       \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -566,6 +607,19 @@ function! s:show_documentation()
     execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
 " ========== End Coc =========="
 
 " ========== Vim Wiki =========="
@@ -581,7 +635,7 @@ endfunction
 " ======== End Vim Wiki ========"
 
 " ========== UndoTree ==========
-nnoremap <F5> :UndotreeToggle<CR>
+" nnoremap <F5> :UndotreeToggle<CR>
 " ======== End UndoTree ========"
 
 " ========== Spelunker ==========
@@ -597,14 +651,3 @@ nnoremap <F5> :UndotreeToggle<CR>
 " highlight SpelunkerComplexOrCompoundWord cterm=underline ctermfg=NONE gui=underline guifg=NONE
 " ======== End Spelunker ========"
 
-" ========== Python 3 support ==========
-if has("gui_macvim")
-  Python Setting {
-    set pythondll=/usr/local/Frameworks/Python.framework/Versions/Current/Python
-    set pythonhome=/usr/local/Frameworks/Python.framework/Versions/Current
-    set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/Current/Python
-    set pythonthreehome=/usr/local/Frameworks/Python.framework/Versions/Current
-  }
-endif
-
-"#######################################################################
