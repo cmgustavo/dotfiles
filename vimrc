@@ -32,29 +32,26 @@ Plugin 'preservim/nerdcommenter'
 Plugin 'tpope/vim-fugitive' " Git
 Plugin 'junegunn/gv.vim' " Show commits
 Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'neoclide/coc.nvim', {'branch': 'release'}
 Plugin 'cakebaker/scss-syntax.vim'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
 
 " Disabled Plugins
+" Plugin 'neoclide/coc.nvim', {'branch': 'release'}
 " Plugin 'ycm-core/YouCompleteMe.git'
 " Plugin 'lervag/vimtex'
 " Plugin 'Xuyuanp/nerdtree-git-plugin'
 " Plugin 'mbbill/undotree'
 " Plugin 'cakebaker/scss-syntax.vim'
-" Plugin 'Xuyuanp/nerdtree-git-plugin'
 " Plugin 'ryanoasis/vim-devicons'
 " Plugin 'mattn/emmet-vim'
 " Plugin 'kamykn/spelunker.vim'
 " Plugin 'tomlion/vim-solidity'
 " Plugin 'christoomey/vim-tmux-navigator'
-" Plugin 'kamykn/spelunker.vim'
 " Plugin 'vimwiki/vimwiki'
 " Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 " Plugin 'junegunn/fzf.vim'
 " Plugin 'Valloric/MatchTagAlways.git'
-" Plugin 'SirVer/ultisnips'
-" Plugin 'honza/vim-snippets'
-
 
 call vundle#end()
 "#######################################################################
@@ -179,7 +176,7 @@ set incsearch
 
 " Keep more info in memory to speed things up
 set hidden
-set history=50
+set history=100
 
 " Scroll off
 set scrolloff=8
@@ -188,19 +185,8 @@ set scrolloff=8
 noremap <F12> <Esc>:syntax sync fromstart<CR>
 inoremap <F12> <C-o>:syntax sync fromstart<CR>
 
-" Give more space for displaying messages.
-set cmdheight=2
-
-" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-" delays and poor user experience.
-set updatetime=300
-
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
-
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved.
-set signcolumn=yes
 
 "#######################################################################
 
@@ -461,17 +447,17 @@ map <leader>f :MRU<CR>
 " ======== End MRU ========"
 
 " ========== ALE =========="
-let g:ale_completion_enabled = 0
-let g:ale_completion_autoimport = 0
+let g:ale_completion_enabled = 1
+let g:ale_completion_autoimport = 1
 let g:ale_fixers = {
 \   'javascript': ['eslint', 'prettier'],
 \   'typescript': ['prettier']
 \}
 let g:ale_fix_on_save = 1
-" nnoremap <leader>aa :ALEGoToDefinition<CR>
-" nnoremap <leader>av :ALEGoToTypeDefinition -vsplit<CR>
-" nmap ]w :ALENextWrap<CR>
-" nmap [w :ALEPreviousWrap<CR>
+nmap <silent> gd :ALEGoToDefinition<CR>
+nmap <silent> gy :ALEGoToTypeDefinition -vsplit<CR>
+nmap ]w :ALENextWrap<CR>
+nmap [w :ALEPreviousWrap<CR>
 augroup VimDiff
   autocmd!
   autocmd VimEnter,BufEnter,FilterWritePre * if &diff | ALEDisable | endif
@@ -529,9 +515,9 @@ let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 " ======= End Ctrl P ========"
 
 " ========== UltiSnip - Snippets =========="
-" let g:UltiSnipsExpandTrigger           = '<tab>'
-" let g:UltiSnipsJumpForwardTrigger      = '<C-b>'
-" let g:UltiSnipsJumpBackwardTrigger     = '<C-z>'
+let g:UltiSnipsExpandTrigger           = '<tab>'
+let g:UltiSnipsJumpForwardTrigger      = '<C-b>'
+let g:UltiSnipsJumpBackwardTrigger     = '<C-z>'
 " let g:ycm_key_list_select_completion   = ['<C-j>', '<Down>']
 " let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
 " ======== End UltiSnip - Snippets ========"
@@ -561,65 +547,65 @@ nnoremap <leader>grm :Grebase -i master<CR>
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" inoremap <silent><expr> <TAB>
+      " \ pumvisible() ? "\<C-n>" :
+      " \ <SID>check_back_space() ? "\<TAB>" :
+      " \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+" function! s:check_back_space() abort
+  " let col = col('.') - 1
+  " return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
 
-" Use <c-space> to trigger completion.
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
-endif
+" " Use <c-space> to trigger completion.
+" if has('nvim')
+  " inoremap <silent><expr> <c-space> coc#refresh()
+" else
+  " inoremap <silent><expr> <c-@> coc#refresh()
+" endif
 
-" Make <CR> auto-select the first completion item and notify coc.nvim to
-" format on enter, <cr> could be remapped by other vim plugin
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" " Make <CR> auto-select the first completion item and notify coc.nvim to
+" " format on enter, <cr> could be remapped by other vim plugin
+" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              " \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-let g:coc_global_extensions = ['coc-tsserver', 'coc-html', 'coc-css' , 'coc-json', 'coc-git', 'coc-snippets']
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-      \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+" let g:coc_global_extensions = ['coc-tsserver', 'coc-html', 'coc-css' , 'coc-json', 'coc-git', 'coc-snippets']
+" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+      " \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+" nmap <silent> [g <Plug>(coc-diagnostic-prev)
+" nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+" nmap <silent> gd <Plug>(coc-definition)
+" nmap <silent> gy <Plug>(coc-type-definition)
+" nmap <silent> gi <Plug>(coc-implementation)
+" nmap <silent> gr <Plug>(coc-references)
 
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+" " Use K to show documentation in preview window.
+" nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . " " . expand('<cword>')
-  endif
-endfunction
+" function! s:show_documentation()
+  " if (index(['vim','help'], &filetype) >= 0)
+    " execute 'h '.expand('<cword>')
+  " elseif (coc#rpc#ready())
+    " call CocActionAsync('doHover')
+  " else
+    " execute '!' . &keywordprg . " " . expand('<cword>')
+  " endif
+" endfunction
 
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? coc#_select_confirm() :
-      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+" inoremap <silent><expr> <TAB>
+      " \ pumvisible() ? coc#_select_confirm() :
+      " \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      " \ <SID>check_back_space() ? "\<TAB>" :
+      " \ coc#refresh()
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+" function! s:check_back_space() abort
+  " let col = col('.') - 1
+  " return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
 
-let g:coc_snippet_next = '<tab>'
+" let g:coc_snippet_next = '<tab>'
 " ========== End Coc =========="
 
 " ========== Vim Wiki =========="
