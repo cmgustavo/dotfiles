@@ -27,23 +27,27 @@ Plugin 'jlanzarotta/bufexplorer'
 Plugin 'itchyny/lightline.vim'
 Plugin 'yegappan/mru'
 Plugin 'dense-analysis/ale'
-Plugin 'ycm-core/YouCompleteMe.git'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'preservim/nerdcommenter'
 Plugin 'tpope/vim-fugitive' " Git
 Plugin 'junegunn/gv.vim' " Show commits
 Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'lervag/vimtex'
 Plugin 'Valloric/MatchTagAlways.git'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
-Plugin 'mbbill/undotree'
+Plugin 'neoclide/coc.nvim', {'branch': 'release'}
 Plugin 'cakebaker/scss-syntax.vim'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'ryanoasis/vim-devicons'
-Plugin 'mattn/emmet-vim'
 
 " Disabled Plugins
+" Plugin 'ycm-core/YouCompleteMe.git'
+" Plugin 'lervag/vimtex'
+" Plugin 'Xuyuanp/nerdtree-git-plugin'
+" Plugin 'mbbill/undotree'
+" Plugin 'cakebaker/scss-syntax.vim'
+" Plugin 'Xuyuanp/nerdtree-git-plugin'
+" Plugin 'ryanoasis/vim-devicons'
+" Plugin 'mattn/emmet-vim'
+" Plugin 'kamykn/spelunker.vim'
 " Plugin 'tomlion/vim-solidity'
 " Plugin 'christoomey/vim-tmux-navigator'
 " Plugin 'kamykn/spelunker.vim'
@@ -537,6 +541,32 @@ nnoremap <leader>gm :Git checkout master<CR>
 nnoremap <leader>g- :Git checkout -<CR>
 nnoremap <leader>grm :Grebase -i master<CR>
 " ======== End Fugitive ========"
+
+" ========== Coc =========="
+let g:coc_global_extensions = ['coc-tsserver', 'coc-html', 'coc-css' , 'coc-json', 'coc-git']
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+      \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+" ========== End Coc =========="
 
 " ========== Vim Wiki =========="
 " let g:vimwiki_list = [{'path': '~/.vimwiki/', 'syntax': 'default', 'ext': '.txt'}]
