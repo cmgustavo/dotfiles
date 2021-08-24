@@ -420,8 +420,11 @@ set noshowmode
 
 " ========== NerdTree =========="
 nnoremap <leader>n :NERDTreeFocus<CR>
-nnoremap <leader>t :NERDTreeToggle<CR>
-nnoremap <leader>m :NERDTreeFind<CR>
+nnoremap <C-n> :NERDTree<CR>
+nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <C-f> :NERDTreeFind<CR>
+" nnoremap <leader>t :NERDTreeToggle<CR>
+" nnoremap <leader>m :NERDTreeFind<CR>
 let NERDTreeShowBookmarks=1
 let NERDTreeWinPos="right"
 let NERDTreeWinSize=40
