@@ -176,7 +176,7 @@ set incsearch
 
 " Keep more info in memory to speed things up
 set hidden
-set history=100
+set history=200
 
 " Scroll off
 set scrolloff=8
@@ -366,7 +366,7 @@ if has("gui_running")
   if has("gui_gtk2")
     set guifont=Monospace\ 12
   elseif has("gui_macvim")
-    set guifont=Hack\ Nerd\ Font:h14
+    set guifont=Hack\ Nerd\ Font:h12
   elseif has("gui_win32")
     set guifont=Source\ Code\ Pro:h12
   endif
