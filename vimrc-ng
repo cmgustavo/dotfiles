@@ -13,6 +13,7 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 Plug 'jiangmiao/auto-pairs'
+Plug 'mbbill/undotree'
 " Initialize plugin system
 call plug#end()
 
@@ -58,7 +59,7 @@ set completeopt-=preview
 set spelllang=en,es
 set hidden
 set history=200
-set scrolloff=8
+set scrolloff=15
 set noshowmode
 set pastetoggle=<f5>
 
@@ -175,6 +176,9 @@ function! LightlineGitbranch() abort
     endif
     return fugitive#head()
 endfunction
+
+" Undotree
+nnoremap <F5> :UndotreeToggle<CR>
 
 " Fugitive
 nnoremap <leader>gs :Git<CR>
