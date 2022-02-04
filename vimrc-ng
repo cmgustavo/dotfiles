@@ -46,6 +46,7 @@ set nobackup
 set nowritebackup
 set nowb
 set noswapfile
+set nobomb
 set backspace=indent,eol,start
 if !has('nvim')
     if !isdirectory($HOME . '/.local/vim/undo')
