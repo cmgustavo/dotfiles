@@ -179,7 +179,7 @@ function! LightlineGitbranch() abort
 endfunction
 
 " Undotree
-nnoremap <F5> :UndotreeToggle<CR>
+nnoremap <leader>- :UndotreeToggle<CR>
 
 " Fugitive
 nnoremap <leader>gs :Git<CR>
