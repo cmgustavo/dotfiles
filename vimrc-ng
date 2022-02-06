@@ -15,10 +15,11 @@ Plug 'junegunn/gv.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'mbbill/undotree'
 Plug 'preservim/nerdcommenter'
+Plug 'maxmellon/vim-jsx-pretty'
 " Initialize plugin system
 call plug#end()
 
-let mapleader = ','
+let mapleader = ' '
 filetype plugin indent on
 syntax enable
 set laststatus=2
@@ -37,9 +38,27 @@ set ignorecase smartcase
 set fileencoding=utf8
 set encoding=utf8
 set wildmenu
+set wildignore+=*.o,*.obj,*.bin,*.dll,*.exe
+set wildignore+=*/.git/*,*/.svn/*,*/__pycache__/*,*/build/**
+set wildignore+=*.pyc
+set wildignore+=*.DS_Store
+set wildignore+=*.aux,*.bbl,*.blg,*.brf,*.fls,*.fdb_latexmk,*.synctex.gz,*.pdf
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg "Binary Imgs"
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest "Compiled Object files"
+set wildignore+=*.spl "Compiled speolling world list"
+set wildignore+=*.sw? "Vim swap files"
+set wildignore+=*.DS_Store "OSX SHIT"
+set wildignore+=*.luac "Lua byte code"
+set wildignore+=migrations "Django migrations"
+set wildignore+=*.pyc "Python Object codes"
+set wildignore+=*.orig "Merge resolution files"
+set wildignore+=package-lock.json "Javascript"
+set wildignore+=*/node_modules "Javascript"
+set wildignore+=*/plugins "Javascript"
+set wildignore+=*/platforms "Javascript"
+set wildignore+=*/coverage "Javascript"
 set mouse=a
-set fileformats=unix,dos
-set ffs=unix,dos,mac
+set ffs=unix,dos
 set guicursor+=a:blinkon0
 set novisualbell noerrorbells
 set belloff=all
@@ -61,9 +80,11 @@ set completeopt-=preview
 set spelllang=en,es
 set hidden
 set history=200
-set scrolloff=15
+set scrolloff=20
 set noshowmode
 set pastetoggle=<f5>
+set shortmess+=c
+set cmdheight=1
 
 autocmd BufEnter * if expand("%:p:h") !~ '^/tmp' | silent! lcd %:p:h | endif
 
@@ -80,7 +101,7 @@ function! InsertConsoleLog()
   let linenumber = line(".")
   execute "normal A \<BS>\<CR>\<ESC>0Aconsole.log('[" . expand('%:t'). ":" .linenumber. "]', ".word."); \/* TODO *\/"
 endfunction
-map <silent> ,v :call InsertConsoleLog()<CR>bbbbi
+map <silent> <leader>v :call InsertConsoleLog()<CR>bbbbi
 
 if has("gui_running")
   nnoremap <silent> <Esc> :nohlsearch<Bar>:echo<CR>
@@ -97,6 +118,20 @@ nnoremap <up> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
 nnoremap <down> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
 nnoremap <right> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
 nnoremap <left> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
+
+" Close the current buffer
+map <leader>bd :Bclose<cr>:tabclose<cr>gT
+
+" Close all the buffers
+map <leader>ba :bufdo bd<cr>
+
+map <leader>l :bnext<cr>
+map <leader>h :bprevious<cr>
+
+" Useful mappings for managing tabs
+map <leader>tn :tabnew<cr>
+map <leader>to :tabonly<cr>
+map <leader>tc :tabclose<cr>
 
 colorscheme onedark
 set background=dark
@@ -125,8 +160,8 @@ if has("gui_win32")
   map <M-*> :b#<CR> " switch to latest buffer
   nnoremap <silent> <M-+> :BufExplorer<CR>
 else
-  map <D-*> :b#<CR> " seitch to latest buffer
-  nnoremap <silent> <D-+> :BufExplorer<CR>
+  map <leader>bb :b#<CR> " switch to latest buffer
+  nnoremap <silent> <leader>be :BufExplorer<CR>
 endif
 
 " FZF
@@ -146,6 +181,7 @@ let g:ale_fixers = {
 \   'css': ['prettier']
 \}
 let g:ale_fix_on_save = 1
+nmap <silent> ge :ALEDetail<CR>
 nmap <silent> gd :ALEGoToDefinition<CR>
 nmap <silent> gy :ALEGoToTypeDefinition -vsplit<CR>
 nmap ]w :ALENextWrap<CR>
@@ -181,6 +217,10 @@ endfunction
 
 " Undotree
 nnoremap <leader>- :UndotreeToggle<CR>
+
+" TSX plugin
+let g:vim_jsx_pretty_template_tags = ['html', 'jsx', 'tsx']
+let g:vim_jsx_pretty_highlight_close_tag = 1
 
 " Fugitive
 nnoremap <leader>gs :Git<CR>

@@ -1,0 +1,482 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"
+"
+"                  ██╗   ██╗██╗███╗   ███╗██████╗  ██████╗
+"                  ██║   ██║██║████╗ ████║██╔══██╗██╔════╝
+"                  ██║   ██║██║██╔████╔██║██████╔╝██║
+"                  ╚██╗ ██╔╝██║██║╚██╔╝██║██╔══██╗██║
+"                   ╚████╔╝ ██║██║ ╚═╝ ██║██║  ██║╚██████╗
+"                    ╚═══╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝
+"
+"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+" Do not make vim compatible with vi.
+set nocompatible
+
+" Allow plugins to be used.
+filetype plugin indent on
+
+" Use syntax highlighting.
+syntax on
+
+" Always leave 10 rows below cursor.
+set scrolloff=10
+
+" Display a column with relative number column.
+set relativenumber
+
+" Add numbers to the lines.
+set number
+
+" Show cursor line.
+set cursorline
+
+" Not Show cursor column.
+set nocursorcolumn
+
+" Set title of window to the name of the file.
+set title
+
+" Backup files.
+set backup
+
+" Backup directory.
+set backupdir=~/.vim/backup/
+
+" Hide mouse when typing.
+set mousehide
+
+" Check to see if an external file has changed.
+set autoread
+
+" Split window with cursor in bottom window.
+set splitbelow splitright
+
+" Leave windows uneven after split or close.
+set noequalalways
+
+" Switch buffers without saving.
+set hidden
+
+" Show error bell visually.
+set visualbell
+
+" Set the text width.
+set textwidth=80
+
+" Allow backspacing to work as expected.
+set backspace=indent,eol,start
+
+" Tabbing over moves four spaces.
+set tabstop=2
+
+" Number of spaces to use in automatically indent.
+set shiftwidth=2
+
+" Copy indent from current line when starting a new line.
+set autoindent
+
+" Use C style indentation
+set cindent
+
+" Use space characters instead of tabs.
+set expandtab
+
+" Incremental search an you type.
+set incsearch
+
+" Ignore capital letters during search.
+set ignorecase
+
+" Override the ignorecase option if searching for captial letters.
+set smartcase
+
+" Show the line and column position of cursor.
+set ruler
+
+" Show partial command in the last line of the screen.
+set showcmd
+
+" Show the mode in the last line.
+set showmode
+
+" Show matching words.
+set showmatch
+
+" Tenths of a second to show matching brackets.
+set matchtime=2
+
+" Use highlighting when doing a search.
+set hlsearch
+
+" Change the command history (default=20).
+set history=1000
+
+" If using a fast terminal.
+set ttyfast
+
+" Set the character enconding when writing file.
+set fileencoding=utf-8
+
+" Set the character encoding.
+set encoding=utf-8
+
+" Show auto complete menus.
+set wildmenu
+
+" Make wildmenu behave like bash completion.
+set wildmode=list:longest
+
+" List all items and start selecting matches in cmd completion
+if has("gui_macvim")
+  set wildmode=long:full:full
+endif
+
+" Ignore files with these extentions.
+set wildignore=*.odt,*.doc*,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.JPG,*.exe,*.bmp,*.flv,*.gz,*.tgz,*.zip,*.iso,*.gzip,*.mov,*.xz,*.tar,*.img,*.docx,*.xlsx,*.xls
+
+" Temporary files.
+set directory=/tmp
+
+" Where the backups are stored.
+set backupdir=~/.vim/backup
+
+"PLUGINS ----------------------------------------------------------------- {{{
+
+" Specify a directory for plugins.
+" Avoid using standard Vim directory names like 'plugin'.
+call plug#begin('~/.vim/plugged')
+
+" Make sure you use single quotes!!
+
+Plug 'flazz/vim-colorschemes'
+Plug 'preservim/nerdtree'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'jlanzarotta/bufexplorer'
+Plug 'yegappan/mru'
+Plug 'dense-analysis/ale'
+Plug 'preservim/nerdcommenter'
+Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
+Plug 'jiangmiao/auto-pairs'
+Plug 'mbbill/undotree'
+
+" Initialize plugin system.
+call plug#end()
+
+" Nerdcommenter
+let g:NERDSpaceDelims = 1
+
+" }}}
+
+
+" MAPPINGS --------------------------------------------------------------- {{{
+
+" Set the leader to '-' instead of the default '\'.
+let mapleader = " "
+
+" Enable syntax highlighting in markdown code blocks.
+let g:markdown_fenced_languages = ['html', 'python', 'css', 'vim', 'rust', 'c']
+
+" Map ii to <Esc> only while in insert mode.
+inoremap ii <Esc>
+
+" Press <leader>- to go back to the last cursor position.
+nnoremap <leader>- ``
+
+" Center the cursor when moving to the next word.
+nnoremap n nzz
+nnoremap N Nzz
+
+" Yank from cursor to the end of line.
+nnoremap Y y$
+
+" Select all text in buffer.
+noremap <leader>a ggVG
+
+" Press -v to edit .vimrc.
+nnoremap <leader>v :e $MYVIMRC<cr>
+
+" Press -s to source the .vimrc file.
+nnoremap <leader>s :w<CR>:source $MYVIMRC<cr>
+
+" Press -S to check spelling in current buffer.
+nnoremap <Leader>S <ESC>:setlocal spell spelllang=en_us<CR>
+
+" Paste a block of code without formatting it.
+nnoremap <mousemiddle> <esc>"*P
+
+" Easy navigate the split view.
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+
+" Resize split windows using arrow keys.
+noremap <c-up> <c-w>+
+noremap <c-down> <c-w>-
+noremap <c-left> <c-w>>
+noremap <c-right> <c-w><
+
+if has("gui_running")
+  nnoremap <silent> <Esc> :nohlsearch<Bar>:echo<CR>
+else
+  map <silent> <leader><cr> :noh<cr>
+endif
+
+noremap <F12> <Esc>:syntax sync fromstart<CR>
+inoremap <F12> <C-o>:syntax sync fromstart<CR>
+nnoremap <silent> <leader>w :update<CR>
+nnoremap <silent> <leader>q :x<CR>
+nnoremap <up> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
+nnoremap <down> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
+nnoremap <right> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
+nnoremap <left> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
+
+" Close the current buffer
+map <leader>bd :Bclose<cr>:tabclose<cr>gT
+
+" Close all the buffers
+map <leader>ba :bufdo bd<cr>
+
+map <leader>l :bnext<cr>
+map <leader>h :bprevious<cr>
+
+" Useful mappings for managing tabs
+map <leader>tn :tabnew<cr>
+map <leader>to :tabonly<cr>
+map <leader>tc :tabclose<cr>
+
+" MRU
+let MRU_Max_Entries = 20
+map <leader>f :MRU<CR>
+
+" NerdTree
+let NERDTreeIgnore=['\.jpg$', '\.mp4$', '\.zip$', '\.iso$', '\.pdf$', '\.pyc$', '\.odt$', '\.png$', '\.svg$', '\.gif$', '\.tar$', '\.gz$', '\.xz$', '\.bz2$', '\.db$']
+nnoremap <leader>n :NERDTreeFocus<CR>
+nnoremap <C-n> :NERDTree<CR>
+nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <C-m> :NERDTreeFind<CR>
+let NERDTreeShowBookmarks=1
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+
+" BufExplorer
+if has("gui_win32")
+  map <M-*> :b#<CR> " switch to latest buffer
+  nnoremap <silent> <M-+> :BufExplorer<CR>
+else
+  map <leader>bb :b#<CR> " switch to latest buffer
+  nnoremap <silent> <leader>be :BufExplorer<CR>
+endif
+
+" FZF
+let g:fzf_layout = { 'down': '40%' }
+nnoremap <silent> <C-p> :GFiles<CR>
+nnoremap <silent> <C-g> :Rg<CR>
+
+" ALE
+let g:ale_completion_enabled = 1
+let g:ale_completion_autoimport = 1
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': ['eslint', 'prettier'],
+\   'typescript': ['prettier'],
+\   'typescriptreact': ['prettier'],
+\   'scss': ['prettier'],
+\   'css': ['prettier']
+\}
+let g:ale_fix_on_save = 1
+nmap <silent> ge :ALEDetail<CR>
+nmap <silent> gd :ALEGoToDefinition<CR>
+nmap <silent> gy :ALEGoToTypeDefinition -vsplit<CR>
+nmap ]w :ALENextWrap<CR>
+nmap [w :ALEPreviousWrap<CR>
+augroup VimDiff
+  autocmd!
+  autocmd VimEnter,BufEnter,FilterWritePre * if &diff | ALEDisable | endif
+augroup END
+
+" Fugitive
+nnoremap <leader>gs :Git<CR>
+nnoremap <leader>gc :Gcommit<CR>
+nnoremap <leader>gP :Git push<CR>
+nnoremap <leader>gp :Gpull<CR>
+nnoremap <leader>gl :GV!<CR>
+nnoremap <leader>gL :GV<CR>
+nnoremap <leader>gd :Gvdiff<CR>
+nnoremap <leader>gb :Git blame<CR>
+nnoremap <leader>gm :Git checkout master<CR>
+
+" Undotree
+nnoremap <leader>- :UndotreeToggle<CR>
+
+" }}}
+
+
+" VIMSCRIPT FILE SETTINGS ------------------------------------------------ {{{
+
+" Use the marker method of folding.
+"augroup filetype_vim
+"    autocmd!
+"    autocmd FileType vim setlocal foldmethod=marker
+"augroup END
+
+" Turn on cursorline and cursorcolumn only in active window.
+augroup cursor_off
+    autocmd!
+    autocmd WinLeave * set nocursorline
+    autocmd WinEnter * set cursorline
+augroup END
+
+" Set indentation of HTML to 2 spaces.
+autocmd Filetype html setlocal tabstop=2 shiftwidth=2 expandtab
+
+" If vim version is equal to or greater than 7.3 enable undofile.
+if version >= 703
+    set undodir=~/.vim/backup
+    set undofile
+    set undoreload=10000
+endif
+
+" Show ALE errors
+function! LinterStatus() abort
+    let l:counts = ale#statusline#Count(bufnr(''))
+
+    let l:all_errors = l:counts.error + l:counts.style_error
+    let l:all_non_errors = l:counts.total - l:all_errors
+
+    return l:counts.total == 0 ? ' OK ' : printf(
+    \   ' %dW | %dE ',
+    \   all_non_errors,
+    \   all_errors
+    \)
+endfunction
+
+augroup resume_edit_position
+    autocmd!
+    autocmd BufReadPost *
+        \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+        \ | execute "normal! g`\"zvzz"
+        \ | endif
+augroup END
+
+function! InsertConsoleLog()
+  let word = expand("<cword>")
+  let linenumber = line(".")
+  execute "normal A \<BS>\<CR>\<ESC>0Aconsole.log('[" . expand('%:t'). ":" .linenumber. "]', ".word."); \/* TODO *\/"
+endfunction
+map <silent> <leader>v :call InsertConsoleLog()<CR>bbbbi
+
+function! Gitbranch() abort
+    if exists('*fugitive#head')
+        let branch = fugitive#head()
+        return branch !=# '' ? '   '. branch . ' ' : ''
+    endif
+    return fugitive#head()
+endfunction
+
+if has("gui_running")
+
+    " Set the background tone.
+    set background=dark
+
+    " Set the color scheme.
+    colorscheme molokai
+
+    " Set font to DejaVu Sans Mono 10
+    set guifont=Hack\ Nerd\ Font:h14
+
+    " Hide the toolbar.
+    set guioptions-=T
+
+    " Hide the the left-side scroll bar.
+    set guioptions-=L
+
+    " Hide the the left-side scroll bar.
+    set guioptions-=r
+
+    " Hide the the menu bar.
+    set guioptions-=m
+
+    " Hide the the bottom scroll bar.
+    set guioptions-=b
+
+    " Map the F4 key to toggle the menu, tool, and scroll bar.
+    nnoremap <F4> :if &guioptions=~#'mTr'<Bar>
+        \set guioptions-=mTr<Bar>
+        \else<Bar>
+        \set guioptions+=mTr<Bar>
+        \endif<CR>
+
+endif
+
+" }}}
+
+
+"STATUS LINE ------------------------------------------------------------ {{{
+
+
+    " Set colors for the status line.
+    hi User0 ctermbg=black ctermfg=yellow guibg=black guifg=yellow gui=bold
+    hi User1 ctermbg=black ctermfg=white guibg=black guifg=white gui=bold
+
+    " Clear status line when vimrc is reloaded.
+    set statusline=
+
+    " White on blue.
+    set statusline+=%0*
+
+    " ALE status line flag.
+    set statusline+=%{Gitbranch()}
+
+    " White on blue.
+    set statusline+=%1*
+
+    " Full path to the file.
+    set statusline+=\ %t
+
+    " Modified flag.
+    set statusline+=\ %M
+
+    " Read only.
+    set statusline+=\ %R
+
+    set statusline+=%*
+
+    " Blue on white.
+    set statusline+=%1*
+
+    " Split the left from the right.
+    set statusline+=%=
+
+    " File type.
+    set statusline+=\ %y
+
+    " Blue on white.
+    set statusline+=\ %0*
+
+    " Show the row the cursor is on.
+    set statusline+=\ %l:%c
+
+    " Show the lenth of the line.
+    set statusline+=\ %p%%
+
+    " White on blue.
+    set statusline+=\ %0*
+
+    " Color.
+    set statusline+=%#warningmsg#
+
+    " ALE status line flag.
+    set statusline+=%{LinterStatus()}
+
+    " Show the status on the second to last line.
+    set laststatus=2
+
+    " }}}
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
