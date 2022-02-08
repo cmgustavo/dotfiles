@@ -127,12 +127,7 @@ set encoding=utf-8
 set wildmenu
 
 " Make wildmenu behave like bash completion.
-set wildmode=list:longest
-
-" List all items and start selecting matches in cmd completion
-if has("gui_macvim")
-  set wildmode=long:full:full
-endif
+set wildmode=list:full,full
 
 " Ignore files with these extentions.
 set wildignore=*.odt,*.doc*,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.JPG,*.exe,*.bmp,*.flv,*.gz,*.tgz,*.zip,*.iso,*.gzip,*.mov,*.xz,*.tar,*.img,*.docx,*.xlsx,*.xls
@@ -163,6 +158,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'mbbill/undotree'
+Plug 'maxmellon/vim-jsx-pretty'
 
 " Initialize plugin system.
 call plug#end()
@@ -264,13 +260,8 @@ let NERDTreeShowBookmarks=1
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 
 " BufExplorer
-if has("gui_win32")
-  map <M-*> :b#<CR> " switch to latest buffer
-  nnoremap <silent> <M-+> :BufExplorer<CR>
-else
-  map <leader>bb :b#<CR> " switch to latest buffer
-  nnoremap <silent> <leader>be :BufExplorer<CR>
-endif
+map <leader><tab> :b#<CR> " switch to latest buffer
+nnoremap <silent> <leader>e :BufExplorer<CR>
 
 " FZF
 let g:fzf_layout = { 'down': '40%' }
