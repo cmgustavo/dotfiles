@@ -1,6 +1,5 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
-"
 "                  ██╗   ██╗██╗███╗   ███╗██████╗  ██████╗
 "                  ██║   ██║██║████╗ ████║██╔══██╗██╔════╝
 "                  ██║   ██║██║██╔████╔██║██████╔╝██║
@@ -8,9 +7,30 @@
 "                   ╚████╔╝ ██║██║ ╚═╝ ██║██║  ██║╚██████╗
 "                    ╚═══╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝
 "
-"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+"PLUGINS ----------------------------------------------------------------- {{{
+
+call plug#begin('~/.vim/plugged')
+Plug 'sonph/onehalf', {'rtp': 'vim/'}
+Plug 'preservim/nerdtree'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'jlanzarotta/bufexplorer'
+Plug 'yegappan/mru'
+Plug 'dense-analysis/ale'
+Plug 'preservim/nerdcommenter'
+Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
+Plug 'jiangmiao/auto-pairs'
+Plug 'mbbill/undotree'
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
+Plug 'maxmellon/vim-jsx-pretty'
+" Initialize plugin system.
+call plug#end()
+
+" }}}
 
 " Do not make vim compatible with vi.
 set nocompatible
@@ -25,10 +45,10 @@ syntax on
 set scrolloff=10
 
 " Display a column with relative number column.
-set relativenumber
+" set relativenumber
 
 " Add numbers to the lines.
-set number
+" set number
 
 " Show cursor line.
 set cursorline
@@ -112,7 +132,7 @@ set matchtime=2
 set hlsearch
 
 " Change the command history (default=20).
-set history=1000
+set history=200
 
 " If using a fast terminal.
 set ttyfast
@@ -127,7 +147,7 @@ set encoding=utf-8
 set wildmenu
 
 " Make wildmenu behave like bash completion.
-set wildmode=list:full,full
+set wildmode=longest:full,full
 
 " Ignore files with these extentions.
 set wildignore=*.odt,*.doc*,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.JPG,*.exe,*.bmp,*.flv,*.gz,*.tgz,*.zip,*.iso,*.gzip,*.mov,*.xz,*.tar,*.img,*.docx,*.xlsx,*.xls
@@ -138,36 +158,8 @@ set directory=/tmp
 " Where the backups are stored.
 set backupdir=~/.vim/backup
 
-"PLUGINS ----------------------------------------------------------------- {{{
-
-" Specify a directory for plugins.
-" Avoid using standard Vim directory names like 'plugin'.
-call plug#begin('~/.vim/plugged')
-
-" Make sure you use single quotes!!
-
-Plug 'flazz/vim-colorschemes'
-Plug 'preservim/nerdtree'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'jlanzarotta/bufexplorer'
-Plug 'yegappan/mru'
-Plug 'dense-analysis/ale'
-Plug 'preservim/nerdcommenter'
-Plug 'tpope/vim-fugitive'
-Plug 'junegunn/gv.vim'
-Plug 'jiangmiao/auto-pairs'
-Plug 'mbbill/undotree'
-Plug 'maxmellon/vim-jsx-pretty'
-
-" Initialize plugin system.
-call plug#end()
-
-" Nerdcommenter
-let g:NERDSpaceDelims = 1
-
-" }}}
-
+" Show popup documentation
+set completeopt=menu,menuone,popup,noselect,noinsert
 
 " MAPPINGS --------------------------------------------------------------- {{{
 
@@ -177,30 +169,14 @@ let mapleader = " "
 " Enable syntax highlighting in markdown code blocks.
 let g:markdown_fenced_languages = ['html', 'python', 'css', 'vim', 'rust', 'c']
 
-" Map ii to <Esc> only while in insert mode.
-inoremap ii <Esc>
-
 " Press <leader>- to go back to the last cursor position.
 nnoremap <leader>- ``
-
-" Center the cursor when moving to the next word.
-nnoremap n nzz
-nnoremap N Nzz
 
 " Yank from cursor to the end of line.
 nnoremap Y y$
 
 " Select all text in buffer.
 noremap <leader>a ggVG
-
-" Press -v to edit .vimrc.
-nnoremap <leader>v :e $MYVIMRC<cr>
-
-" Press -s to source the .vimrc file.
-nnoremap <leader>s :w<CR>:source $MYVIMRC<cr>
-
-" Press -S to check spelling in current buffer.
-nnoremap <Leader>S <ESC>:setlocal spell spelllang=en_us<CR>
 
 " Paste a block of code without formatting it.
 nnoremap <mousemiddle> <esc>"*P
@@ -210,12 +186,6 @@ nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
-
-" Resize split windows using arrow keys.
-noremap <c-up> <c-w>+
-noremap <c-down> <c-w>-
-noremap <c-left> <c-w>>
-noremap <c-right> <c-w><
 
 if has("gui_running")
   nnoremap <silent> <Esc> :nohlsearch<Bar>:echo<CR>
@@ -246,6 +216,28 @@ map <leader>tn :tabnew<cr>
 map <leader>to :tabonly<cr>
 map <leader>tc :tabclose<cr>
 
+" Close a buffer and switching to another buffer, do not close the
+" window, see https://goo.gl/Wd8yZJ
+nnoremap <silent> \d :bprevious <bar> bdelete #<CR>
+
+" Map Ctrl-<Space> to / (search)
+map <leader>s /
+
+" Highlight words but do not jump
+nnoremap * :keepjumps normal! mi*`i<CR>
+
+" Use Tab to select ALE suggestions
+inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+
+" }}}
+
+
+"PLUGINS CONFIGURATION ------------------------------------------------------- {{{
+
+" Nerdcommenter
+let g:NERDSpaceDelims = 1
+
 " MRU
 let MRU_Max_Entries = 20
 map <leader>f :MRU<CR>
@@ -257,6 +249,7 @@ nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-m> :NERDTreeFind<CR>
 let NERDTreeShowBookmarks=1
+let NERDTreeIgnore=['\.vim$', '\~$', '\.pyc$', 'node_modules']
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 
 " BufExplorer
@@ -302,7 +295,16 @@ nnoremap <leader>gb :Git blame<CR>
 nnoremap <leader>gm :Git checkout master<CR>
 
 " Undotree
-nnoremap <leader>- :UndotreeToggle<CR>
+nnoremap <leader>u :UndotreeToggle<CR>
+
+" Typescript
+let g:typescript_indent_disable = 1
+let g:typescript_opfirst='\%([<>=,?^%|*/&]\|\([-:+]\)\1\@!\|!=\|in\%(stanceof\)\=\>\)'
+let g:vim_jsx_pretty_colorful_config = 1
+
+" TSX plugin
+let g:vim_jsx_pretty_template_tags = ['html', 'jsx', 'tsx']
+let g:vim_jsx_pretty_highlight_close_tag = 1
 
 " }}}
 
@@ -314,6 +316,9 @@ nnoremap <leader>- :UndotreeToggle<CR>
 "    autocmd!
 "    autocmd FileType vim setlocal foldmethod=marker
 "augroup END
+
+" Auto set current file directory
+autocmd BufEnter * if expand("%:p:h") !~ '^/tmp' | silent! lcd %:p:h | endif
 
 " Turn on cursorline and cursorcolumn only in active window.
 augroup cursor_off
@@ -369,16 +374,19 @@ function! Gitbranch() abort
     return fugitive#head()
 endfunction
 
+" Set terminal color
+set t_Co=256
+
 if has("gui_running")
 
     " Set the background tone.
     set background=dark
 
     " Set the color scheme.
-    colorscheme molokai
+    colorscheme onehalfdark
 
     " Set font to DejaVu Sans Mono 10
-    set guifont=Hack\ Nerd\ Font:h14
+    set guifont=Hack\ Nerd\ Font:h12
 
     " Hide the toolbar.
     set guioptions-=T
@@ -411,8 +419,8 @@ endif
 
 
     " Set colors for the status line.
-    hi User0 ctermbg=black ctermfg=yellow guibg=black guifg=yellow gui=bold
-    hi User1 ctermbg=black ctermfg=white guibg=black guifg=white gui=bold
+    hi User0 ctermbg=darkgray ctermfg=lightgray guibg=#4F5666 guifg=lightgray gui=italic
+    hi User1 ctermbg=darkblue ctermfg=lightblue guibg=#4F5666 guifg=lightgray gui=italic
 
     " Clear status line when vimrc is reloaded.
     set statusline=
@@ -420,7 +428,7 @@ endif
     " White on blue.
     set statusline+=%0*
 
-    " ALE status line flag.
+    " Git.
     set statusline+=%{Gitbranch()}
 
     " White on blue.
@@ -450,7 +458,7 @@ endif
     set statusline+=\ %0*
 
     " Show the row the cursor is on.
-    set statusline+=\ %l:%c
+    set statusline+=\ %l
 
     " Show the lenth of the line.
     set statusline+=\ %p%%
