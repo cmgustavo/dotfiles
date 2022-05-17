@@ -21,7 +21,9 @@ Plug 'yegappan/mru'
 Plug 'dense-analysis/ale'
 Plug 'preservim/nerdcommenter'
 Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/gv.vim'
+Plug 'jreybert/vimagit'
 Plug 'jiangmiao/auto-pairs'
 Plug 'mbbill/undotree'
 Plug 'pangloss/vim-javascript'
@@ -42,13 +44,13 @@ filetype plugin indent on
 syntax on
 
 " Always leave 10 rows below cursor.
-set scrolloff=10
+set scrolloff=5
 
 " Display a column with relative number column.
 " set relativenumber
 
 " Add numbers to the lines.
-" set number
+set number
 
 " Show cursor line.
 set cursorline
@@ -230,6 +232,11 @@ nnoremap * :keepjumps normal! mi*`i<CR>
 inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
+" Useful mappings for managing tabs
+map <leader>tn :tabnew<cr>
+map <leader>to :tabonly<cr>
+map <leader>tc :tabclose<cr>
+
 " }}}
 
 
@@ -276,15 +283,17 @@ let g:ale_fix_on_save = 1
 nmap <silent> ge :ALEDetail<CR>
 nmap <silent> gd :ALEGoToDefinition<CR>
 nmap <silent> gy :ALEGoToTypeDefinition -vsplit<CR>
-nmap ]w :ALENextWrap<CR>
-nmap [w :ALEPreviousWrap<CR>
+" nmap ]w :ALENextWrap<CR>
+" nmap [w :ALEPreviousWrap<CR>
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
 augroup VimDiff
   autocmd!
   autocmd VimEnter,BufEnter,FilterWritePre * if &diff | ALEDisable | endif
 augroup END
 
 " Fugitive
-nnoremap <leader>gs :Git<CR>
+" nnoremap <leader>gs :Git<CR>
 nnoremap <leader>gc :Gcommit<CR>
 nnoremap <leader>gP :Git push<CR>
 nnoremap <leader>gp :Gpull<CR>
@@ -293,6 +302,21 @@ nnoremap <leader>gL :GV<CR>
 nnoremap <leader>gd :Gvdiff<CR>
 nnoremap <leader>gb :Git blame<CR>
 nnoremap <leader>gm :Git checkout master<CR>
+
+" Gitgutter
+let g:gitgutter_sign_added = ''
+let g:gitgutter_sign_modified = ''
+let g:gitgutter_sign_removed = ''
+let g:gitgutter_sign_removed_first_line = ''
+let g:gitgutter_sign_modified_removed = ''
+let g:gitgutter_override_sign_column_highlight = 1
+nmap <Leader>gn <Plug>(GitGutterNextHunk)  " git next
+nmap <Leader>gp <Plug>(GitGutterPrevHunk)  " git previous
+nmap <Leader>ga <Plug>(GitGutterStageHunk) " git add (chunk)
+nmap <Leader>gu <Plug>(GitGutterUndoHunk)  " git undo (chunk)
+
+" Vimagit
+nnoremap <leader>gs :Magit<CR>
 
 " Undotree
 nnoremap <leader>u :UndotreeToggle<CR>
@@ -367,11 +391,16 @@ endfunction
 map <silent> <leader>v :call InsertConsoleLog()<CR>bbbbi
 
 function! Gitbranch() abort
-    if exists('*fugitive#head')
-        let branch = fugitive#head()
-        return branch !=# '' ? '   '. branch . ' ' : ''
-    endif
-    return fugitive#head()
+  if exists('*FugitiveHead')
+    let branch = FugitiveHead()
+    return branch !=# '' ? '   '. branch . ' ' : ''
+  endif
+  return FugitiveHead()
+endfunction
+
+function! GitStatus()
+  let [a,m,r] = GitGutterGetHunkSummary()
+  return printf(' (+%d ~%d -%d) ', a, m, r)
 endfunction
 
 " Set terminal color
@@ -430,6 +459,9 @@ endif
 
     " Git.
     set statusline+=%{Gitbranch()}
+
+    " Git Status
+    set statusline+=%{GitStatus()}
 
     " White on blue.
     set statusline+=%1*
