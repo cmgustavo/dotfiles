@@ -23,7 +23,6 @@ Plug 'preservim/nerdcommenter'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/gv.vim'
-Plug 'jreybert/vimagit'
 Plug 'jiangmiao/auto-pairs'
 Plug 'mbbill/undotree'
 Plug 'pangloss/vim-javascript'
@@ -50,7 +49,7 @@ set scrolloff=5
 " set relativenumber
 
 " Add numbers to the lines.
-set number
+" set number
 
 " Show cursor line.
 set cursorline
@@ -283,8 +282,6 @@ let g:ale_fix_on_save = 1
 nmap <silent> ge :ALEDetail<CR>
 nmap <silent> gd :ALEGoToDefinition<CR>
 nmap <silent> gy :ALEGoToTypeDefinition -vsplit<CR>
-" nmap ]w :ALENextWrap<CR>
-" nmap [w :ALEPreviousWrap<CR>
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 augroup VimDiff
@@ -293,7 +290,7 @@ augroup VimDiff
 augroup END
 
 " Fugitive
-" nnoremap <leader>gs :Git<CR>
+nnoremap <leader>gs :Git<CR>
 nnoremap <leader>gc :Gcommit<CR>
 nnoremap <leader>gP :Git push<CR>
 nnoremap <leader>gp :Gpull<CR>
@@ -304,19 +301,10 @@ nnoremap <leader>gb :Git blame<CR>
 nnoremap <leader>gm :Git checkout master<CR>
 
 " Gitgutter
-let g:gitgutter_sign_added = ''
-let g:gitgutter_sign_modified = ''
-let g:gitgutter_sign_removed = ''
-let g:gitgutter_sign_removed_first_line = ''
-let g:gitgutter_sign_modified_removed = ''
-let g:gitgutter_override_sign_column_highlight = 1
 nmap <Leader>gn <Plug>(GitGutterNextHunk)  " git next
 nmap <Leader>gp <Plug>(GitGutterPrevHunk)  " git previous
 nmap <Leader>ga <Plug>(GitGutterStageHunk) " git add (chunk)
 nmap <Leader>gu <Plug>(GitGutterUndoHunk)  " git undo (chunk)
-
-" Vimagit
-nnoremap <leader>gs :Magit<CR>
 
 " Undotree
 nnoremap <leader>u :UndotreeToggle<CR>
@@ -392,15 +380,11 @@ map <silent> <leader>v :call InsertConsoleLog()<CR>bbbbi
 
 function! Gitbranch() abort
   if exists('*FugitiveHead')
+    let [a,m,r] = GitGutterGetHunkSummary()
     let branch = FugitiveHead()
-    return branch !=# '' ? '   '. branch . ' ' : ''
+    return branch !=# '' ? '   '. branch . ' (+' . a . ' ~' . m . ' -' . r . ') ' : ''
   endif
   return FugitiveHead()
-endfunction
-
-function! GitStatus()
-  let [a,m,r] = GitGutterGetHunkSummary()
-  return printf(' (+%d ~%d -%d) ', a, m, r)
 endfunction
 
 " Set terminal color
@@ -459,9 +443,6 @@ endif
 
     " Git.
     set statusline+=%{Gitbranch()}
-
-    " Git Status
-    set statusline+=%{GitStatus()}
 
     " White on blue.
     set statusline+=%1*
