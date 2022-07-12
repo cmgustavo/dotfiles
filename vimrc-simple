@@ -313,7 +313,6 @@ nmap <Leader>ga <Plug>(GitGutterStageHunk) " git add (chunk)
 nmap <Leader>gu <Plug>(GitGutterUndoHunk)  " git undo (chunk)
 let g:gitgutter_override_sign_column_highlight = 1
 highlight SignColumn guibg=bg
-highlight SignColumn ctermbg=bg
 let g:gitgutter_sign_added = ''
 let g:gitgutter_sign_modified = ''
 let g:gitgutter_sign_removed = ''
