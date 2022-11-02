@@ -205,10 +205,10 @@ nnoremap <right> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
 nnoremap <left> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
 
 " Close the current buffer
-map <leader>bd :Bclose<cr>:tabclose<cr>gT
+map <leader>xx :bd<cr>
 
 " Close all the buffers
-map <leader>ba :bufdo bd<cr>
+map <leader>xa :bufdo bd<cr>
 
 map <leader>l :bnext<cr>
 map <leader>h :bprevious<cr>
@@ -250,13 +250,12 @@ let MRU_Max_Entries = 20
 map <leader>f :MRU<CR>
 
 " NerdTree
-let NERDTreeIgnore=['\.jpg$', '\.mp4$', '\.zip$', '\.iso$', '\.pdf$', '\.pyc$', '\.odt$', '\.png$', '\.svg$', '\.gif$', '\.tar$', '\.gz$', '\.xz$', '\.bz2$', '\.db$']
+let NERDTreeIgnore=['\.jpg$', '\.mp4$', '\.zip$', '\.iso$', '\.pdf$', '\.pyc$', '\.odt$', '\.png$', '\.svg$', '\.gif$', '\.tar$', '\.gz$', '\.xz$', '\.bz2$', '\.db$', '\.vim$', '\~$', '\.pyc$', 'node_modules']
 nnoremap <leader>0 :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-m> :NERDTreeFind<CR>
 let NERDTreeShowBookmarks=1
-let NERDTreeIgnore=['\.vim$', '\~$', '\.pyc$', 'node_modules']
 " Exit Vim if NERDTree is the only window remaining in the only tab.
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 " Close the tab if NERDTree is the only window remaining in it.
