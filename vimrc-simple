@@ -128,13 +128,13 @@ set showmode
 set showmatch
 
 " Tenths of a second to show matching brackets.
-set matchtime=2
+set matchtime=1
 
 " Use highlighting when doing a search.
 set hlsearch
 
 " Change the command history (default=20).
-set history=200
+set history=100
 
 " If using a fast terminal.
 set ttyfast
@@ -156,9 +156,6 @@ set wildignore=*.odt,*.doc*,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.JPG,*.exe,*.bmp,*.fl
 
 " Temporary files.
 set directory=/tmp
-
-" Where the backups are stored.
-set backupdir=~/.vim/backup
 
 " Show popup documentation
 set completeopt=menu,menuone,popup,noselect,noinsert
@@ -312,14 +309,14 @@ nmap <Leader>gp <Plug>(GitGutterPrevHunk)  " git previous
 nmap <Leader>ga <Plug>(GitGutterStageHunk) " git add (chunk)
 nmap <Leader>gu <Plug>(GitGutterUndoHunk)  " git undo (chunk)
 set signcolumn=yes
-let g:gitgutter_override_sign_column_highlight = 1
+let g:gitgutter_override_sign_column_highlight = 2
 highlight SignColumn guibg=bg
 highlight link GitGutterChangeLine DiffText
-let g:gitgutter_sign_added = '+'
-let g:gitgutter_sign_modified = '>'
-let g:gitgutter_sign_removed = '-'
-let g:gitgutter_sign_removed_first_line = '^'
-let g:gitgutter_sign_modified_removed = '<'
+let g:gitgutter_sign_added = '++'
+let g:gitgutter_sign_modified = '>>'
+let g:gitgutter_sign_removed = '--'
+let g:gitgutter_sign_removed_first_line = '^^'
+let g:gitgutter_sign_modified_removed = '<<'
 
 " Undotree
 nnoremap <leader>u :UndotreeToggle<CR>
