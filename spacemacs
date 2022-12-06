@@ -63,6 +63,10 @@ This function should only modify configuration layer settings."
 
      react
      treemacs
+     (osx :variables osx-command-as 'hyper
+          osx-option-as 'meta
+          osx-right-option-as 'none)
+     evil-better-jumper
      themes-megapack)
 
 
@@ -497,7 +501,7 @@ It should only modify the values of Spacemacs settings."
    ;; performance issues, instead of calculating the frame title by
    ;; `spacemacs/title-prepare' all the time.
    ;; (default "%I@%S")
-   dotspacemacs-frame-title-format "%I@%S -- %f"
+   dotspacemacs-frame-title-format "%I@%S"
 
    ;; Format specification for setting the icon title format
    ;; (default nil - same as frame-title-format)
@@ -544,7 +548,19 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-home-shorten-agenda-source nil
 
    ;; If non-nil then byte-compile some of Spacemacs files.
-   dotspacemacs-byte-compile nil))
+   dotspacemacs-byte-compile nil
+
+   ;; CUSTOM
+   ;; evil-better-jumper
+   dotspacemacs-distinguish-gui-tab t
+   ;; js2-mode
+   js2-basic-offset 2
+   ;; web-mode
+   css-indent-offset 2
+   web-mode-markup-indent-offset 2
+   web-mode-css-indent-offset 2
+   web-mode-code-indent-offset 2
+   web-mode-attr-indent-offset 2))
 
 (defun dotspacemacs/user-env ()
   "Environment variables setup.
