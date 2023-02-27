@@ -211,8 +211,7 @@ It should only modify the values of Spacemacs settings."
    ;; pair of numbers, e.g. `(recents-by-project . (7 .  5))', where the first
    ;; number is the project limit and the second the limit on the recent files
    ;; within a project.
-   dotspacemacs-startup-lists '((recents . 5)
-                                (projects . 7))
+   dotspacemacs-startup-lists '((recents-by-project . (7 .  5)))
 
    ;; True if the home buffer should respond to resize events. (default t)
    dotspacemacs-startup-buffer-responsive t
@@ -552,15 +551,16 @@ It should only modify the values of Spacemacs settings."
 
    ;; CUSTOM
    ;; evil-better-jumper
-   dotspacemacs-distinguish-gui-tab t
+   ;dotspacemacs-distinguish-gui-tab t
    ;; js2-mode
-   js2-basic-offset 2
+   ;js2-basic-offset 2
    ;; web-mode
-   css-indent-offset 2
-   web-mode-markup-indent-offset 2
-   web-mode-css-indent-offset 2
-   web-mode-code-indent-offset 2
-   web-mode-attr-indent-offset 2))
+   ;css-indent-offset 2
+   ;web-mode-markup-indent-offset 2
+   ;web-mode-css-indent-offset 2
+   ;web-mode-code-indent-offset 2
+   ;web-mode-attr-indent-offset 2
+   ))
 
 (defun dotspacemacs/user-env ()
   "Environment variables setup.
@@ -594,8 +594,8 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (setq editorconfig-mode 1)
   (setq create-lockfiles nil)
+  (setq editorconfig-mode 1)
 )
 
 
