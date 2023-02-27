@@ -140,10 +140,10 @@ set history=100
 set ttyfast
 
 " Set the character enconding when writing file.
-set fileencoding=utf-8
+set fileencoding=utf8
 
 " Set the character encoding.
-set encoding=utf-8
+set encoding=utf8
 
 " Show auto complete menus.
 set wildmenu
