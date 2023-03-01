@@ -1,340 +1,200 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" My Ultimate Vim Configuration
-" https://github.com/cmgustavo/dotfiles/blob/main/vimrc
-" 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Gustavo Cortez
+"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"####################### Plugins Settings ##############################
-set nocompatible   " be iMproved, required
-filetype off       " required
+"PLUGINS ----------------------------------------------------------------- {{{
 
-if has("gui_win32")
-  set shellslash
-  set rtp+=$HOME/vimfiles/bundle/Vundle.vim
-  call vundle#begin('$HOME/vimfiles/bundle')
-else
-  set rtp+=~/.vim/bundle/Vundle.vim
-  call vundle#begin()
-endif
+call plug#begin('~/.vim/plugged')
+Plug 'preservim/nerdtree'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'jlanzarotta/bufexplorer'
+Plug 'yegappan/mru'
+Plug 'dense-analysis/ale'
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
+Plug 'maxmellon/vim-jsx-pretty'
+" Initialize plugin system.
+call plug#end()
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+" }}}
 
-" Active Plugins
-Plugin 'flazz/vim-colorschemes'
-Plugin 'scrooloose/nerdtree.git'
-Plugin 'jlanzarotta/bufexplorer'
-Plugin 'itchyny/lightline.vim'
-Plugin 'yegappan/mru'
-Plugin 'dense-analysis/ale'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'preservim/nerdcommenter'
-Plugin 'tpope/vim-fugitive' " Git
-Plugin 'junegunn/gv.vim' " Show commits
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'cakebaker/scss-syntax.vim'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
+" Do not make vim compatible with vi.
+set nocompatible
 
-" Disabled Plugins
-" Plugin 'neoclide/coc.nvim', {'branch': 'release'}
-" Plugin 'ycm-core/YouCompleteMe.git'
-" Plugin 'lervag/vimtex'
-" Plugin 'Xuyuanp/nerdtree-git-plugin'
-" Plugin 'mbbill/undotree'
-" Plugin 'cakebaker/scss-syntax.vim'
-" Plugin 'ryanoasis/vim-devicons'
-" Plugin 'mattn/emmet-vim'
-" Plugin 'kamykn/spelunker.vim'
-" Plugin 'tomlion/vim-solidity'
-" Plugin 'christoomey/vim-tmux-navigator'
-" Plugin 'vimwiki/vimwiki'
-" Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
-" Plugin 'junegunn/fzf.vim'
-" Plugin 'Valloric/MatchTagAlways.git'
-
-call vundle#end()
-"#######################################################################
-
-"############################## Basic ###################################
+" Allow plugins to be used.
 filetype plugin indent on
-syntax enable
 
-" Set height of status line
-set laststatus=2
+" Use syntax highlighting.
+syntax on
 
-" Auto readload file if it changed
-set autoread
-
-" General tab settings
-set tabstop=2       " number of visual spaces per TAB
-set softtabstop=2   " number of spaces in tab when editing
-set shiftwidth=2    " number of spaces to use for autoindent
-set expandtab       " expand tab to spaces so that tabs are spaces
-
-" Show matching parenthesis
-set showmatch
-
-" Show line number
-set number
-
-" Highlight search
-set hlsearch
-
-" Ignore case in general, but become case-sensitive when uppercase is present
-set ignorecase smartcase
-
-" File and script encoding settings for vim
-set fileencoding=utf8
-set encoding=utf8
-
-" List all items and start selecting matches in cmd completion
-if has("gui_macvim")
-  set wildmode=long:full:full
-endif
-
-" Use mouse to select and resize windows, etc.
-if has('mouse')
-    set mouse=nv          " Enable mouse in several mode
-endif
-
-" Fileformats to use for new files
-set fileformats=unix,dos
-
-" Use Unix as the standard file type
-set ffs=unix,dos,mac
-
-" Disable all blinking:
-set guicursor+=a:blinkon0
-
-" Wildmenu completion
-set wildmenu
-
-" Ignore certain files and folders when globbing
-set wildignore+=*.o,*.obj,*.bin,*.dll,*.exe
-set wildignore+=*/.git/*,*/.svn/*,*/__pycache__/*,*/build/**
-set wildignore+=*.pyc
-set wildignore+=*.DS_Store
-set wildignore+=*.aux,*.bbl,*.blg,*.brf,*.fls,*.fdb_latexmk,*.synctex.gz,*.pdf
-set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg "Binary Imgs"
-set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest "Compiled Object files"
-set wildignore+=*.spl "Compiled speolling world list"
-set wildignore+=*.sw? "Vim swap files"
-set wildignore+=*.DS_Store "OSX SHIT"
-set wildignore+=*.luac "Lua byte code"
-set wildignore+=migrations "Django migrations"
-set wildignore+=*.pyc "Python Object codes"
-set wildignore+=*.orig "Merge resolution files"
-set wildignore+=package-lock.json "Javascript"
-set wildignore+=*/node_modules "Javascript"
-set wildignore+=*/plugins "Javascript"
-set wildignore+=*/platforms "Javascript"
-set wildignore+=*/coverage "Javascript"
-set wildignore+=*/desktop "NW.js"
-set wildignore+=*/cache "NW.js"
-set wildignore+=*/resources "Copay"
-set wildignore+=*/www "Copay"
-set wildignore+=*/dist "Copay"
-set wildignore+=*/tmp/*,*.so,*.zip
-
-" Do not use visual and error bells
-set novisualbell noerrorbells
-set belloff=all
-
-" Turn backup off, since most stuff is in SVN, git et.c anyway...
-set nobackup
-set nowritebackup
-set nowb
-set noswapfile
-
-" Allow delete with backspace
-set backspace=indent,eol,start
-
-" Persistent undo even after you close a file and re-open it.
-" For vim, we need to set up an undodir so that $HOME is not cluttered with
-" undo files.
-if !has('nvim')
-    if !isdirectory($HOME . '/.local/vim/undo')
-        call mkdir($HOME . '/.local/vim/undo', 'p', 0700)
-    endif
-    set undodir=~/.local/vim/undo
-endif
-set undofile
-
-" Completion behaviour
-set completeopt+=menuone  " Show menu even if there is only one item
-set completeopt-=preview  " Disable the preview window
-
-" Scan files given by `dictionary` option
-set complete+=k,kspell complete-=w complete-=b complete-=u complete-=t
-
-" Spell EN, ES
-set spelllang=en,es  " Spell languages
-
-" Increment search
-set incsearch
-
-" Keep more info in memory to speed things up
-set hidden
-set history=200
-
-" Scroll off
+" Always leave 10 rows below cursor.
 set scrolloff=8
 
-" Fix syntax highlight
-noremap <F12> <Esc>:syntax sync fromstart<CR>
-inoremap <F12> <C-o>:syntax sync fromstart<CR>
+" Display a column with relative number column.
+set relativenumber
 
-" Don't pass messages to |ins-completion-menu|.
-set shortmess+=c
+" Add numbers to the lines.
+set number
 
-"#######################################################################
+" Show cursor line.
+set cursorline
 
-"############################ Functions #################################
-function! InsertConsoleLog()
-  let word = expand("<cword>")
-  let linenumber = line(".")
-  execute "normal A \<BS>\<CR>\<ESC>0Aconsole.log('[" . expand('%:t'). ":" .linenumber. "]',".word."); \/* TODO *\/"
-endfunction
+" Not Show cursor column.
+set nocursorcolumn
 
-map <silent> ,v :call InsertConsoleLog()<CR>bbbbi
+" Set title of window to the name of the file.
+set title
 
-"############################ Variables #################################
-let mapleader = ','
-"#######################################################################
+" Backup files.
+set backup
 
-"########################## Auto commands ###############################
-" Set textwidth for text file types
-augroup text_file_width
-    autocmd!
-    " Sometimes, automatic filetype detection is not right, so we need to
-    " detect the filetype based on the file extensions
-    autocmd BufNewFile,BufRead *.md,*.MD,*.markdown,*.txt setlocal textwidth=79
-augroup END
+" Backup directory.
+set backupdir=~/.vim/backup/
 
-" No line number for txt
-augroup noline_number_txt
-  autocmd!
-  autocmd BufNewFile,BufRead *.txt setlocal nonumber
-augroup END
+" Hide mouse when typing.
+set mousehide
 
-" Disable vimwiki format for json files
-" augroup noformat_json_file
-  " autocmd!
-  " autocmd BufEnter,BufRead,BufNewFile *.md setlocal filetype=markdown nonumber
-  " autocmd BufEnter,BufRead,BufNewFile *.json setlocal filetype=json nonumber
-" augroup END
+" Check to see if an external file has changed.
+set autoread
 
-" Return to last edit position when opening a file
-augroup resume_edit_position
-    autocmd!
-    autocmd BufReadPost *
-        \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-        \ | execute "normal! g`\"zvzz"
-        \ | endif
-augroup END
+" Split window with cursor in bottom window.
+set splitbelow splitright
 
-" Create own custom autogroup to enable spelunker.vim for specific filetypes.
-" augroup spelunker
-  " autocmd!
-  " " Setting for g:spelunker_check_type = 1:
-  " autocmd BufWinEnter,BufWritePost *.txt,*.md,vimrc call spelunker#check()
+" Leave windows uneven after split or close.
+set noequalalways
 
-  " " Setting for g:spelunker_check_type = 2:
-  " autocmd CursorHold *.txt,*.md,vimrc call spelunker#check_displayed_words()
-" augroup END
-"#######################################################################
+" Switch buffers without saving.
+set hidden
 
-"####################### Custom key mappings ############################
-" used by vim-sneak
-nnoremap ; :
-xnoremap ; :
+" Show error bell visually.
+set visualbell
 
-" Quicker way to open command window
-nnoremap q; q:
+" Set the text width.
+set textwidth=80
 
-" Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-map <space> /
-map <c-space> ?
+" Allow backspacing to work as expected.
+set backspace=indent,eol,start
 
-" Shortcut for faster save and quit
-nnoremap <silent> <leader>w :update<CR>
-" Saves the file if modified and quit
-nnoremap <silent> <leader>q :x<CR>
-" Quit all opened buffers
-nnoremap <silent> <leader>Q :qa<CR>
+" Tabbing over moves four spaces.
+set tabstop=2
 
-" Close a buffer and switching to another buffer, do not close the
-" window, see https://goo.gl/Wd8yZJ
-nnoremap <silent> \d :bprevious <bar> bdelete #<CR>
+" Number of spaces to use in automatically indent.
+set shiftwidth=2
 
-" Switch to latest buffer opened
-if has("gui_win32")
-  map <M-*> :b#<CR>
-else
-  map <D-*> :b#<CR>
-endif
+" Copy indent from current line when starting a new line.
+set autoindent
 
-" Pressing ,ss will toggle and untoggle spell checking
-map <leader>ss :setlocal spell!<cr>
+" Use C style indentation
+set cindent
 
-" Shortcuts using <leader>
-map <leader>sn ]s
-map <leader>sp [s
-map <leader>sa zg
-map <leader>s? z=
+" Use space characters instead of tabs.
+set expandtab
 
-" Decrease indent level in insert mode with shift+tab
-inoremap <S-Tab> <ESC><<i
+" Incremental search an you type.
+set incsearch
 
-nnoremap <up> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
-nnoremap <down> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
-nnoremap <right> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
-nnoremap <left> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
+" Ignore capital letters during search.
+set ignorecase
 
-" Adds current datetime
-nnoremap <F5> "=strftime("%a %d %b %Y")<CR>P
-inoremap <F5> <C-R>=strftime("%a %d %b %Y")<CR>
+" Override the ignorecase option if searching for captial letters.
+set smartcase
 
-" Smart way to move between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+" Show the line and column position of cursor.
+set ruler
 
-" Tabs window
-if has("gui_macvim")
-  " Press Ctrl-Tab to switch between open tabs (like browser tabs) to
-  " the right side. Ctrl-Shift-Tab goes the other way.
-  noremap <C-Tab> :tabnext<CR>
-  noremap <C-S-Tab> :tabprev<CR>
+" Show partial command in the last line of the screen.
+set showcmd
 
-  " Switch to specific tab numbers with Command-number
-  noremap <D-1> :tabn 1<CR>
-  noremap <D-2> :tabn 2<CR>
-  noremap <D-3> :tabn 3<CR>
-  noremap <D-4> :tabn 4<CR>
-  noremap <D-5> :tabn 5<CR>
-  noremap <D-6> :tabn 6<CR>
-  noremap <D-7> :tabn 7<CR>
-  noremap <D-8> :tabn 8<CR>
-  noremap <D-9> :tabn 9<CR>
-  " Command-0 goes to the last tab
-  noremap <D-0> :tablast<CR>
-endif
+" Show the mode in the last line.
+set showmode
 
-" Disable highlight or Cancel search with ESC
+" Show matching words.
+set showmatch
+
+" Tenths of a second to show matching brackets.
+set matchtime=1
+
+" Use highlighting when doing a search.
+set hlsearch
+
+" Change the command history (default=20).
+set history=50
+
+" If using a fast terminal.
+set ttyfast
+
+" Set the character enconding when writing file.
+set fileencoding=utf8
+
+" Set the character encoding.
+set encoding=utf8
+
+" Show auto complete menus.
+set wildmenu
+
+" Make wildmenu behave like bash completion.
+set wildmode=longest:full,full
+
+" Ignore files with these extentions.
+set wildignore=*.odt,*.doc*,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.JPG,*.exe,*.bmp,*.flv,*.gz,*.tgz,*.zip,*.iso,*.gzip,*.mov,*.xz,*.tar,*.img,*.docx,*.xlsx,*.xls
+
+" Temporary files.
+set directory=/tmp
+
+" Show popup documentation
+set completeopt=menu,menuone,popup,noselect,noinsert
+
+" Do not show -- INSERT ---
+set noshowmode
+
+" MAPPINGS --------------------------------------------------------------- {{{
+
+" Set the leader to '-' instead of the default '\'.
+let mapleader = " "
+
+" Enable syntax highlighting in markdown code blocks.
+let g:markdown_fenced_languages = ['html', 'python', 'css', 'vim', 'rust', 'c']
+
+" Press <leader>- to go back to the last cursor position.
+nnoremap <leader>- ``
+
+" Yank from cursor to the end of line.
+nnoremap Y y$
+
+" Select all text in buffer.
+noremap <leader>a ggVG
+
+" Paste a block of code without formatting it.
+nnoremap <mousemiddle> <esc>"*P
+
+" Easy navigate the split view.
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+
 if has("gui_running")
   nnoremap <silent> <Esc> :nohlsearch<Bar>:echo<CR>
 else
   map <silent> <leader><cr> :noh<cr>
 endif
 
+noremap <F12> <Esc>:syntax sync fromstart<CR>
+inoremap <F12> <C-o>:syntax sync fromstart<CR>
+nnoremap <silent> <leader>w :update<CR>
+nnoremap <silent> <leader>q :x<CR>
+nnoremap <up> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
+nnoremap <down> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
+nnoremap <right> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
+nnoremap <left> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
+
 " Close the current buffer
-map <leader>bd :Bclose<cr>:tabclose<cr>gT
+map <leader>xx :bd<cr>
 
 " Close all the buffers
-map <leader>ba :bufdo bd<cr>
+map <leader>xa :bufdo bd<cr>
 
 map <leader>l :bnext<cr>
 map <leader>h :bprevious<cr>
@@ -344,299 +204,238 @@ map <leader>tn :tabnew<cr>
 map <leader>to :tabonly<cr>
 map <leader>tc :tabclose<cr>
 
-"#######################################################################
+" Close a buffer and switching to another buffer, do not close the
+" window, see https://goo.gl/Wd8yZJ
+nnoremap <silent> \d :bprevious <bar> bdelete #<CR>
 
-"######################### UI Settings #################################
-colorscheme gruvbox
-set background=dark
+" Map Ctrl-<Space> to / (search)
+map <leader>s /
 
-if has("gui_running")
-  set cursorline
-  " Removing scrollbars
-  set guioptions-=T
-  set guioptions-=r
-  set guioptions-=L
-  set guioptions+=a
-  set guioptions-=m
-else
-  set t_Co=256
-endif
+" Highlight words but do not jump
+nnoremap * :keepjumps normal! mi*`i<CR>
 
-if has("gui_running")
-  if has("gui_gtk2")
-    set guifont=Monospace\ 12
-  elseif has("gui_macvim")
-    set guifont=Hack\ Nerd\ Font:h12
-  elseif has("gui_win32")
-    set guifont=Source\ Code\ Pro:h12
-  endif
-endif
-"#######################################################################
+" Useful mappings for managing tabs
+map <leader>tn :tabnew<cr>
+map <leader>to :tabonly<cr>
+map <leader>tc :tabclose<cr>
 
-"#################### Plugins Configurations ###########################
+" }}}
 
-" ========== Lightline =========="
-let g:lightline = {
-      \ 'colorscheme': 'jellybeans',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'FugitiveHead',
-      \   'readonly': 'LightlineReadonly',
-      \   'filename': 'LightlineFilename',
-      \   'mode': 'LightlineMode'
-      \ },
-      \ }
 
-function! LightlineReadonly()
-  return &readonly && &filetype !~# '\v(help|vimfiler|unite)' ? 'RO' : ''
-endfunction
+"PLUGINS CONFIGURATION ------------------------------------------------------- {{{
 
-function! LightlineFilename()
-  return &filetype ==# 'vimfiler' ? vimfiler#get_status_string() :
-        \ &filetype ==# 'unite' ? unite#get_status_string() :
-        \ &filetype ==# 'vimshell' ? vimshell#get_status_string() :
-        \ expand('%:t') !=# '' ? expand('%:t') : '[No Name]'
-endfunction
+" MRU
+let MRU_Max_Entries = 20
+map <leader>f :MRU<CR>
 
-function! LightlineMode()
-  return expand('%:t') =~# '^__Tagbar__' ? 'Tagbar':
-        \ expand('%:t') ==# 'ControlP' ? 'CtrlP' :
-        \ &filetype ==# 'unite' ? 'Unite' :
-        \ &filetype ==# 'vimfiler' ? 'VimFiler' :
-        \ &filetype ==# 'vimshell' ? 'VimShell' :
-        \ lightline#mode()
-endfunction
-
-let g:unite_force_overwrite_statusline = 0
-let g:vimfiler_force_overwrite_statusline = 0
-let g:vimshell_force_overwrite_statusline = 0
-
-" Do not show mode on command line since vim-airline can show it
-set noshowmode
-" ========== End Lightline =========="
-
-" ========== NerdTree =========="
-nnoremap <leader>n :NERDTreeFocus<CR>
+" NerdTree
+let NERDTreeIgnore=['\.jpg$', '\.mp4$', '\.zip$', '\.iso$', '\.pdf$', '\.pyc$', '\.odt$', '\.png$', '\.svg$', '\.gif$', '\.tar$', '\.gz$', '\.xz$', '\.bz2$', '\.db$', '\.vim$', '\~$', '\.pyc$', 'node_modules']
+nnoremap <leader>0 :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-m> :NERDTreeFind<CR>
-" nnoremap <leader>t :NERDTreeToggle<CR>
-" nnoremap <leader>m :NERDTreeFind<CR>
 let NERDTreeShowBookmarks=1
-let NERDTreeWinPos="right"
-let NERDTreeWinSize=40
-let NERDTreeIgnore=['\.vim$', '\~$', '\.pyc$', 'node_modules']
+" Exit Vim if NERDTree is the only window remaining in the only tab.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 " Close the tab if NERDTree is the only window remaining in it.
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 " If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
 autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
-      \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
-" ========== End NerdTree =========="
-"
-" ========== BufExplorer =========="
-if has("gui_win32")
-  nnoremap <silent> <M-+> :BufExplorer<CR>
-else
-  nnoremap <silent> <D-+> :BufExplorer<CR>
-endif
-" ======== End BufExplorer ========"
+    \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
 
-" ========== MRU =========="
-let MRU_Max_Entries = 20
-map <leader>f :MRU<CR>
-" ======== End MRU ========"
+" BufExplorer
+map <leader><tab> :b#<CR> " switch to latest buffer
+nnoremap <silent> <leader>e :BufExplorer<CR>
 
-" ========== ALE =========="
+" FZF
+let g:fzf_layout = { 'down': '40%' }
+nnoremap <silent> <C-p> :GFiles<CR>
+nnoremap <silent> <C-g> :Rg<CR>
+
+" ALE
 let g:ale_completion_enabled = 1
 let g:ale_completion_autoimport = 1
 let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['eslint', 'prettier'],
-\   'typescript': ['prettier']
+\   'typescript': ['prettier'],
+\   'typescriptreact': ['prettier'],
+\   'scss': ['prettier'],
+\   'css': ['prettier']
 \}
 let g:ale_fix_on_save = 1
+nmap <silent> ge :ALEDetail<CR>
+nmap <silent> gr :ALEFindReferences<CR>
 nmap <silent> gd :ALEGoToDefinition<CR>
 nmap <silent> gy :ALEGoToTypeDefinition -vsplit<CR>
-nmap ]w :ALENextWrap<CR>
-nmap [w :ALEPreviousWrap<CR>
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
 augroup VimDiff
   autocmd!
   autocmd VimEnter,BufEnter,FilterWritePre * if &diff | ALEDisable | endif
 augroup END
-let g:ale_pattern_options = {
-\   '.*\.json$': {'ale_enabled': 0},
-\   '.*\.java$': {'ale_enabled': 0},
-\   '.*\.m$': {'ale_enabled': 0},
-\   '.*\.h$': {'ale_enabled': 0},
-\   '.*\.xml$': {'ale_enabled': 0},
-\   '.*\.md$': {'ale_enabled': 0},
-\   '.*\.txt$': {'ale_enabled': 0},
-\   '.*www/.*\.js$': {'ale_enabled': 0},
-\}
-" ======== End ALE ========"
 
-" ========== YouCompleteMe =========="
-" let g:ycm_auto_hover = -1
-" let s:ycm_hover_popup = -1
-" function s:Hover()
-  " let response = youcompleteme#GetCommandResponse( 'GetDoc' )
-  " if response == ''
-    " return
-  " endif
+" Typescript
+let g:typescript_indent_disable = 1
+let g:typescript_opfirst='\%([<>=,?^%|*/&]\|\([-:+]\)\1\@!\|!=\|in\%(stanceof\)\=\>\)'
+let g:vim_jsx_pretty_colorful_config = 1
 
-  " call popup_hide( s:ycm_hover_popup )
-  " let s:ycm_hover_popup = popup_atcursor( balloon_split( response ), {} )
-" endfunction
-" nnoremap <silent> <leader>D :call <SID>Hover()<CR>
-" " set previewpopup=height:10,width:60,highlight:PMenuSbar " I see error here
-" set completeopt+=popup
-" set completepopup=height:25,width:80,border:on,highlight:PMenuSbar
-" ======== End YouCompleteMe ========"
+" TSX plugin
+let g:vim_jsx_pretty_template_tags = ['html', 'jsx', 'tsx']
+let g:vim_jsx_pretty_highlight_close_tag = 1
 
-" ========== NerdCommenter =========="
-" Add spaces after comment delimiters by default
-let g:NERDSpaceDelims = 1
-" ======== End NerCommenter ========="
 
-" ========== Auto-Pairs =========="
-au Filetype html let b:AutoPairs = AutoPairsDefine({'<!--' : '-->'})
-au Filetype txt let b:AutoPairs = {"(": ")"}
-" ======== End Auto-Pairs ========"
- 
-" ========== Ctrl P =========="
-if has("gui_win32")
-  set runtimepath^=$HOME/vimfiles/bundle/ctrlp.vim
-  let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'  " Windows
-else
-  let g:ctrlp_user_command = 'find %s -type f'
-  let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+" VIMSCRIPT FILE SETTINGS ------------------------------------------------ {{{
+
+" Auto set current file directory
+autocmd BufEnter * if expand("%:p:h") !~ '^/tmp' | silent! lcd %:p:h | endif
+
+" Turn on cursorline and cursorcolumn only in active window.
+augroup cursor_off
+    autocmd!
+    autocmd WinLeave * set nocursorline
+    autocmd WinEnter * set cursorline
+augroup END
+
+" Set indentation of HTML to 2 spaces.
+autocmd Filetype html setlocal tabstop=2 shiftwidth=2 expandtab
+
+" If vim version is equal to or greater than 7.3 enable undofile.
+if version >= 703
+    set undodir=~/.vim/backup
+    set undofile
+    set undoreload=10000
 endif
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-" ======= End Ctrl P ========"
 
-" ========== UltiSnip - Snippets =========="
-let g:UltiSnipsExpandTrigger           = '<tab>'
-let g:UltiSnipsJumpForwardTrigger      = '<C-b>'
-let g:UltiSnipsJumpBackwardTrigger     = '<C-z>'
-" let g:ycm_key_list_select_completion   = ['<C-j>', '<Down>']
-" let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
-" ======== End UltiSnip - Snippets ========"
+" Show ALE errors
+function! LinterStatus() abort
+    let l:counts = ale#statusline#Count(bufnr(''))
 
-" ========== Vimtex =========="
-" let g:tex_flavor = 'latex'
-" ======= End Vimtex ========"
+    let l:all_errors = l:counts.error + l:counts.style_error
+    let l:all_non_errors = l:counts.total - l:all_errors
 
-" ========== Fugitive =========="
-nnoremap <leader>gs :Gstatus<CR>
-nnoremap <leader>gc :Gcommit<CR>
-nnoremap <leader>gC :Gcommit -n<CR> " commit but ignore hooks
-nnoremap <leader>gP :Git push<CR>
-nnoremap <leader>gfP :Gpush --force-with-lease<CR>
-nnoremap <leader>gp :Gpull<CR>
-nnoremap <leader>gf :Gfetch<CR>
-nnoremap <leader>gl :GV!<CR> " Git log for the current file
-nnoremap <leader>gL :GV<CR> " Full git log
-nnoremap <leader>gd :Gvdiff<CR>
-nnoremap <leader>gb :Gblame<CR>
-nnoremap <leader>gm :Git checkout master<CR>
-nnoremap <leader>g- :Git checkout -<CR>
-nnoremap <leader>grm :Grebase -i master<CR>
-" ======== End Fugitive ========"
+    return l:counts.total == 0 ? ' OK ' : printf(
+    \   ' %dW | %dE ',
+    \   all_non_errors,
+    \   all_errors
+    \)
+endfunction
 
-" ========== Coc =========="
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-" inoremap <silent><expr> <TAB>
-      " \ pumvisible() ? "\<C-n>" :
-      " \ <SID>check_back_space() ? "\<TAB>" :
-      " \ coc#refresh()
-" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+augroup resume_edit_position
+    autocmd!
+    autocmd BufReadPost *
+        \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+        \ | execute "normal! g`\"zvzz"
+        \ | endif
+augroup END
 
-" function! s:check_back_space() abort
-  " let col = col('.') - 1
-  " return !col || getline('.')[col - 1]  =~# '\s'
-" endfunction
+function! InsertConsoleLog()
+  let word = expand("<cword>")
+  let linenumber = line(".")
+  execute "normal A \<BS>\<CR>\<ESC>0Aconsole.log('[" . expand('%:t'). ":" .linenumber. "]', ".word."); \/* TODO *\/"
+endfunction
+map <silent> <leader>v :call InsertConsoleLog()<CR>bbbbi
 
-" " Use <c-space> to trigger completion.
-" if has('nvim')
-  " inoremap <silent><expr> <c-space> coc#refresh()
-" else
-  " inoremap <silent><expr> <c-@> coc#refresh()
-" endif
+" Set terminal color
+set t_Co=256
 
-" " Make <CR> auto-select the first completion item and notify coc.nvim to
-" " format on enter, <cr> could be remapped by other vim plugin
-" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              " \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+if has("gui_running")
 
-" let g:coc_global_extensions = ['coc-tsserver', 'coc-html', 'coc-css' , 'coc-json', 'coc-git', 'coc-snippets']
-" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-      " \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-" nmap <silent> [g <Plug>(coc-diagnostic-prev)
-" nmap <silent> ]g <Plug>(coc-diagnostic-next)
+    " Set the background tone.
+    set background=dark
 
-" nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-" nmap <silent> gr <Plug>(coc-references)
+    " Set the color scheme.
+    colorscheme habamax
 
-" " Use K to show documentation in preview window.
-" nnoremap <silent> K :call <SID>show_documentation()<CR>
+    " Set font to DejaVu Sans Mono 10
+    set guifont=Hack\ Nerd\ Font:h12
 
-" function! s:show_documentation()
-  " if (index(['vim','help'], &filetype) >= 0)
-    " execute 'h '.expand('<cword>')
-  " elseif (coc#rpc#ready())
-    " call CocActionAsync('doHover')
-  " else
-    " execute '!' . &keywordprg . " " . expand('<cword>')
-  " endif
-" endfunction
+    " Hide the toolbar.
+    set guioptions-=T
 
-" inoremap <silent><expr> <TAB>
-      " \ pumvisible() ? coc#_select_confirm() :
-      " \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-      " \ <SID>check_back_space() ? "\<TAB>" :
-      " \ coc#refresh()
+    " Hide the the left-side scroll bar.
+    set guioptions-=L
 
-" function! s:check_back_space() abort
-  " let col = col('.') - 1
-  " return !col || getline('.')[col - 1]  =~# '\s'
-" endfunction
+    " Hide the the left-side scroll bar.
+    set guioptions-=r
 
-" let g:coc_snippet_next = '<tab>'
-" ========== End Coc =========="
+    " Hide the the menu bar.
+    set guioptions-=m
 
-" ========== Vim Wiki =========="
-" let g:vimwiki_list = [{'path': '~/.vimwiki/', 'syntax': 'default', 'ext': '.txt'}]
-"let g:vimwiki-option-auto_toc = 1
-"let g:vimwiki-option-list_margin = 0
-" let g:vimwiki_hl_headers=1
-" let g:vimwiki_hl_cb_checked=1
-" hi VimwikiCode term=bold ctermfg=Cyan guifg=#80a0ff gui=bold
-" hi VimwikiPre term=bold ctermfg=Cyan guifg=#80a0ff gui=bold
-" hi VimwikiBold term=bold ctermfg=Cyan guifg=#80a0ff gui=bold
-" hi VimwikiItalic term=italic ctermfg=Red guifg=#cc0000 gui=italic
-" ======== End Vim Wiki ========"
+    " Hide the the bottom scroll bar.
+    set guioptions-=b
 
-" ========== UndoTree ==========
-" nnoremap <F5> :UndotreeToggle<CR>
-" ======== End UndoTree ========"
+    " Map the F4 key to toggle the menu, tool, and scroll bar.
+    nnoremap <F4> :if &guioptions=~#'mTr'<Bar>
+        \set guioptions-=mTr<Bar>
+        \else<Bar>
+        \set guioptions+=mTr<Bar>
+        \endif<CR>
 
-" ========== Spelunker ==========
-" let g:spelunker_check_type = 2
-" let g:spelunker_disable_uri_checking = 1
-" let g:spelunker_disable_email_checking = 1
-" let g:spelunker_disable_account_name_checking = 1
-" let g:spelunker_disable_acronym_checking = 1
-" let g:spelunker_disable_backquoted_checking = 1
-" let g:spelunker_spell_bad_group = 'SpelunkerSpellBad'
-" let g:spelunker_complex_or_compound_word_group = 'SpelunkerComplexOrCompoundWord'
-" highlight SpelunkerSpellBad cterm=underline ctermfg=247 gui=underline guifg=#9e9e9e
-" highlight SpelunkerComplexOrCompoundWord cterm=underline ctermfg=NONE gui=underline guifg=NONE
-" ======== End Spelunker ========"
+endif
 
+" }}}
+
+
+"STATUS LINE ------------------------------------------------------------ {{{
+
+
+    " Set colors for the status line.
+    hi StatusLine guifg=black guibg=darkgray ctermbg=1 ctermfg=0
+
+    hi NormalColor guifg=Black guibg=Green ctermbg=46 ctermfg=0
+    hi InsertColor guifg=Black guibg=Cyan ctermbg=51 ctermfg=0
+    hi ReplaceColor guifg=Black guibg=maroon1 ctermbg=165 ctermfg=0
+    hi VisualColor guifg=Black guibg=Orange ctermbg=202 ctermfg=0
+
+    " Clear status line when vimrc is reloaded.
+    set statusline=
+
+    set statusline+=%#NormalColor#%{(mode()=='n')?'\ \ NORMAL\ ':''}
+    set statusline+=%#InsertColor#%{(mode()=='i')?'\ \ INSERT\ ':''}
+    set statusline+=%#ReplaceColor#%{(mode()=='R')?'\ \ REPLACE\ ':''}
+    set statusline+=%#VisualColor#%{(mode()=='v')?'\ \ VISUAL\ ':''}
+
+    " White on blue.
+    set statusline+=%0*
+
+    " Full path to the file.
+    set statusline+=\ %t
+
+    " Modified flag.
+    set statusline+=\ %M
+
+    " Read only.
+    set statusline+=\ %R
+
+    " Split the left from the right.
+    set statusline+=%=
+
+    " File type.
+    set statusline+=\ %y
+
+    " Blue on white.
+    set statusline+=\ %0*
+
+    " Show the row the cursor is on.
+    set statusline+=\ %l
+
+    " Show the lenth of the line.
+    set statusline+=\ %p%%
+
+    " White on blue.
+    set statusline+=\ %0*
+
+    " Color.
+    set statusline+=%#warningmsg#
+
+    " ALE status line flag.
+    set statusline+=%{LinterStatus()}
+
+    " Show the status on the second to last line.
+    set laststatus=2
+
+    " }}}
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
