@@ -15,6 +15,7 @@ Plug 'dense-analysis/ale'
 Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
 Plug 'maxmellon/vim-jsx-pretty'
+Plug 'morhetz/gruvbox'
 " Initialize plugin system.
 call plug#end()
 
@@ -30,13 +31,7 @@ filetype plugin indent on
 syntax on
 
 " Always leave 10 rows below cursor.
-set scrolloff=8
-
-" Display a column with relative number column.
-set relativenumber
-
-" Add numbers to the lines.
-set number
+set scrolloff=10
 
 " Show cursor line.
 set cursorline
@@ -107,23 +102,11 @@ set ruler
 " Show partial command in the last line of the screen.
 set showcmd
 
-" Show the mode in the last line.
-set showmode
-
 " Show matching words.
 set showmatch
 
-" Tenths of a second to show matching brackets.
-set matchtime=1
-
 " Use highlighting when doing a search.
 set hlsearch
-
-" Change the command history (default=20).
-set history=50
-
-" If using a fast terminal.
-set ttyfast
 
 " Set the character enconding when writing file.
 set fileencoding=utf8
@@ -157,23 +140,11 @@ let mapleader = " "
 " Enable syntax highlighting in markdown code blocks.
 let g:markdown_fenced_languages = ['html', 'python', 'css', 'vim', 'rust', 'c']
 
-" Press <leader>- to go back to the last cursor position.
-nnoremap <leader>- ``
-
-" Yank from cursor to the end of line.
-nnoremap Y y$
-
 " Select all text in buffer.
 noremap <leader>a ggVG
 
 " Paste a block of code without formatting it.
 nnoremap <mousemiddle> <esc>"*P
-
-" Easy navigate the split view.
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
 
 if has("gui_running")
   nnoremap <silent> <Esc> :nohlsearch<Bar>:echo<CR>
@@ -234,6 +205,7 @@ nnoremap <leader>0 :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-m> :NERDTreeFind<CR>
+let NERDTreeMinimalUI=1
 let NERDTreeShowBookmarks=1
 " Exit Vim if NERDTree is the only window remaining in the only tab.
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
@@ -274,6 +246,21 @@ augroup VimDiff
   autocmd!
   autocmd VimEnter,BufEnter,FilterWritePre * if &diff | ALEDisable | endif
 augroup END
+
+" New format error msg
+let g:ale_echo_msg_format = '[%severity%] %s'
+" ALE completion
+let ale_completion_enabled = 1
+" Hide error details as Comment
+let g:ale_virtualtext_cursor = 'highlight link ALEVirtualTextError'
+" Remove left column with sign errors
+let g:ale_set_signs = 0
+set signcolumn=no
+
+
+" Use Tab to select ALE suggestions
+inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 " Typescript
 let g:typescript_indent_disable = 1
@@ -339,14 +326,13 @@ map <silent> <leader>v :call InsertConsoleLog()<CR>bbbbi
 " Set terminal color
 set t_Co=256
 
+" Set the background tone.
+set background=dark
+
+" Set the color scheme.
+colorscheme gruvbox
+
 if has("gui_running")
-
-    " Set the background tone.
-    set background=dark
-
-    " Set the color scheme.
-    colorscheme habamax
-
     " Set font to DejaVu Sans Mono 10
     set guifont=Hack\ Nerd\ Font:h12
 
@@ -414,9 +400,6 @@ endif
     " File type.
     set statusline+=\ %y
 
-    " Blue on white.
-    set statusline+=\ %0*
-
     " Show the row the cursor is on.
     set statusline+=\ %l
 
@@ -424,7 +407,7 @@ endif
     set statusline+=\ %p%%
 
     " White on blue.
-    set statusline+=\ %0*
+    set statusline+=\ %1*
 
     " Color.
     set statusline+=%#warningmsg#
