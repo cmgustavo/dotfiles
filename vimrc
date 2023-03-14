@@ -298,14 +298,14 @@ nmap <Leader>gp <Plug>(GitGutterPrevHunk)  " git previous
 nmap <Leader>ga <Plug>(GitGutterStageHunk) " git add (chunk)
 nmap <Leader>gu <Plug>(GitGutterUndoHunk)  " git undo (chunk)
 set signcolumn=yes
-let g:gitgutter_override_sign_column_highlight = 2
+let g:gitgutter_override_sign_column_highlight = 1
 highlight SignColumn guibg=bg
 highlight link GitGutterChangeLine DiffText
-let g:gitgutter_sign_added = '++'
-let g:gitgutter_sign_modified = '>>'
-let g:gitgutter_sign_removed = '--'
-let g:gitgutter_sign_removed_first_line = '^^'
-let g:gitgutter_sign_modified_removed = '<<'
+let g:gitgutter_sign_added = '+'
+let g:gitgutter_sign_modified = '>'
+let g:gitgutter_sign_removed = '-'
+let g:gitgutter_sign_removed_first_line = '^'
+let g:gitgutter_sign_modified_removed = '<'
 
 
 " VIMSCRIPT FILE SETTINGS ------------------------------------------------ {{{
