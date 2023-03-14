@@ -56,11 +56,14 @@ This function should only modify configuration layer settings."
      syntax-checking
      version-control
      html
+     (javascript :variables
+                 javascript-backend 'lsp
+                 javascript-fmt-on-save t
+                 javascript-fmt-tool 'prettier)
      (typescript :variables
                  typescript-backend 'lsp
                  typescript-fmt-on-save t
                  typescript-fmt-tool 'prettier)
-
      react
      treemacs
      (osx :variables osx-command-as 'hyper
