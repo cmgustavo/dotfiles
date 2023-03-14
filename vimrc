@@ -11,6 +11,11 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'yegappan/mru'
+Plug 'preservim/nerdcommenter'
+Plug 'jiangmiao/auto-pairs'
+Plug 'mbbill/undotree'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 Plug 'dense-analysis/ale'
 Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
@@ -271,6 +276,37 @@ let g:vim_jsx_pretty_colorful_config = 1
 let g:vim_jsx_pretty_template_tags = ['html', 'jsx', 'tsx']
 let g:vim_jsx_pretty_highlight_close_tag = 1
 
+" Nerdcommenter
+let g:NERDSpaceDelims = 1
+
+" Undotree
+nnoremap <leader>u :UndotreeToggle<CR>
+
+" Fugitive
+nnoremap <leader>gs :Git<CR>
+nnoremap <leader>gc :Gcommit<CR>
+nnoremap <leader>gP :Git push<CR>
+nnoremap <leader>gl :GV!<CR>
+nnoremap <leader>gL :GV<CR>
+nnoremap <leader>gd :Gvdiff<CR>
+nnoremap <leader>gb :Git blame<CR>
+nnoremap <leader>gm :Git checkout master<CR>
+
+" Gitgutter
+nmap <Leader>gn <Plug>(GitGutterNextHunk)  " git next
+nmap <Leader>gp <Plug>(GitGutterPrevHunk)  " git previous
+nmap <Leader>ga <Plug>(GitGutterStageHunk) " git add (chunk)
+nmap <Leader>gu <Plug>(GitGutterUndoHunk)  " git undo (chunk)
+set signcolumn=yes
+let g:gitgutter_override_sign_column_highlight = 2
+highlight SignColumn guibg=bg
+highlight link GitGutterChangeLine DiffText
+let g:gitgutter_sign_added = '++'
+let g:gitgutter_sign_modified = '>>'
+let g:gitgutter_sign_removed = '--'
+let g:gitgutter_sign_removed_first_line = '^^'
+let g:gitgutter_sign_modified_removed = '<<'
+
 
 " VIMSCRIPT FILE SETTINGS ------------------------------------------------ {{{
 
@@ -322,6 +358,15 @@ function! InsertConsoleLog()
   execute "normal A \<BS>\<CR>\<ESC>0Aconsole.log('[" . expand('%:t'). ":" .linenumber. "]', ".word."); \/* TODO *\/"
 endfunction
 map <silent> <leader>v :call InsertConsoleLog()<CR>bbbbi
+
+function! Gitbranch() abort
+  if exists('*FugitiveHead')
+    let [a,m,r] = GitGutterGetHunkSummary()
+    let branch = FugitiveHead()
+    return branch !=# '' ? '   '. branch . ' ' : ''
+  endif
+  return FugitiveHead()
+endfunction
 
 " Set terminal color
 set t_Co=256
@@ -384,6 +429,9 @@ endif
 
     " White on blue.
     set statusline+=%0*
+
+    " Git.
+    set statusline+=%{Gitbranch()}
 
     " Full path to the file.
     set statusline+=\ %t
