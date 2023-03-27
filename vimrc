@@ -21,6 +21,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'morhetz/gruvbox'
+Plug 'justinmk/vim-sneak'
 " Initialize plugin system.
 call plug#end()
 
@@ -298,14 +299,14 @@ nmap <Leader>gp <Plug>(GitGutterPrevHunk)  " git previous
 nmap <Leader>ga <Plug>(GitGutterStageHunk) " git add (chunk)
 nmap <Leader>gu <Plug>(GitGutterUndoHunk)  " git undo (chunk)
 set signcolumn=yes
-let g:gitgutter_override_sign_column_highlight = 1
-highlight SignColumn guibg=bg
+let g:gitgutter_override_sign_column_highlight = 2
+highlight SignColumn guibg=fg
 highlight link GitGutterChangeLine DiffText
-let g:gitgutter_sign_added = '+'
-let g:gitgutter_sign_modified = '>'
-let g:gitgutter_sign_removed = '-'
-let g:gitgutter_sign_removed_first_line = '^'
-let g:gitgutter_sign_modified_removed = '<'
+let g:gitgutter_sign_added = '++'
+let g:gitgutter_sign_modified = '>>'
+let g:gitgutter_sign_removed = '--'
+let g:gitgutter_sign_removed_first_line = '^^'
+let g:gitgutter_sign_modified_removed = '<<'
 
 
 " VIMSCRIPT FILE SETTINGS ------------------------------------------------ {{{
