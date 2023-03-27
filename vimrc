@@ -22,6 +22,7 @@ Plug 'leafgarland/typescript-vim'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'morhetz/gruvbox'
 Plug 'justinmk/vim-sneak'
+Plug 'github/copilot.vim'
 " Initialize plugin system.
 call plug#end()
 
