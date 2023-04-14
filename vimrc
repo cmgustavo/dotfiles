@@ -289,8 +289,8 @@ nmap <Leader>gn <Plug>(GitGutterNextHunk)  " git next
 nmap <Leader>gp <Plug>(GitGutterPrevHunk)  " git previous
 nmap <Leader>ga <Plug>(GitGutterStageHunk) " git add (chunk)
 nmap <Leader>gu <Plug>(GitGutterUndoHunk)  " git undo (chunk)
-set signcolumn=yes
-let g:gitgutter_override_sign_column_highlight = 2
+"set signcolumn=yes
+"let g:gitgutter_override_sign_column_highlight = 2
 highlight SignColumn guibg=fg
 highlight link GitGutterChangeLine DiffText
 let g:gitgutter_sign_added = '++'
