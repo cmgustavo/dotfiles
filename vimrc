@@ -251,8 +251,8 @@ let ale_completion_enabled = 1
 " Hide error details as Comment
 let g:ale_virtualtext_cursor = 'highlight link ALEVirtualTextError'
 " Remove left column with sign errors
-let g:ale_set_signs = 0
-set signcolumn=no
+"let g:ale_set_signs = 0
+"set signcolumn=no
 
 
 " Use Tab to select ALE suggestions
