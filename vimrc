@@ -38,7 +38,7 @@ filetype plugin indent on
 syntax on
 
 " Always leave 10 rows below cursor.
-set scrolloff=10
+set scrolloff=15
 
 " Show cursor line.
 set cursorline
@@ -177,11 +177,6 @@ map <leader>xa :bufdo bd<cr>
 map <leader>l :bnext<cr>
 map <leader>h :bprevious<cr>
 
-" Useful mappings for managing tabs
-map <leader>tn :tabnew<cr>
-map <leader>to :tabonly<cr>
-map <leader>tc :tabclose<cr>
-
 " Close a buffer and switching to another buffer, do not close the
 " window, see https://goo.gl/Wd8yZJ
 nnoremap <silent> \d :bprevious <bar> bdelete #<CR>
@@ -191,11 +186,6 @@ map <leader>s /
 
 " Highlight words but do not jump
 nnoremap * :keepjumps normal! mi*`i<CR>
-
-" Useful mappings for managing tabs
-map <leader>tn :tabnew<cr>
-map <leader>to :tabonly<cr>
-map <leader>tc :tabclose<cr>
 
 " }}}
 
@@ -237,8 +227,8 @@ let g:ale_completion_autoimport = 1
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['eslint', 'prettier'],
-\   'typescript': ['prettier'],
-\   'typescriptreact': ['prettier'],
+\   'typescript': ['prettier', 'eslint'],
+\   'typescriptreact': ['prettier', 'eslint'],
 \   'scss': ['prettier'],
 \   'css': ['prettier']
 \}
@@ -309,6 +299,9 @@ let g:gitgutter_sign_removed = '--'
 let g:gitgutter_sign_removed_first_line = '^^'
 let g:gitgutter_sign_modified_removed = '<<'
 
+" Copilot: use C-l to accept the current suggestion
+imap <silent><script><expr> <C-l> copilot#Accept("\<CR>")
+let g:copilot_no_tab_map = v:true
 
 " VIMSCRIPT FILE SETTINGS ------------------------------------------------ {{{
 
