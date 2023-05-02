@@ -25,7 +25,7 @@ map <leader>d <Action>(Debug)
 map <leader>r <Action>(RenameElement)
 map <leader>c <Action>(Stop)
 
-map <leader>s <Action>(SelectInProjectView)
+map <leader>f <Action>(SelectInProjectView)
 map <leader>a <Action>(Annotate)
 map <leader>h <Action>(Vcs.ShowTabbedFileHistory)
 map <S-Space> <Action>(GotoNextError)
@@ -51,6 +51,25 @@ map U <C-R>
 
 " Previous buffer
 map <leader><tab> :b#<CR>
+
+" Save the current buffer
+nnoremap <silent> <leader>w :update<CR>
+
+" Close the current buffer
+map <leader>xx :bd<cr>
+
+" Close all the buffers
+map <leader>xa :bufdo bd<cr>
+
+" Next/previous buffer
+map <leader>l :bnext<cr>
+map <leader>h :bprevious<cr>
+
+" Map Ctrl-<Space> to / (search)
+map <leader>s /
+
+" Highlight words but do not jump
+nnoremap * :keepjumps normal! mi*`i<CR>
 
 " Custom mappings for insert log
 function! InsertConsoleLog()
