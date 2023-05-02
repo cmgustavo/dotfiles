@@ -63,6 +63,9 @@ vmap <leader>u d~h
 " I think it's a better solution
 map U <C-R>
 
+" Previous buffer
+map <leader><tab> :b#<CR>
+
 " Custom mappings for insert log
 function! InsertConsoleLog()
   let word = expand("<cword>")
@@ -70,4 +73,3 @@ function! InsertConsoleLog()
   execute "normal A \<BS>\<CR>\<ESC>0Aconsole.log('[" . expand('%:t'). ":" .linenumber. "]', ".word."); \/* TODO *\/"
 endfunction
 map <silent> <leader>v :call InsertConsoleLog()<CR>
-
