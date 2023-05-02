@@ -68,9 +68,6 @@ map <leader>h :bprevious<cr>
 " Map Ctrl-<Space> to / (search)
 map <leader>s /
 
-" Highlight words but do not jump
-nnoremap * :keepjumps normal! mi*`i<CR>
-
 " Custom mappings for insert log
 function! InsertConsoleLog()
   let word = expand("<cword>")
