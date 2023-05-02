@@ -53,7 +53,7 @@ map U <C-R>
 map <leader><tab> :b#<CR>
 
 " Save the current buffer
-nnoremap <silent> <leader>w :update<CR>
+nnoremap <silent> <leader>w :w<CR>
 
 " Close the current buffer
 map <leader>xx :bd<cr>
