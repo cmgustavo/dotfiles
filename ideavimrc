@@ -68,6 +68,9 @@ map <leader>h :bprevious<cr>
 " Map Ctrl-<Space> to / (search)
 map <leader>s /
 
+" Cancel highlight search
+nnoremap <silent> <Esc> :nohlsearch<Bar>:echo<CR>
+
 " Custom mappings for insert log
 function! InsertConsoleLog()
   let word = expand("<cword>")
