@@ -9,51 +9,70 @@ Plug 'machakann/vim-highlightedyank'
 """ Common settings -------------------------
 set showmode
 set so=5
+set nu
+
+" search
 set incsearch
+set hlsearch
 set ignorecase
 set smartcase
+set infercase
+set wildignorecase
 set showmatch
-set hlsearch
-set nu
+" ident
+set breakindent
+set autoindent
+set smartindent
+" tab
+set expandtab
+set smarttab
 
 """ Idea specific settings ------------------
 set ideajoin
 set ideastatusicon=gray
 
 """ My Mappings -----------------------------
-map <leader>d <Action>(Debug)
-map <leader>r <Action>(RenameElement)
-map <leader>c <Action>(Stop)
-
-map <leader>f <Action>(SelectInProjectView)
-map <leader>a <Action>(Annotate)
+map <leader>e <Action>(FileStructurePopup)
+map <leader>o <Action>(SelectInProjectView)
 map <leader>h <Action>(Vcs.ShowTabbedFileHistory)
-map <S-Space> <Action>(GotoNextError)
+
+" (Open file)
+map <leader>n <Action>(OpenFile)
 
 " Reformat the current line only
 map <leader>l V<Action>(ReformatCode)
 
-map <leader>b <Action>(ToggleLineBreakpoint)
-map <leader>o <Action>(FileStructurePopup)
+" Pick action/class/symbol/file/recent change file/recent file
+map <leader>a <Action>(GotoAction)
+map <leader>c <Action>(GotoClass)
+map <leader>s <Action>(GotoSymbol)
+map <leader>ff <Action>(GotoFile)
+map <leader>fc <Action>(RecentChangedFiles)
+map <leader>fo <Action>(RecentFiles)
 
-map <leader>J Ji <ESC>
+" Goto
+map gu <Action>(GotoSuperMethod)
+map gi <Action>(GotoImplementation)
+map gd <Action>(GotoDeclaration)
+map gt <Action>(GotoTest)
+map gj <Action>(GotoNextError)
+map gk <Action>(GotoPreviousError)
+"
+map gh <Action>(QuickJavaDoc)
+map gH <Action>(QuickActions)
+map gr <Action>(RefactoringMenu)
+map ga <Action>(ShowIntentionActions)
+map gf <Action>(ShowUsages)
+map gF <Action>(FindUsages)
 
 " Just makes me nervous
 map H h
-
-" Toggle case and start typing. E.g. `<leader>iget`: `property` -> `getProperty`
-map <leader>i ~hi
-" Remove selection and toggle case. E.g. `v2l<leader>u`: `getProperty` -> `property`
-vmap <leader>u d~h
 
 " I think it's a better solution
 map U <C-R>
 
 " Previous buffer
 map <leader><tab> :b#<CR>
-
-" Save the current buffer
-nnoremap <silent> <leader>w :w<CR>
 
 " Close the current buffer
 map <leader>xx :bd<cr>
