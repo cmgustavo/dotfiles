@@ -70,6 +70,11 @@ This function should only modify configuration layer settings."
           osx-option-as 'meta
           osx-right-option-as 'none)
      evil-better-jumper
+     (latex :variables
+            latex-backend 'lsp
+            latex-refresh-preview t
+            latex-enable-auto-fill t
+            latex-enable-folding t)
      themes-megapack)
 
 
@@ -599,6 +604,7 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
   (setq create-lockfiles nil)
   (setq editorconfig-mode 1)
+  (add-hook 'doc-view-mode-hook 'auto-revert-mode)
 )
 
 
