@@ -34,7 +34,6 @@ set ideastatusicon=gray
 """ My Mappings -----------------------------
 map <leader>e <Action>(FileStructurePopup)
 map <leader>o <Action>(SelectInProjectView)
-map <leader>t <Action>(Vcs.ShowTabbedFileHistory)
 
 " (Open file)
 map <leader>n <Action>(OpenFile)
@@ -42,19 +41,14 @@ map <leader>n <Action>(OpenFile)
 map == <Action>(ReformatCode)
 
 " Goto
-map gf <Action>(GotoFile)
-map gs <Action>(GotoSymbol)
-map gc <Action>(GotoClass)
-map ga <Action>(GotoAction)
-map gu <Action>(GotoSuperMethod)
 map gi <Action>(GotoImplementation)
 map gd <Action>(GotoDeclaration)
 map gj <Action>(GotoNextError)
 map gk <Action>(GotoPreviousError)
 
 " Other actions
-map <leader>f <Action>(RecentChangedFiles)
-map <leader>r <Action>(RecentFiles)
+map <leader>r <Action>(RecentChangedFiles)
+map <leader>R <Action>(RecentFiles)
 map <leader>g <Action>(ShowUsages)
 map <leader>p <Action>(FindUsages)
 
@@ -80,6 +74,9 @@ map <leader>h :bprevious<cr>
 " Search
 map <leader>s <Action>(Find)
 map <leader>S <Action>(SearchEverywhere)
+map <leader>f <Action>(GotoFile)
+map <leader>c <Action>(GotoSymbol)
+map <leader>a <Action>(GotoAction)
 
 " Cancel highlight search
 nnoremap <silent> <Esc> :nohlsearch<Bar>:echo<CR>
