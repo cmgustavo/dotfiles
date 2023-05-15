@@ -78,7 +78,7 @@ map <leader>l :bnext<cr>
 map <leader>h :bprevious<cr>
 
 " Search
-map <leader>s <Action>(SearchInFile)
+map <leader>s <Action>(Find)
 map <leader>S <Action>(SearchEverywhere)
 
 " Cancel highlight search
