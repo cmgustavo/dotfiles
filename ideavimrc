@@ -7,9 +7,9 @@ set commentary
 Plug 'machakann/vim-highlightedyank'
 
 """ Common settings -------------------------
-set showmode
-set so=5
-set nu
+" set showmode
+" set so=5
+" set nu
 
 " search
 set incsearch
@@ -34,36 +34,29 @@ set ideastatusicon=gray
 """ My Mappings -----------------------------
 map <leader>e <Action>(FileStructurePopup)
 map <leader>o <Action>(SelectInProjectView)
-map <leader>h <Action>(Vcs.ShowTabbedFileHistory)
+map <leader>t <Action>(Vcs.ShowTabbedFileHistory)
 
 " (Open file)
 map <leader>n <Action>(OpenFile)
 
-" Reformat the current line only
-map <leader>l V<Action>(ReformatCode)
-
-" Pick action/class/symbol/file/recent change file/recent file
-map <leader>a <Action>(GotoAction)
-map <leader>c <Action>(GotoClass)
-map <leader>s <Action>(GotoSymbol)
-map <leader>ff <Action>(GotoFile)
-map <leader>fc <Action>(RecentChangedFiles)
-map <leader>fo <Action>(RecentFiles)
+map == <Action>(ReformatCode)
 
 " Goto
+map gf <Action>(GotoFile)
+map gs <Action>(GotoSymbol)
+map gc <Action>(GotoClass)
+map ga <Action>(GotoAction)
 map gu <Action>(GotoSuperMethod)
 map gi <Action>(GotoImplementation)
 map gd <Action>(GotoDeclaration)
-map gt <Action>(GotoTest)
 map gj <Action>(GotoNextError)
 map gk <Action>(GotoPreviousError)
-"
-map gh <Action>(QuickJavaDoc)
-map gH <Action>(QuickActions)
-map gr <Action>(RefactoringMenu)
-map ga <Action>(ShowIntentionActions)
-map gf <Action>(ShowUsages)
-map gF <Action>(FindUsages)
+
+" Other actions
+map <leader>f <Action>(RecentChangedFiles)
+map <leader>r <Action>(RecentFiles)
+map <leader>g <Action>(ShowUsages)
+map <leader>p <Action>(FindUsages)
 
 " Just makes me nervous
 map H h
@@ -84,8 +77,9 @@ map <leader>xa :bufdo bd<cr>
 map <leader>l :bnext<cr>
 map <leader>h :bprevious<cr>
 
-" Map Ctrl-<Space> to / (search)
-map <leader>s /
+" Search
+map <leader>s <Action>(SearchInFile)
+map <leader>S <Action>(SearchEverywhere)
 
 " Cancel highlight search
 nnoremap <silent> <Esc> :nohlsearch<Bar>:echo<CR>
