@@ -51,6 +51,7 @@ map <leader>r <Action>(RecentChangedFiles)
 map <leader>R <Action>(RecentFiles)
 map <leader>g <Action>(ShowUsages)
 map <leader>p <Action>(FindUsages)
+map <leader>m <Action>(FindInPath)
 
 " Just makes me nervous
 map H h
