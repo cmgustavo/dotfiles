@@ -38,7 +38,7 @@ filetype plugin indent on
 syntax on
 
 " Always leave 10 rows below cursor.
-set scrolloff=15
+set scrolloff=10
 
 " Show cursor line.
 set cursorline
@@ -373,8 +373,8 @@ set background=dark
 colorscheme gruvbox
 
 if has("gui_running")
-    " Set font to DejaVu Sans Mono 10
-    set guifont=Hack\ Nerd\ Font:h12
+    " Set font
+    set guifont=MesloLGM\ Nerd\ Font:h12
 
     " Hide the toolbar.
     set guioptions-=T
