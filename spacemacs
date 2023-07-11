@@ -70,11 +70,6 @@ This function should only modify configuration layer settings."
           osx-option-as 'meta
           osx-right-option-as 'none)
      evil-better-jumper
-     (latex :variables
-            latex-backend 'lsp
-            latex-refresh-preview t
-            latex-enable-auto-fill t
-            latex-enable-folding t)
      themes-megapack)
 
 
