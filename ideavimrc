@@ -13,7 +13,7 @@ Plug 'machakann/vim-highlightedyank'
 
 " search
 set incsearch
-set hlsearch
+"set hlsearch
 set ignorecase
 set smartcase
 set infercase
