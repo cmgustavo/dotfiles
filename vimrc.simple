@@ -1,0 +1,324 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Gustavo Cortez
+"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"PLUGINS ----------------------------------------------------------------- {{{
+
+" Install vim-plug if not found
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
+
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \| PlugInstall --sync | source $MYVIMRC
+\| endif
+
+call plug#begin('~/.vim/plugged')
+Plug 'preservim/nerdtree'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'jlanzarotta/bufexplorer'
+Plug 'yegappan/mru'
+Plug 'morhetz/gruvbox'
+" Initialize plugin system.
+call plug#end()
+
+" }}}
+
+" Do not make vim compatible with vi.
+set nocompatible
+
+" Allow plugins to be used.
+filetype plugin indent on
+
+" Use syntax highlighting.
+syntax on
+
+" Always leave 10 rows below cursor.
+set scrolloff=15
+
+" Hide cursor line.
+set nocursorline
+
+" Not Show cursor column.
+set nocursorcolumn
+
+" Set title of window to the name of the file.
+set title
+
+" Backup files.
+set backup
+
+" Backup directory.
+set backupdir=~/.vim/backup/
+
+" Hide mouse when typing.
+set mousehide
+
+" Check to see if an external file has changed.
+set autoread
+
+" Split window with cursor in bottom window.
+set splitbelow splitright
+
+" Leave windows uneven after split or close.
+set noequalalways
+
+" Switch buffers without saving.
+set hidden
+
+" Show error bell visually.
+set visualbell
+
+" Set the text width.
+set textwidth=80
+
+" Allow backspacing to work as expected.
+set backspace=indent,eol,start
+
+" Tabbing over moves four spaces.
+set tabstop=2
+
+" Number of spaces to use in automatically indent.
+set shiftwidth=2
+
+" Copy indent from current line when starting a new line.
+set autoindent
+
+" Use C style indentation
+set cindent
+
+" Use space characters instead of tabs.
+set expandtab
+
+" Incremental search an you type.
+set incsearch
+
+" Ignore capital letters during search.
+set ignorecase
+
+" Override the ignorecase option if searching for captial letters.
+set smartcase
+
+" Show the line and column position of cursor.
+set ruler
+
+" Show partial command in the last line of the screen.
+set showcmd
+
+" Show matching words.
+set showmatch
+
+" Use highlighting when doing a search.
+set hlsearch
+
+" Set the character enconding when writing file.
+set fileencoding=UTF-8
+
+" Set the character encoding.
+set encoding=UTF-8
+
+" Show auto complete menus.
+set wildmenu
+
+" Make wildmenu behave like bash completion.
+set wildmode=longest:full,full
+
+" Ignore files with these extentions.
+set wildignore=*.odt,*.doc*,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.JPG,*.exe,*.bmp,*.flv,*.gz,*.tgz,*.zip,*.iso,*.gzip,*.mov,*.xz,*.tar,*.img,*.docx,*.xlsx,*.xls
+
+" Temporary files.
+set directory=/tmp
+
+" Show popup documentation
+set completeopt=menu,menuone,popup,noselect,noinsert
+
+" Do not show -- INSERT ---
+set noshowmode
+
+" MAPPINGS --------------------------------------------------------------- {{{
+
+" Set the leader to '-' instead of the default '\'.
+let mapleader = " "
+
+" Enable syntax highlighting in markdown code blocks.
+let g:markdown_fenced_languages = ['html', 'python', 'css', 'vim', 'rust', 'c']
+
+" Select all text in buffer.
+noremap <leader>a ggVG
+
+" Paste a block of code without formatting it.
+nnoremap <mousemiddle> <esc>"*P
+
+if has("gui_running")
+  nnoremap <silent> <Esc> :nohlsearch<Bar>:echo<CR>
+else
+  map <silent> <leader><cr> :noh<cr>
+endif
+
+noremap <F12> <Esc>:syntax sync fromstart<CR>
+inoremap <F12> <C-o>:syntax sync fromstart<CR>
+nnoremap <silent> <leader>w :update<CR>
+nnoremap <silent> <leader>q :x<CR>
+nnoremap <up> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
+nnoremap <down> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
+nnoremap <right> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
+nnoremap <left> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
+
+" Close the current buffer
+map <leader>xx :bd<cr>
+
+" Close all the buffers
+map <leader>xa :bufdo bd<cr>
+
+map <leader>l :bnext<cr>
+map <leader>h :bprevious<cr>
+
+" Close a buffer and switching to another buffer, do not close the
+" window, see https://goo.gl/Wd8yZJ
+nnoremap <silent> \d :bprevious <bar> bdelete #<CR>
+
+" Map Ctrl-<Space> to / (search)
+map <leader>s /
+
+" Highlight words but do not jump
+nnoremap * :keepjumps normal! mi*`i<CR>
+
+" }}}
+
+" VIMSCRIPT FILE SETTINGS ------------------------------------------------ {{{
+
+" Auto set current file directory
+autocmd BufEnter * if expand("%:p:h") !~ '^/tmp' | silent! lcd %:p:h | endif
+
+" Turn on cursorline and cursorcolumn only in active window.
+augroup cursor_off
+    autocmd!
+    autocmd WinLeave * set nocursorline
+    autocmd WinEnter * set cursorline
+augroup END
+
+" Set indentation of HTML to 2 spaces.
+autocmd Filetype html setlocal tabstop=2 shiftwidth=2 expandtab
+
+" If vim version is equal to or greater than 7.3 enable undofile.
+if version >= 703
+    set undodir=~/.vim/backup
+    set undofile
+    set undoreload=10000
+endif
+
+augroup resume_edit_position
+    autocmd!
+    autocmd BufReadPost *
+        \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+        \ | execute "normal! g`\"zvzz"
+        \ | endif
+augroup END
+
+function! InsertConsoleLog()
+  let word = expand("<cword>")
+  let linenumber = line(".")
+  execute "normal A \<BS>\<CR>\<ESC>0Aconsole.log('[" . expand('%:t'). ":" .linenumber. "]', ".word."); \/* TODO *\/"
+endfunction
+map <silent> <leader>v :call InsertConsoleLog()<CR>bbbbi
+
+" Set terminal color
+set t_Co=256
+
+" Set the background tone.
+set background=dark
+
+" Set the color scheme.
+"colorscheme gruvbox
+
+if has("gui_running")
+    " Set font to DejaVu Sans Mono 10
+    set guifont=Hack\ Nerd\ Font:h12
+
+    " Hide the toolbar.
+    set guioptions-=T
+
+    " Hide the the left-side scroll bar.
+    set guioptions-=L
+
+    " Hide the the left-side scroll bar.
+    set guioptions-=r
+
+    " Hide the the menu bar.
+    set guioptions-=m
+
+    " Hide the the bottom scroll bar.
+    set guioptions-=b
+
+    " Map the F4 key to toggle the menu, tool, and scroll bar.
+    nnoremap <F4> :if &guioptions=~#'mTr'<Bar>
+        \set guioptions-=mTr<Bar>
+        \else<Bar>
+        \set guioptions+=mTr<Bar>
+        \endif<CR>
+
+endif
+
+" }}}
+
+
+"STATUS LINE ------------------------------------------------------------ {{{
+
+
+    " Set colors for the status line.
+    hi StatusLine guifg=white guibg=darkgray ctermbg=0 ctermfg=0
+
+    hi NormalColor guifg=Black guibg=Green ctermbg=46 ctermfg=0
+    hi InsertColor guifg=Black guibg=Cyan ctermbg=51 ctermfg=0
+    hi ReplaceColor guifg=Black guibg=maroon1 ctermbg=165 ctermfg=0
+    hi VisualColor guifg=Black guibg=Orange ctermbg=202 ctermfg=0
+
+    " Clear status line when vimrc is reloaded.
+    set statusline=
+
+    set statusline+=%#NormalColor#%{(mode()=='n')?'\ \ NORMAL\ ':''}
+    set statusline+=%#InsertColor#%{(mode()=='i')?'\ \ INSERT\ ':''}
+    set statusline+=%#ReplaceColor#%{(mode()=='R')?'\ \ REPLACE\ ':''}
+    set statusline+=%#VisualColor#%{(mode()=='v')?'\ \ VISUAL\ ':''}
+
+    " White on gray.
+    set statusline+=%0*
+
+    " Full path to the file.
+    set statusline+=\ %t
+
+    " Modified flag.
+    set statusline+=\ %M
+
+    " Read only.
+    set statusline+=\ %R
+
+    " Split the left from the right.
+    set statusline+=%=
+
+    " White transparent.
+    set statusline+=\ %1*
+
+    " File type.
+    set statusline+=\ %y
+
+    " White on grey.
+    set statusline+=\ %0*
+
+    " Show the row the cursor is on.
+    set statusline+=\ %l
+
+    " Show the lenth of the line.
+    set statusline+=\ %p%%\ 
+
+    " Show the status on the second to last line.
+    set laststatus=2
+
+    " }}}
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
