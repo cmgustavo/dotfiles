@@ -3,6 +3,9 @@
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" Enable modifiable
+set modifiable
+
 "PLUGINS ----------------------------------------------------------------- {{{
 
 " Install vim-plug if not found
@@ -116,10 +119,10 @@ set showmatch
 set hlsearch
 
 " Set the character enconding when writing file.
-set fileencoding=UTF-8
+set fileencoding=utf8
 
 " Set the character encoding.
-set encoding=UTF-8
+set encoding=utf8
 
 " Show auto complete menus.
 set wildmenu
