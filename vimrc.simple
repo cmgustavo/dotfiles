@@ -273,7 +273,7 @@ endif
 
 
     " Set colors for the status line.
-    hi StatusLine guifg=white guibg=darkgray ctermbg=0 ctermfg=0
+    hi StatusLine guifg=white guibg=darkgray ctermbg=2 ctermfg=0
 
     hi NormalColor guifg=Black guibg=Green ctermbg=46 ctermfg=0
     hi InsertColor guifg=Black guibg=Cyan ctermbg=51 ctermfg=0
@@ -308,9 +308,6 @@ endif
 
     " File type.
     set statusline+=\ %y
-
-    " White on grey.
-    set statusline+=\ %0*
 
     " Show the row the cursor is on.
     set statusline+=\ %l
