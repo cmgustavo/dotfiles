@@ -268,6 +268,38 @@ endif
 
 " }}}
 
+"PLUGINS CONFIGURATION ------------------------------------------------------- {{{
+
+" MRU
+let MRU_Max_Entries = 20
+map <leader>f :MRU<CR>
+
+" NerdTree
+let NERDTreeIgnore=['\.jpg$', '\.mp4$', '\.zip$', '\.iso$', '\.pdf$', '\.pyc$', '\.odt$', '\.png$', '\.svg$', '\.gif$', '\.tar$', '\.gz$', '\.xz$', '\.bz2$', '\.db$', '\.vim$', '\~$', '\.pyc$', 'node_modules']
+nnoremap <leader>0 :NERDTreeFocus<CR>
+nnoremap <C-n> :NERDTree<CR>
+nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <C-m> :NERDTreeFind<CR>
+let NERDTreeMinimalUI=1
+let NERDTreeShowBookmarks=1
+" Exit Vim if NERDTree is the only window remaining in the only tab.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+" Close the tab if NERDTree is the only window remaining in it.
+autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+" If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
+autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
+    \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+
+" BufExplorer
+map <leader><tab> :b#<CR> " switch to latest buffer
+nnoremap <silent> <leader>e :BufExplorer<CR>
+
+" FZF
+let g:fzf_layout = { 'down': '40%' }
+nnoremap <silent> <C-p> :GFiles<CR>
+nnoremap <silent> <C-g> :Rg<CR>
+
+" }}}
 
 "STATUS LINE ------------------------------------------------------------ {{{
 
@@ -313,7 +345,7 @@ endif
     set statusline+=\ %l
 
     " Show the lenth of the line.
-    set statusline+=\ %p%%\ 
+    set statusline+=\ %p%%\
 
     " Show the status on the second to last line.
     set laststatus=2
