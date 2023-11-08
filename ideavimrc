@@ -2,27 +2,37 @@
 let mapleader=" "
 
 """ Plugins  --------------------------------
-set commentary
-" Trying the new syntax
+Plug 'easymotion/vim-easymotion'
 Plug 'machakann/vim-highlightedyank'
+set commentary
+set surround
+set nerdtree
+set easymotion
+set notimeout
+set which-key
+set sneak
 
 """ Common settings -------------------------
-" set showmode
-" set so=5
-" set nu
+set scrolloff=10
+set linenumber
+set showmode
+set showcmd
+set visualbell
+set clipboard+=unnamed
 
 " search
 set incsearch
-"set hlsearch
+set hlsearch
 set ignorecase
 set smartcase
-set infercase
 set wildignorecase
-"set showmatch
+set showmatch
+
 " ident
 set breakindent
 set autoindent
 set smartindent
+
 " tab
 set expandtab
 set smarttab
