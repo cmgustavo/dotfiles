@@ -345,7 +345,7 @@ nnoremap <silent> <C-g> :Rg<CR>
     set statusline+=\ %l
 
     " Show the lenth of the line.
-    set statusline+=\ %p%%\
+    set statusline+=\ %p%%
 
     " Show the status on the second to last line.
     set laststatus=2
