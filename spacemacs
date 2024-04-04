@@ -39,7 +39,7 @@ This function should only modify configuration layer settings."
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      auto-completion
-     better-defaults
+     ;; better-defaults
      emacs-lisp
      git
      helm
@@ -51,13 +51,10 @@ This function should only modify configuration layer settings."
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
      ;; spell-checking
-     (syntax-checking :variables
-                      syntax-checking-auto-hide-tooltips 5
-                      syntax-checking-tooltips-delay 5
-                      syntax-checking-window-position 'right
-                      syntax-checking-window-width 60)
+     syntax-checking
      version-control
      (javascript :variables
+                 js2-mode-show-strict-warnings nil
                  javascript-fmt-on-save t
                  javascript-fmt-tool 'prettier)
      (typescript :variables
@@ -67,8 +64,7 @@ This function should only modify configuration layer settings."
      (osx :variables osx-command-as 'hyper
           osx-option-as 'meta
           osx-right-option-as 'none)
-     treemacs
-     themes-megapack)
+     treemacs)
 
    ;; List of additional packages that will be installed without being wrapped
    ;; in a layer (generally the packages are installed only and should still be
@@ -81,8 +77,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages '(prettier-js
                                       (copilot :location (recipe
                                                           :fetcher github
-                                                          :repo "copilot-emacs/copilot.el"
-                                                          :files ("*.el" "dist")))
+                                                          :repo "copilot-emacs/copilot.el"))
                                       )
 
    ;; A list of packages that cannot be updated.
@@ -98,18 +93,7 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-only)
-
-  ;; React indent
-  ;; js2-mode
-  js2-basic-offset 2
-  ;; web-mode
-  css-indent-offset 2
-  web-mode-markup-indent-offset 2
-  web-mode-css-indent-offset 2
-  web-mode-code-indent-offset 2
-  web-mode-attr-indent-offset 2
-)
+   dotspacemacs-install-packages 'used-only))
 
 (defun dotspacemacs/init ()
   "Initialization:
