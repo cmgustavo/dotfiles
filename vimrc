@@ -374,7 +374,7 @@ colorscheme gruvbox
 
 if has("gui_running")
     " Set font
-    set guifont=MesloLGM\ Nerd\ Font:h12
+    set guifont=Source\ Code\ Pro:h12
 
     " Hide the toolbar.
     set guioptions-=T
