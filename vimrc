@@ -303,6 +303,9 @@ let g:gitgutter_sign_modified_removed = '<<'
 imap <silent><script><expr> <C-l> copilot#Accept("\<CR>")
 let g:copilot_no_tab_map = v:true
 
+" Podfile
+autocmd BufNewFile,BufRead Podfile,*.podspec set filetype=ruby
+
 " VIMSCRIPT FILE SETTINGS ------------------------------------------------ {{{
 
 " Auto set current file directory
