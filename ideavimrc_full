@@ -1,0 +1,33 @@
+source ~/.intellimacs/spacemacs.vim
+
+" (Optional) Enable other Intellimacs modules
+source ~/.intellimacs/extra.vim
+source ~/.intellimacs/major.vim
+source ~/.intellimacs/hybrid.vim
+
+" (Optional) Enable which-key plugin
+source ~/.intellimacs/which-key.vim
+
+" (Optional) My own vim commands
+nnoremap Y y$
+
+" (Optional) Comma for major mode
+nmap , <leader>m
+vmap , <leader>m
+
+" (Optional) Add/edit actions
+nnoremap <leader>gl    :action Vcs.Show.Log<CR>
+vnoremap <leader>gl    :action Vcs.Show.Log<CR>
+
+" Custom mappings
+map <leader>o <Action>(SelectInProjectView)
+map == <Action>(ReformatCode)
+
+" Just makes me nervous
+map H h
+
+" I think it's a better solution
+map U <C-R>
+
+" Cancel highlight search
+nnoremap <silent> <Esc> :nohlsearch<Bar>:echo<CR>
