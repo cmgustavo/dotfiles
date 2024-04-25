@@ -19,6 +19,9 @@ vmap , <leader>m
 nnoremap <leader>gl    :action Vcs.Show.Log<CR>
 vnoremap <leader>gl    :action Vcs.Show.Log<CR>
 
+" Commong settings
+set scrolloff=10
+
 " Custom mappings
 map <leader>o <Action>(SelectInProjectView)
 map == <Action>(ReformatCode)
