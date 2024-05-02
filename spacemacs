@@ -42,6 +42,7 @@ This function should only modify configuration layer settings."
      ;; better-defaults
      emacs-lisp
      git
+     json
      helm
      lsp
      markdown
