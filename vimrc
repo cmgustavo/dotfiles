@@ -23,6 +23,7 @@ Plug 'maxmellon/vim-jsx-pretty'
 Plug 'morhetz/gruvbox'
 Plug 'justinmk/vim-sneak'
 Plug 'github/copilot.vim'
+Plug 'airblade/vim-rooter'
 " Initialize plugin system.
 call plug#end()
 
@@ -147,9 +148,6 @@ let mapleader = " "
 " Enable syntax highlighting in markdown code blocks.
 let g:markdown_fenced_languages = ['html', 'python', 'css', 'vim', 'rust', 'c']
 
-" Select all text in buffer.
-noremap <leader>a ggVG
-
 " Paste a block of code without formatting it.
 nnoremap <mousemiddle> <esc>"*P
 
@@ -216,10 +214,28 @@ autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_
 map <leader><tab> :b#<CR> " switch to latest buffer
 nnoremap <silent> <leader>e :BufExplorer<CR>
 
+" Vim rooter
+" set autochdir and disable auto-vim-rooter
+let g:rooter_use_lcd = 1
+let g:rooter_manual_only = 1
+set autochdir
+
 " FZF
 let g:fzf_layout = { 'down': '40%' }
+" Preview window is hidden by default. You can toggle it with ctrl-/.
+" It will show on the right with 50% width, but if the width is smaller
+" than 70 columns, it will show above the candidate list
+command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case " . shellescape(<q-args>), 1, {"dir": FindRootDirectory()})
 nnoremap <silent> <C-p> :GFiles<CR>
 nnoremap <silent> <C-g> :Rg<CR>
+
+command! MyProjects call fzf#run(fzf#wrap({
+    \ 'source': 'rg --files $HOME/GitHub/',
+    \ 'sink': 'read',
+    \ 'options': ['--multi', '--pointer', '→', '--marker', '♡', '--preview', '~/.vim/plugged/fzf.vim/bin/preview.sh {}']
+    \ }))
+
+nnoremap <leader>a :MyProjects<cr>
 
 " ALE
 let g:ale_completion_enabled = 1
@@ -377,7 +393,7 @@ colorscheme gruvbox
 
 if has("gui_running")
     " Set font
-    set guifont=Source\ Code\ Pro:h12
+    set guifont=MesloLGM\ Nerd\ Font:h12
 
     " Hide the toolbar.
     set guioptions-=T
