@@ -185,6 +185,10 @@ map <leader>s /
 " Highlight words but do not jump
 nnoremap * :keepjumps normal! mi*`i<CR>
 
+" Fix syntax highlighting
+noremap <F12> <Esc>:syntax sync fromstart<CR>
+inoremap <F12> <C-o>:syntax sync fromstart<CR>
+
 " }}}
 
 
