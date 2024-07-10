@@ -159,7 +159,7 @@ endif
 
 noremap <F12> <Esc>:syntax sync fromstart<CR>
 inoremap <F12> <C-o>:syntax sync fromstart<CR>
-nnoremap <silent> <leader>w :update<CR>
+nnoremap <silent> <leader>s :update<CR>
 nnoremap <silent> <leader>q :x<CR>
 nnoremap <up> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
 nnoremap <down> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
@@ -180,7 +180,7 @@ map <leader>h :bprevious<cr>
 nnoremap <silent> \d :bprevious <bar> bdelete #<CR>
 
 " Map Ctrl-<Space> to / (search)
-map <leader>s /
+map <leader>f /
 
 " Highlight words but do not jump
 nnoremap * :keepjumps normal! mi*`i<CR>
@@ -196,7 +196,7 @@ inoremap <F12> <C-o>:syntax sync fromstart<CR>
 
 " MRU
 let MRU_Max_Entries = 20
-map <leader>f :MRU<CR>
+map <leader>r :MRU<CR>
 
 " NerdTree
 let NERDTreeIgnore=['\.jpg$', '\.mp4$', '\.zip$', '\.iso$', '\.pdf$', '\.pyc$', '\.odt$', '\.png$', '\.svg$', '\.gif$', '\.tar$', '\.gz$', '\.xz$', '\.bz2$', '\.db$', '\.vim$', '\~$', '\.pyc$', 'node_modules']
