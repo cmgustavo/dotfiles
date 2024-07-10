@@ -220,7 +220,8 @@ nnoremap <silent> <leader>e :BufExplorer<CR>
 
 " Vim rooter
 " set autochdir and disable auto-vim-rooter
-let g:rooter_use_lcd = 1
+" let g:rooter_use_lcd = 1
+let g:rooter_cd_cmd="lcd"
 let g:rooter_manual_only = 1
 set autochdir
 
