@@ -233,6 +233,7 @@ let g:fzf_layout = { 'down': '40%' }
 command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case " . shellescape(<q-args>), 1, {"dir": FindRootDirectory()})
 nnoremap <silent> <C-p> :GFiles<CR>
 nnoremap <silent> <C-g> :Rg<CR>
+nnoremap <silent> <C-h> :History<CR>
 
 command! MyProjects call fzf#run(fzf#wrap({
     \ 'source': 'rg --files $HOME/GitHub/',
