@@ -3,7 +3,7 @@
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"PLUGINS ----------------------------------------------------------------- {{{
+" PLUGINS
 
 call plug#begin('~/.vim/plugged')
 Plug 'preservim/nerdtree'
@@ -24,11 +24,11 @@ Plug 'morhetz/gruvbox'
 Plug 'justinmk/vim-sneak'
 Plug 'github/copilot.vim'
 Plug 'airblade/vim-rooter'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'vimwiki/vimwiki'
 " Initialize plugin system.
 call plug#end()
-
-" }}}
 
 " Do not make vim compatible with vi.
 set nocompatible
@@ -141,7 +141,7 @@ set completeopt=menu,menuone,popup,noselect,noinsert
 " Do not show -- INSERT ---
 set noshowmode
 
-" MAPPINGS --------------------------------------------------------------- {{{
+" MAPPINGS
 
 " Set the leader to '-' instead of the default '\'.
 let mapleader = " "
@@ -190,10 +190,7 @@ nnoremap * :keepjumps normal! mi*`i<CR>
 noremap <F12> <Esc>:syntax sync fromstart<CR>
 inoremap <F12> <C-o>:syntax sync fromstart<CR>
 
-" }}}
-
-
-"PLUGINS CONFIGURATION ------------------------------------------------------- {{{
+" PLUGINS CONFIGURATION
 
 " MRU
 let MRU_Max_Entries = 20
@@ -225,24 +222,6 @@ nnoremap <silent> <leader>e :BufExplorer<CR>
 let g:rooter_cd_cmd="lcd"
 let g:rooter_manual_only = 1
 set autochdir
-
-" FZF
-let g:fzf_layout = { 'down': '40%' }
-" Preview window is hidden by default. You can toggle it with ctrl-/.
-" It will show on the right with 50% width, but if the width is smaller
-" than 70 columns, it will show above the candidate list
-command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case " . shellescape(<q-args>), 1, {"dir": FindRootDirectory()})
-nnoremap <silent> <C-p> :GFiles<CR>
-nnoremap <silent> <C-g> :Rg<CR>
-nnoremap <silent> <C-h> :History<CR>
-
-command! MyProjects call fzf#run(fzf#wrap({
-    \ 'source': 'rg --files $HOME/GitHub/',
-    \ 'sink': 'read',
-    \ 'options': ['--multi', '--pointer', '→', '--marker', '♡', '--preview', '~/.vim/plugged/fzf.vim/bin/preview.sh {}']
-    \ }))
-
-nnoremap <leader>a :MyProjects<cr>
 
 " ALE
 let g:ale_completion_enabled = 1
@@ -340,7 +319,7 @@ hi VimwikiHeader4 guifg=#FF00FF
 hi VimwikiHeader5 guifg=#00FFFF
 hi VimwikiHeader6 guifg=#FFFF00
 
-" VIMSCRIPT FILE SETTINGS ------------------------------------------------ {{{
+" VIMSCRIPT FILE SETTINGS
 
 " Auto set current file directory
 autocmd BufEnter * if expand("%:p:h") !~ '^/tmp' | silent! lcd %:p:h | endif
@@ -362,20 +341,6 @@ if version >= 703
     set undoreload=10000
 endif
 
-" Show ALE errors
-function! LinterStatus() abort
-    let l:counts = ale#statusline#Count(bufnr(''))
-
-    let l:all_errors = l:counts.error + l:counts.style_error
-    let l:all_non_errors = l:counts.total - l:all_errors
-
-    return l:counts.total == 0 ? ' OK ' : printf(
-    \   ' %dW | %dE ',
-    \   all_non_errors,
-    \   all_errors
-    \)
-endfunction
-
 augroup resume_edit_position
     autocmd!
     autocmd BufReadPost *
@@ -390,15 +355,6 @@ function! InsertConsoleLog()
   execute "normal A \<BS>\<CR>\<ESC>0Aconsole.log('[" . expand('%:t'). ":" .linenumber. "]', ".word."); \/* TODO *\/"
 endfunction
 map <silent> <leader>v :call InsertConsoleLog()<CR>bbbbi
-
-function! Gitbranch() abort
-  if exists('*FugitiveHead')
-    let [a,m,r] = GitGutterGetHunkSummary()
-    let branch = FugitiveHead()
-    return branch !=# '' ? '   '. branch . ' ' : ''
-  endif
-  return FugitiveHead()
-endfunction
 
 " Set terminal color
 set t_Co=256
@@ -437,68 +393,36 @@ if has("gui_running")
 
 endif
 
-" }}}
+" FZF
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.4, 'relative': v:true } }
+let $BAT_THEME = 'gruvbox-dark'
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Search'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Visual'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'StatusLineNC'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case " . shellescape(<q-args>), 1, {'dir': FindRootDirectory(), 'options': '--delimiter : --nth 4..'}, <bang>0)
+nnoremap <silent> <C-p> :GFiles<CR>
+nnoremap <silent> <C-g> :Rg<CR>
+nnoremap <silent> <C-h> :History<CR>
+nnoremap <silent> <C-l> :Buffers<CR>
 
+command! MyProjects call fzf#run(fzf#wrap({
+    \ 'source': 'rg --files $HOME/GitHub/',
+    \ 'sink': 'read',
+    \ 'options': ['--multi', '--pointer', '→', '--marker', '♡', '--preview', '~/.vim/plugged/fzf.vim/bin/preview.sh {}']
+    \ }))
 
-"STATUS LINE ------------------------------------------------------------ {{{
+nnoremap <leader>a :MyProjects<cr>
 
-
-    " Set colors for the status line.
-    hi StatusLine guifg=black guibg=darkgray ctermbg=1 ctermfg=0
-
-    hi NormalColor guifg=Black guibg=Green ctermbg=46 ctermfg=0
-    hi InsertColor guifg=Black guibg=Cyan ctermbg=51 ctermfg=0
-    hi ReplaceColor guifg=Black guibg=maroon1 ctermbg=165 ctermfg=0
-    hi VisualColor guifg=Black guibg=Orange ctermbg=202 ctermfg=0
-
-    " Clear status line when vimrc is reloaded.
-    set statusline=
-
-    set statusline+=%#NormalColor#%{(mode()=='n')?'\ \ NORMAL\ ':''}
-    set statusline+=%#InsertColor#%{(mode()=='i')?'\ \ INSERT\ ':''}
-    set statusline+=%#ReplaceColor#%{(mode()=='R')?'\ \ REPLACE\ ':''}
-    set statusline+=%#VisualColor#%{(mode()=='v')?'\ \ VISUAL\ ':''}
-
-    " White on blue.
-    set statusline+=%0*
-
-    " Git.
-    set statusline+=%{Gitbranch()}
-
-    " Full path to the file.
-    set statusline+=\ %t
-
-    " Modified flag.
-    set statusline+=\ %M
-
-    " Read only.
-    set statusline+=\ %R
-
-    " Split the left from the right.
-    set statusline+=%=
-
-    " File type.
-    set statusline+=\ %y
-
-    " Show the row the cursor is on.
-    set statusline+=\ %l
-
-    " Show the lenth of the line.
-    set statusline+=\ %p%%
-
-    " White on blue.
-    set statusline+=\ %1*
-
-    " Color.
-    set statusline+=%#warningmsg#
-
-    " ALE status line flag.
-    set statusline+=%{LinterStatus()}
-
-    " Show the status on the second to last line.
-    set laststatus=2
-
-    " }}}
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" STATUS LINE
+let g:airline_powerline_fonts = 1
