@@ -39,8 +39,8 @@ filetype plugin indent on
 " Use syntax highlighting.
 syntax on
 
-" Always leave 10 rows below cursor.
-set scrolloff=10
+" Always leave 20 rows below cursor.
+set scrolloff=20
 
 " Show cursor line.
 set cursorline
