@@ -394,7 +394,7 @@ if has("gui_running")
 endif
 
 " FZF
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.4, 'relative': v:true } }
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'relative': v:true } }
 let $BAT_THEME = 'gruvbox-dark'
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
