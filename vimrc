@@ -26,7 +26,7 @@ Plug 'github/copilot.vim'
 Plug 'airblade/vim-rooter'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'vimwiki/vimwiki'
+" Plug 'vimwiki/vimwiki'
 " Initialize plugin system.
 call plug#end()
 
@@ -309,15 +309,15 @@ let g:copilot_no_tab_map = v:true
 autocmd BufNewFile,BufRead Podfile,*.podspec set filetype=ruby
 
 " VIM Wiki
-let g:vimwiki_list = [{'path': '~/MEGA/vimwiki/',
-                      \ 'syntax': 'default', 'ext': 'txt'}]
-au BufRead,BufNewFile *.txt setlocal textwidth=80
-hi VimwikiHeader1 guifg=#FF0000
-hi VimwikiHeader2 guifg=#00FF00
-hi VimwikiHeader3 guifg=#0000FF
-hi VimwikiHeader4 guifg=#FF00FF
-hi VimwikiHeader5 guifg=#00FFFF
-hi VimwikiHeader6 guifg=#FFFF00
+" let g:vimwiki_list = [{'path': '~/MEGA/vimwiki/',
+                      " \ 'syntax': 'default', 'ext': 'txt'}]
+" au BufRead,BufNewFile *.txt setlocal textwidth=80
+" hi VimwikiHeader1 guifg=#FF0000
+" hi VimwikiHeader2 guifg=#00FF00
+" hi VimwikiHeader3 guifg=#0000FF
+" hi VimwikiHeader4 guifg=#FF00FF
+" hi VimwikiHeader5 guifg=#00FFFF
+" hi VimwikiHeader6 guifg=#FFFF00
 
 " VIMSCRIPT FILE SETTINGS
 
