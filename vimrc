@@ -306,15 +306,10 @@ let g:copilot_no_tab_map = v:true
 autocmd BufNewFile,BufRead Podfile,*.podspec set filetype=ruby
 
 " VIM Wiki
+let g:vimwiki_auto_header = 1
 let g:vimwiki_list = [{'path': '~/MEGA/vimwiki/',
                       \ 'syntax': 'default', 'ext': 'txt'}]
 au BufRead,BufNewFile *.txt setlocal textwidth=80
-hi VimwikiHeader1 guifg=#FF0000
-hi VimwikiHeader2 guifg=#00FF00
-hi VimwikiHeader3 guifg=#0000FF
-hi VimwikiHeader4 guifg=#FF00FF
-hi VimwikiHeader5 guifg=#00FFFF
-hi VimwikiHeader6 guifg=#FFFF00
 
 " VIMSCRIPT FILE SETTINGS
 
@@ -420,6 +415,14 @@ command! MyProjects call fzf#run(fzf#wrap({
     \ }))
 
 nnoremap <leader>a :MyProjects<cr>
+
+" Vimwiki
+hi link VimwikiHeader1 GruvboxGreenBold
+hi link VimwikiHeader2 GruvboxOrangeBold
+hi link VimwikiHeader3 GruvboxYellowBold
+hi link VimwikiHeader4 GruvboxAquaBold
+hi link VimwikiHeader5 GruvboxBlueBold
+hi link VimwikiHeader6 GruvboxPurpleBold
 
 " STATUS LINE
 let g:airline_powerline_fonts = 1
