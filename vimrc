@@ -17,8 +17,8 @@ Plug 'mbbill/undotree'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'dense-analysis/ale'
-Plug 'pangloss/vim-javascript'
-Plug 'leafgarland/typescript-vim'
+Plug 'yuezk/vim-js'
+Plug 'HerringtonDarkholme/yats.vim'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'morhetz/gruvbox'
 Plug 'justinmk/vim-sneak'
@@ -26,7 +26,6 @@ Plug 'github/copilot.vim'
 Plug 'airblade/vim-rooter'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'vimwiki/vimwiki'
 " Initialize plugin system.
 call plug#end()
 
@@ -258,14 +257,36 @@ let g:ale_virtualtext_cursor = 'highlight link ALEVirtualTextError'
 inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
-" Typescript
-let g:typescript_indent_disable = 1
-let g:typescript_opfirst='\%([<>=,?^%|*/&]\|\([-:+]\)\1\@!\|!=\|in\%(stanceof\)\=\>\)'
-let g:vim_jsx_pretty_colorful_config = 1
-
 " TSX plugin
-let g:vim_jsx_pretty_template_tags = ['html', 'jsx', 'tsx']
-let g:vim_jsx_pretty_highlight_close_tag = 1
+" set filetypes as typescriptreact
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
+" dark red
+hi tsxTagName guifg=#E06C75
+hi tsxComponentName guifg=#E06C75
+hi tsxCloseComponentName guifg=#E06C75
+
+" orange
+hi tsxCloseString guifg=#F99575
+hi tsxCloseTag guifg=#F99575
+hi tsxCloseTagName guifg=#F99575
+hi tsxAttributeBraces guifg=#F99575
+hi tsxEqual guifg=#F99575
+
+" yellow
+hi tsxAttrib guifg=#F8BD7F cterm=italic
+" light-grey
+hi tsxTypeBraces guifg=#999999
+" dark-grey
+hi tsxTypes guifg=#666666
+" Other
+hi ReactState guifg=#C176A7
+hi ReactProps guifg=#D19A66
+hi ApolloGraphQL guifg=#CB886B
+hi Events ctermfg=204 guifg=#56B6C2
+hi ReduxKeywords ctermfg=204 guifg=#C678DD
+hi ReduxHooksKeywords ctermfg=204 guifg=#C176A7
+hi WebBrowser ctermfg=204 guifg=#56B6C2
+hi ReactLifeCycleMethods ctermfg=204 guifg=#D19A66
 
 " Nerdcommenter
 let g:NERDSpaceDelims = 1
@@ -304,12 +325,6 @@ let g:copilot_no_tab_map = v:true
 
 " Podfile
 autocmd BufNewFile,BufRead Podfile,*.podspec set filetype=ruby
-
-" VIM Wiki
-let g:vimwiki_auto_header = 1
-let g:vimwiki_list = [{'path': '~/MEGA/vimwiki/',
-                      \ 'syntax': 'default', 'ext': 'txt'}]
-au BufRead,BufNewFile *.txt setlocal textwidth=80
 
 " VIMSCRIPT FILE SETTINGS
 
@@ -359,7 +374,7 @@ colorscheme gruvbox
 
 if has("gui_running")
     " Set font
-    set guifont=MesloLGM\ Nerd\ Font:h12
+    set guifont=MesloLGM\ Nerd\ Font:h14
 
     " Hide the toolbar.
     set guioptions-=T
@@ -415,14 +430,6 @@ command! MyProjects call fzf#run(fzf#wrap({
     \ }))
 
 nnoremap <leader>a :MyProjects<cr>
-
-" Vimwiki
-hi link VimwikiHeader1 GruvboxGreenBold
-hi link VimwikiHeader2 GruvboxOrangeBold
-hi link VimwikiHeader3 GruvboxYellowBold
-hi link VimwikiHeader4 GruvboxAquaBold
-hi link VimwikiHeader5 GruvboxBlueBold
-hi link VimwikiHeader6 GruvboxPurpleBold
 
 " STATUS LINE
 let g:airline_powerline_fonts = 1
