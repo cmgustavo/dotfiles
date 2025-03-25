@@ -33,4 +33,4 @@ map H h
 map U <C-R>
 
 " Cancel highlight search
-nnoremap <silent> <Esc> :nohlsearch<Bar>:echo<CR>
+"nnoremap <silent> <Esc> :nohlsearch<Bar>:echo<CR>
