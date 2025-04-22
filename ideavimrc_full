@@ -25,12 +25,3 @@ set scrolloff=10
 " Custom mappings
 map <leader>o <Action>(SelectInProjectView)
 map == <Action>(ReformatCode)
-
-" Just makes me nervous
-map H h
-
-" I think it's a better solution
-map U <C-R>
-
-" Cancel highlight search
-"nnoremap <silent> <Esc> :nohlsearch<Bar>:echo<CR>
