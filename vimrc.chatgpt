@@ -1,0 +1,176 @@
+" Bootstrap vim-plug
+" https://github.com/junegunn/vim-plug
+
+call plug#begin('~/.vim/plugged')
+
+" Search and Files
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'preservim/nerdtree'
+Plug 'jlanzarotta/bufexplorer'
+Plug 'yegappan/mru'
+
+" Theme
+Plug 'morhetz/gruvbox'
+
+" Statusline
+Plug 'vim-airline/vim-airline'
+
+" Icons
+Plug 'ryanoasis/vim-devicons'
+Plug 'lambdalisue/nerdfont.vim'
+
+" Git and Edition
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+Plug 'itchyny/lightline.vim'
+
+" Lint/Format
+Plug 'dense-analysis/ale'
+
+" Chatgpt
+Plug 'github/copilot.vim'
+
+call plug#end()
+
+" General
+set number relativenumber
+set ignorecase smartcase
+set tabstop=2 shiftwidth=2 expandtab
+set clipboard=unnamedplus
+set hidden
+set updatetime=300
+set signcolumn=yes
+
+" Show matching words.
+set showmatch
+
+" Use highlighting when doing a search.
+set hlsearch
+
+" Set the character enconding when writing file.
+set fileencoding=utf8
+
+" Set the character encoding.
+set encoding=utf8
+
+" MAPPINGS
+
+" Set the leader to '-' instead of the default '\'.
+let mapleader = " "
+
+" Paste a block of code without formatting it.
+nnoremap <mousemiddle> <esc>"*P
+
+if has("gui_running")
+  nnoremap <silent> <Esc> :nohlsearch<Bar>:echo<CR>
+else
+  map <silent> <leader><cr> :noh<cr>
+endif
+
+noremap <F12> <Esc>:syntax sync fromstart<CR>
+inoremap <F12> <C-o>:syntax sync fromstart<CR>
+nnoremap <silent> <leader>s :update<CR>
+nnoremap <silent> <leader>q :x<CR>
+nnoremap <up> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
+nnoremap <down> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
+nnoremap <right> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
+nnoremap <left> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
+
+" Close the current buffer
+map <leader>xx :bd<cr>
+
+" Close all the buffers
+map <leader>xa :bufdo bd<cr>
+
+map <leader>l :bnext<cr>
+map <leader>h :bprevious<cr>
+
+" Close a buffer and switching to another buffer, do not close the
+" window, see https://goo.gl/Wd8yZJ
+nnoremap <silent> \d :bprevious <bar> bdelete #<CR>
+
+" Map Ctrl-<Space> to / (search)
+map <leader>f /
+
+" Highlight words but do not jump
+nnoremap * :keepjumps normal! mi*`i<CR>
+
+" Copilot: use C-l to accept the current suggestion
+imap <silent><script><expr> <C-l> copilot#Accept("\<CR>")
+let g:copilot_no_tab_map = v:true
+
+" MRU
+let MRU_Max_Entries = 20
+map <leader>r :MRU<CR>
+
+" NerdTree
+let NERDTreeIgnore=['\.jpg$', '\.mp4$', '\.zip$', '\.iso$', '\.pdf$', '\.pyc$', '\.odt$', '\.png$', '\.svg$', '\.gif$', '\.tar$', '\.gz$', '\.xz$', '\.bz2$', '\.db$', '\.vim$', '\~$', '\.pyc$', 'node_modules']
+nnoremap <leader>0 :NERDTreeFocus<CR>
+nnoremap <C-n> :NERDTree<CR>
+nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <C-m> :NERDTreeFind<CR>
+let NERDTreeMinimalUI=1
+let NERDTreeShowBookmarks=1
+" Exit Vim if NERDTree is the only window remaining in the only tab.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+" Close the tab if NERDTree is the only window remaining in it.
+autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+" If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
+autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
+    \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
+
+" BufExplorer
+map <leader><tab> :b#<CR> " switch to latest buffer
+nnoremap <silent> <leader>e :BufExplorer<CR>
+
+" FZF
+nnoremap <leader>p :Files<CR>
+nnoremap <leader>b :Buffers<CR>
+nnoremap <leader>g :GFiles?<CR>
+
+" ALE
+let g:ale_fix_on_save = 1
+let g:ale_linters = { 'typescript': ['eslint'], 'javascript': ['eslint'] }
+let g:ale_fixers = { '*': ['remove_trailing_lines', 'trim_whitespace'],
+\ 'javascript': ['prettier', 'eslint'],
+\ 'typescript': ['prettier', 'eslint'] }
+nmap <silent> ge :ALEDetail<CR>
+nmap <silent> gr :ALEFindReferences<CR>
+nmap <silent> gd :ALEGoToDefinition<CR>
+nmap <silent> gy :ALEGoToTypeDefinition -vsplit<CR>
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+
+" Terminal
+nnoremap <leader>` :terminal<CR>
+tnoremap <Esc> <C-\><C-n>
+
+" ---------- UI / Colors ----------
+
+set background=dark
+colorscheme gruvbox
+
+if has("gui_running")
+    " Set font
+    set guifont=MesloLGM\ Nerd\ Font:h14
+
+    " Hide the toolbar.
+    set guioptions-=T
+
+    " Hide the the left-side scroll bar.
+    set guioptions-=L
+
+    " Hide the the left-side scroll bar.
+    set guioptions-=r
+
+    " Hide the the menu bar.
+    set guioptions-=m
+
+    " Hide the the bottom scroll bar.
+    set guioptions-=b
+endif
+
+" Airline
+let g:airline_powerline_fonts = 1
