@@ -9,26 +9,26 @@ gui:
   # Catppuccin Mocha theme
   theme:
     activeBorderColor:
-      - '#cba6f7' # Mauve
+      - "#cba6f7" # Mauve
       - bold
     inactiveBorderColor:
-      - '#45475a' # Surface1
+      - "#45475a" # Surface1
     optionsTextColor:
-      - '#89b4fa' # Blue
+      - "#89b4fa" # Blue
     selectedLineBgColor:
-      - '#313244' # Surface0
+      - "#313244" # Surface0
     selectedRangeBgColor:
-      - '#313244' # Surface0
+      - "#313244" # Surface0
     cherryPickedCommitBgColor:
-      - '#45475a' # Surface1
+      - "#45475a" # Surface1
     cherryPickedCommitFgColor:
-      - '#cba6f7' # Mauve
+      - "#cba6f7" # Mauve
     unstagedChangesColor:
-      - '#f38ba8' # Red
+      - "#f38ba8" # Red
     defaultFgColor:
-      - '#cdd6f4' # Text
+      - "#cdd6f4" # Text
     searchingActiveBorderColor:
-      - '#f9e2af' # Yellow
+      - "#f9e2af" # Yellow
 git:
   # Do not fetch all remotes on startup
   autoFetch: false
@@ -38,16 +38,9 @@ git:
       pager: delta --dark --line-numbers --pager "less -RF"
 os:
   # Open files in Neovim
-  edit: 'nvim {{filename}}'
-  editAtLine: 'nvim +{{line}} {{filename}}'
-  editAtLineAndWait: 'nvim +{{line}} {{filename}}'
-  openDirInEditor: 'nvim {{dir}}'
+  edit: "nvim {{filename}}"
+  editAtLine: "nvim +{{line}} {{filename}}"
+  editAtLineAndWait: "nvim +{{line}} {{filename}}"
+  openDirInEditor: "nvim {{dir}}"
   # Suspend lazygit while the editor is open, then resume
   suspend: true
-keybinding:
-  universal:
-    # Navigate between panels with Ctrl+j/l (like Neovim splits).
-    # Note: <c-h> and <c-k> are reserved by the terminal (backspace / line-kill)
-    # and cannot be rebound in lazygit.
-    prevBlock: '<c-j>'
-    nextBlock: '<c-l>'
