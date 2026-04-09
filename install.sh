@@ -122,8 +122,8 @@ link tmux.conf ~/.tmux.conf
 link editorconfig ~/.editorconfig
 
 # --- lazygit ---
-mkdir -p ~/.config/lazygit
-link lazygit/config.yml ~/.config/lazygit/config.yml
+mkdir -p "$HOME/Library/Application Support/lazygit"
+link lazygit/config.yml "$HOME/Library/Application Support/lazygit/config.yml"
 
 echo ""
 echo "Done."
