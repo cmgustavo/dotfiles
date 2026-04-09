@@ -1,151 +1,93 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Gustavo Cortez
-"
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" PLUGINS
+" Bootstrap vim-plug (auto-install if missing)
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
 
 call plug#begin('~/.vim/plugged')
-Plug 'preservim/nerdtree'
+
+" Search and Files
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'preservim/nerdtree'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'yegappan/mru'
-Plug 'preservim/nerdcommenter'
-Plug 'jiangmiao/auto-pairs'
-Plug 'mbbill/undotree'
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
-Plug 'dense-analysis/ale'
-Plug 'yuezk/vim-js'
-Plug 'HerringtonDarkholme/yats.vim'
-Plug 'maxmellon/vim-jsx-pretty'
+
+" Theme
 Plug 'morhetz/gruvbox'
-Plug 'justinmk/vim-sneak'
-Plug 'github/copilot.vim'
-Plug 'airblade/vim-rooter'
+
+" Statusline
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-" Initialize plugin system.
+
+" Icons
+Plug 'ryanoasis/vim-devicons'
+Plug 'lambdalisue/nerdfont.vim'
+
+" Git and Edition
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+
+" Lint/Format
+Plug 'dense-analysis/ale'
+
+" AI
+Plug 'github/copilot.vim'
+
 call plug#end()
 
-" Do not make vim compatible with vi.
+" --- GENERAL ---
+
 set nocompatible
-
-" Allow plugins to be used.
 filetype plugin indent on
-
-" Use syntax highlighting.
 syntax on
 
-" Always leave 10 rows below cursor.
+set number relativenumber
+set ignorecase smartcase
+set tabstop=2 shiftwidth=2 expandtab
+set autoindent cindent
+set clipboard=unnamedplus
+set hidden
+set updatetime=300
+set signcolumn=yes
+
 set scrolloff=10
-
-" Show cursor line.
-set cursorline
-
-" Not Show cursor column.
-set nocursorcolumn
-
-" Set title of window to the name of the file.
+set cursorline nocursorcolumn
 set title
+set mousehide
+set autoread
+set splitbelow splitright
+set noequalalways
+set visualbell
+set textwidth=80
+set backspace=indent,eol,start
+set incsearch hlsearch
+set ruler showcmd showmatch
+set noshowmode
+set wildmenu
+set wildmode=longest:full,full
+set wildignore=*.odt,*.doc*,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.JPG,*.exe,*.bmp,*.flv,*.gz,*.tgz,*.zip,*.iso,*.mov,*.xz,*.tar,*.img,*.docx,*.xlsx,*.xls
+set directory=/tmp
+set completeopt=menu,menuone,popup,noselect,noinsert
+set fileencoding=utf8 encoding=utf8
+set t_Co=256
+set background=dark
 
-" Backup files.
 set backup
-
-" Backup directory.
 set backupdir=~/.vim/backup/
 
-" Hide mouse when typing.
-set mousehide
+if version >= 703
+  set undodir=~/.vim/backup
+  set undofile
+  set undoreload=10000
+endif
 
-" Check to see if an external file has changed.
-set autoread
+colorscheme gruvbox
 
-" Split window with cursor in bottom window.
-set splitbelow splitright
+" --- MAPPINGS ---
 
-" Leave windows uneven after split or close.
-set noequalalways
-
-" Switch buffers without saving.
-set hidden
-
-" Show error bell visually.
-set visualbell
-
-" Set the text width.
-set textwidth=80
-
-" Allow backspacing to work as expected.
-set backspace=indent,eol,start
-
-" Tabbing over moves four spaces.
-set tabstop=2
-
-" Number of spaces to use in automatically indent.
-set shiftwidth=2
-
-" Copy indent from current line when starting a new line.
-set autoindent
-
-" Use C style indentation
-set cindent
-
-" Use space characters instead of tabs.
-set expandtab
-
-" Incremental search an you type.
-set incsearch
-
-" Ignore capital letters during search.
-set ignorecase
-
-" Override the ignorecase option if searching for captial letters.
-set smartcase
-
-" Show the line and column position of cursor.
-set ruler
-
-" Show partial command in the last line of the screen.
-set showcmd
-
-" Show matching words.
-set showmatch
-
-" Use highlighting when doing a search.
-set hlsearch
-
-" Set the character enconding when writing file.
-set fileencoding=utf8
-
-" Set the character encoding.
-set encoding=utf8
-
-" Show auto complete menus.
-set wildmenu
-
-" Make wildmenu behave like bash completion.
-set wildmode=longest:full,full
-
-" Ignore files with these extentions.
-set wildignore=*.odt,*.doc*,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.JPG,*.exe,*.bmp,*.flv,*.gz,*.tgz,*.zip,*.iso,*.gzip,*.mov,*.xz,*.tar,*.img,*.docx,*.xlsx,*.xls
-
-" Temporary files.
-set directory=/tmp
-
-" Show popup documentation
-set completeopt=menu,menuone,popup,noselect,noinsert
-
-" Do not show -- INSERT ---
-set noshowmode
-
-" MAPPINGS
-
-" Set the leader to '-' instead of the default '\'.
 let mapleader = " "
 
-" Paste a block of code without formatting it.
 nnoremap <mousemiddle> <esc>"*P
 
 if has("gui_running")
@@ -154,251 +96,57 @@ else
   map <silent> <leader><cr> :noh<cr>
 endif
 
-noremap <F12> <Esc>:syntax sync fromstart<CR>
-inoremap <F12> <C-o>:syntax sync fromstart<CR>
+noremap  <F12>   <Esc>:syntax sync fromstart<CR>
+inoremap <F12>   <C-o>:syntax sync fromstart<CR>
 nnoremap <silent> <leader>s :update<CR>
 nnoremap <silent> <leader>q :x<CR>
-nnoremap <up> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
-nnoremap <down> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
+nnoremap <up>    :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
+nnoremap <down>  :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
 nnoremap <right> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
-nnoremap <left> :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
+nnoremap <left>  :echoerr "Don't use arrow keys, use H, J, K, L instead!"<CR>
 
-" Close the current buffer
-map <leader>xx :bd<cr>
-
-" Close all the buffers
-map <leader>xa :bufdo bd<cr>
-
-map <leader>l :bnext<cr>
-map <leader>h :bprevious<cr>
-
-" Close a buffer and switching to another buffer, do not close the
-" window, see https://goo.gl/Wd8yZJ
+map  <leader>xx :bd<cr>
+map  <leader>xa :bufdo bd<cr>
+map  <leader>l  :bnext<cr>
+map  <leader>h  :bprevious<cr>
 nnoremap <silent> \d :bprevious <bar> bdelete #<CR>
 
-" Map Ctrl-<Space> to / (search)
 map <leader>f /
 
-" Highlight words but do not jump
 nnoremap * :keepjumps normal! mi*`i<CR>
 
-" Fix syntax highlighting
-noremap <F12> <Esc>:syntax sync fromstart<CR>
-inoremap <F12> <C-o>:syntax sync fromstart<CR>
+" Split navigation
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
 
-" PLUGINS CONFIGURATION
+" Terminal
+nnoremap <leader>` :terminal<CR>
+tnoremap <Esc> <C-\><C-n>
+
+" --- PLUGIN CONFIGURATION ---
 
 " MRU
 let MRU_Max_Entries = 20
 map <leader>r :MRU<CR>
 
 " NerdTree
-let NERDTreeIgnore=['\.jpg$', '\.mp4$', '\.zip$', '\.iso$', '\.pdf$', '\.pyc$', '\.odt$', '\.png$', '\.svg$', '\.gif$', '\.tar$', '\.gz$', '\.xz$', '\.bz2$', '\.db$', '\.vim$', '\~$', '\.pyc$', 'node_modules']
+let NERDTreeIgnore=['\.jpg$','\.mp4$','\.zip$','\.iso$','\.pdf$','\.pyc$','\.odt$','\.png$','\.svg$','\.gif$','\.tar$','\.gz$','\.xz$','\.bz2$','\.db$','\.vim$','\~$','node_modules']
+let NERDTreeMinimalUI=1
+let NERDTreeShowBookmarks=1
 nnoremap <leader>0 :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
 nnoremap <C-m> :NERDTreeFind<CR>
-let NERDTreeMinimalUI=1
-let NERDTreeShowBookmarks=1
-" Exit Vim if NERDTree is the only window remaining in the only tab.
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-" Close the tab if NERDTree is the only window remaining in it.
 autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-" If another buffer tries to replace NERDTree, put it in the other window, and bring back NERDTree.
 autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
     \ let buf=bufnr() | buffer# | execute "normal! \<C-W>w" | execute 'buffer'.buf | endif
 
 " BufExplorer
-map <leader><tab> :b#<CR> " switch to latest buffer
+map <leader><tab> :b#<CR>
 nnoremap <silent> <leader>e :BufExplorer<CR>
-
-" Vim rooter
-" set autochdir and disable auto-vim-rooter
-" let g:rooter_use_lcd = 1
-let g:rooter_cd_cmd="lcd"
-let g:rooter_manual_only = 1
-set autochdir
-
-" ALE
-let g:ale_completion_enabled = 1
-let g:ale_completion_autoimport = 1
-let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['eslint', 'prettier'],
-\   'typescript': ['prettier', 'eslint'],
-\   'typescriptreact': ['prettier', 'eslint'],
-\   'scss': ['prettier'],
-\   'css': ['prettier']
-\}
-let g:ale_fix_on_save = 1
-nmap <silent> ge :ALEDetail<CR>
-nmap <silent> gr :ALEFindReferences<CR>
-nmap <silent> gd :ALEGoToDefinition<CR>
-nmap <silent> gy :ALEGoToTypeDefinition -vsplit<CR>
-nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-nmap <silent> <C-j> <Plug>(ale_next_wrap)
-augroup VimDiff
-  autocmd!
-  autocmd VimEnter,BufEnter,FilterWritePre * if &diff | ALEDisable | endif
-augroup END
-
-" New format error msg
-let g:ale_echo_msg_format = '[%severity%] %s'
-" ALE completion
-let ale_completion_enabled = 1
-" Hide error details as Comment
-let g:ale_virtualtext_cursor = 'highlight link ALEVirtualTextError'
-" Remove left column with sign errors
-"let g:ale_set_signs = 0
-"set signcolumn=no
-
-
-" Use Tab to select ALE suggestions
-inoremap <silent><expr> <Tab> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-
-" TSX plugin
-" set filetypes as typescriptreact
-autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
-" dark red
-hi tsxTagName guifg=#E06C75
-hi tsxComponentName guifg=#E06C75
-hi tsxCloseComponentName guifg=#E06C75
-
-" orange
-hi tsxCloseString guifg=#F99575
-hi tsxCloseTag guifg=#F99575
-hi tsxCloseTagName guifg=#F99575
-hi tsxAttributeBraces guifg=#F99575
-hi tsxEqual guifg=#F99575
-
-" yellow
-hi tsxAttrib guifg=#F8BD7F cterm=italic
-" light-grey
-hi tsxTypeBraces guifg=#999999
-" dark-grey
-hi tsxTypes guifg=#666666
-" Other
-hi ReactState guifg=#C176A7
-hi ReactProps guifg=#D19A66
-hi ApolloGraphQL guifg=#CB886B
-hi Events ctermfg=204 guifg=#56B6C2
-hi ReduxKeywords ctermfg=204 guifg=#C678DD
-hi ReduxHooksKeywords ctermfg=204 guifg=#C176A7
-hi WebBrowser ctermfg=204 guifg=#56B6C2
-hi ReactLifeCycleMethods ctermfg=204 guifg=#D19A66
-
-" Nerdcommenter
-let g:NERDSpaceDelims = 1
-
-" Undotree
-nnoremap <leader>u :UndotreeToggle<CR>
-
-" Fugitive
-nnoremap <leader>gs :Git<CR>
-nnoremap <leader>gc :Gcommit<CR>
-nnoremap <leader>gP :Git push<CR>
-nnoremap <leader>gl :GV!<CR>
-nnoremap <leader>gL :GV<CR>
-nnoremap <leader>gd :Gvdiff<CR>
-nnoremap <leader>gb :Git blame<CR>
-nnoremap <leader>gm :Git checkout master<CR>
-
-" Gitgutter
-nmap <Leader>gn <Plug>(GitGutterNextHunk)  " git next
-nmap <Leader>gp <Plug>(GitGutterPrevHunk)  " git previous
-nmap <Leader>ga <Plug>(GitGutterStageHunk) " git add (chunk)
-nmap <Leader>gu <Plug>(GitGutterUndoHunk)  " git undo (chunk)
-"set signcolumn=yes
-"let g:gitgutter_override_sign_column_highlight = 2
-highlight SignColumn guibg=fg
-highlight link GitGutterChangeLine DiffText
-let g:gitgutter_sign_added = '++'
-let g:gitgutter_sign_modified = '>>'
-let g:gitgutter_sign_removed = '--'
-let g:gitgutter_sign_removed_first_line = '^^'
-let g:gitgutter_sign_modified_removed = '<<'
-
-" Copilot: use C-l to accept the current suggestion
-imap <silent><script><expr> <C-l> copilot#Accept("\<CR>")
-let g:copilot_no_tab_map = v:true
-
-" Podfile
-autocmd BufNewFile,BufRead Podfile,*.podspec set filetype=ruby
-
-" VIMSCRIPT FILE SETTINGS
-
-" Auto set current file directory
-autocmd BufEnter * if expand("%:p:h") !~ '^/tmp' | silent! lcd %:p:h | endif
-
-" Turn on cursorline and cursorcolumn only in active window.
-augroup cursor_off
-    autocmd!
-    autocmd WinLeave * set nocursorline
-    autocmd WinEnter * set cursorline
-augroup END
-
-" Set indentation of HTML to 2 spaces.
-autocmd Filetype html setlocal tabstop=2 shiftwidth=2 expandtab
-
-" If vim version is equal to or greater than 7.3 enable undofile.
-if version >= 703
-    set undodir=~/.vim/backup
-    set undofile
-    set undoreload=10000
-endif
-
-augroup resume_edit_position
-    autocmd!
-    autocmd BufReadPost *
-        \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-        \ | execute "normal! g`\"zvzz"
-        \ | endif
-augroup END
-
-function! InsertConsoleLog()
-  let word = expand("<cword>")
-  let linenumber = line(".")
-  execute "normal A \<BS>\<CR>\<ESC>0Aconsole.log('[" . expand('%:t'). ":" .linenumber. "]', ".word."); \/* TODO *\/"
-endfunction
-map <silent> <leader>v :call InsertConsoleLog()<CR>bbbbi
-
-" Set terminal color
-set t_Co=256
-
-" Set the background tone.
-set background=dark
-
-" Set the color scheme.
-colorscheme gruvbox
-
-if has("gui_running")
-    " Set font
-    set guifont=MesloLGM\ Nerd\ Font:h14
-
-    " Hide the toolbar.
-    set guioptions-=T
-
-    " Hide the the left-side scroll bar.
-    set guioptions-=L
-
-    " Hide the the left-side scroll bar.
-    set guioptions-=r
-
-    " Hide the the menu bar.
-    set guioptions-=m
-
-    " Hide the the bottom scroll bar.
-    set guioptions-=b
-
-    " Map the F4 key to toggle the menu, tool, and scroll bar.
-    nnoremap <F4> :if &guioptions=~#'mTr'<Bar>
-        \set guioptions-=mTr<Bar>
-        \else<Bar>
-        \set guioptions+=mTr<Bar>
-        \endif<CR>
-
-endif
 
 " FZF
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'relative': v:true } }
@@ -417,19 +165,102 @@ let g:fzf_colors =
   \ 'marker':  ['fg', 'Keyword'],
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
-command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case " . shellescape(<q-args>), 1, {'dir': FindRootDirectory(), 'options': '--delimiter : --nth 4..'}, <bang>0)
+command! -bang -nargs=* Rg call fzf#vim#grep(
+  \ "rg --column --line-number --no-heading --color=always --smart-case " . shellescape(<q-args>), 1,
+  \ {'options': '--delimiter : --nth 4..'}, <bang>0)
+nnoremap <leader>p :Files<CR>
+nnoremap <leader>b :Buffers<CR>
+nnoremap <leader>g :GFiles?<CR>
 nnoremap <silent> <C-p> :GFiles<CR>
 nnoremap <silent> <C-g> :Rg<CR>
 nnoremap <silent> <C-h> :History<CR>
-nnoremap <silent> <C-l> :Buffers<CR>
 
-command! MyProjects call fzf#run(fzf#wrap({
-    \ 'source': 'rg --files $HOME/GitHub/',
-    \ 'sink': 'read',
-    \ 'options': ['--multi', '--pointer', '→', '--marker', '♡', '--preview', '~/.vim/plugged/fzf.vim/bin/preview.sh {}']
-    \ }))
+" ALE
+let g:ale_fix_on_save = 1
+let g:ale_completion_enabled = 1
+let g:ale_completion_autoimport = 1
+let g:ale_echo_msg_format = '[%severity%] %s'
+let g:ale_linters = {
+\  'typescript': ['eslint'],
+\  'javascript': ['eslint']
+\}
+let g:ale_fixers = {
+\  '*': ['remove_trailing_lines', 'trim_whitespace'],
+\  'javascript': ['prettier', 'eslint'],
+\  'typescript': ['prettier', 'eslint'],
+\  'typescriptreact': ['prettier', 'eslint'],
+\  'scss': ['prettier'],
+\  'css': ['prettier']
+\}
+nmap <silent> ge :ALEDetail<CR>
+nmap <silent> gr :ALEFindReferences<CR>
+nmap <silent> gd :ALEGoToDefinition<CR>
+nmap <silent> gy :ALEGoToTypeDefinition -vsplit<CR>
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+inoremap <silent><expr> <Tab>   pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+augroup VimDiff
+  autocmd!
+  autocmd VimEnter,BufEnter,FilterWritePre * if &diff | ALEDisable | endif
+augroup END
 
-nnoremap <leader>a :MyProjects<cr>
+" Fugitive
+nnoremap <leader>gs :Git<CR>
+nnoremap <leader>gc :Git commit<CR>
+nnoremap <leader>gP :Git push<CR>
+nnoremap <leader>gd :Gvdiff<CR>
+nnoremap <leader>gb :Git blame<CR>
 
-" STATUS LINE
+" Copilot: use C-l to accept the current suggestion
+imap <silent><script><expr> <C-l> copilot#Accept("\<CR>")
+let g:copilot_no_tab_map = v:true
+
+" Airline
 let g:airline_powerline_fonts = 1
+
+" --- AUTOCMDS ---
+
+" Auto set current file directory
+autocmd BufEnter * if expand("%:p:h") !~ '^/tmp' | silent! lcd %:p:h | endif
+
+" Cursorline only in active window
+augroup cursor_off
+  autocmd!
+  autocmd WinLeave * set nocursorline
+  autocmd WinEnter * set cursorline
+augroup END
+
+" Resume last edit position
+augroup resume_edit_position
+  autocmd!
+  autocmd BufReadPost *
+    \ if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+    \ | execute "normal! g`\"zvzz"
+    \ | endif
+augroup END
+
+" TSX/JSX filetype
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
+autocmd BufNewFile,BufRead Podfile,*.podspec set filetype=ruby
+autocmd Filetype html setlocal tabstop=2 shiftwidth=2 expandtab
+
+" --- FUNCTIONS ---
+
+function! InsertConsoleLog()
+  let word = expand("<cword>")
+  let linenumber = line(".")
+  execute "normal A \<BS>\<CR>\<ESC>0Aconsole.log('[" . expand('%:t') . ":" . linenumber . "]', " . word . "); \/* TODO *\/"
+endfunction
+map <silent> <leader>v :call InsertConsoleLog()<CR>bbbbi
+
+" --- GUI ---
+
+if has("gui_running")
+  set guifont=MesloLGM\ Nerd\ Font:h14
+  set guioptions-=T
+  set guioptions-=L
+  set guioptions-=r
+  set guioptions-=m
+  set guioptions-=b
+endif
