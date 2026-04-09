@@ -18,7 +18,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 
-ok()   { echo -e "${GREEN}✓${NC} $1"; }
+ok() { echo -e "${GREEN}✓${NC} $1"; }
 warn() { echo -e "${YELLOW}!${NC} $1"; }
 
 # link <repo-relative-path> <destination>
@@ -30,61 +30,61 @@ warn() { echo -e "${YELLOW}!${NC} $1"; }
 #   - Real file or directory    → back up, then replace with symlink.
 #   - Does not exist            → create symlink.
 link() {
-  local src="$DOTFILES/$1"
-  local dst="$2"
+        local src="$DOTFILES/$1"
+        local dst="$2"
 
-  # Already a symlink pointing to the right place — nothing to do.
-  if [ -L "$dst" ] && [ "$(readlink "$dst")" = "$src" ]; then
-    ok "$dst (already linked)"
-    return
-  fi
+        # Already a symlink pointing to the right place — nothing to do.
+        if [ -L "$dst" ] && [ "$(readlink "$dst")" = "$src" ]; then
+                ok "$dst (already linked)"
+                return
+        fi
 
-  # Real file or directory (not a symlink) — back it up first.
-  if [ -e "$dst" ] && [ ! -L "$dst" ]; then
-    mkdir -p "$BACKUP_DIR"
-    mv "$dst" "$BACKUP_DIR/"
-    warn "Backed up existing $dst → $BACKUP_DIR/$(basename "$dst")"
-  fi
+        # Real file or directory (not a symlink) — back it up first.
+        if [ -e "$dst" ] && [ ! -L "$dst" ]; then
+                mkdir -p "$BACKUP_DIR"
+                mv "$dst" "$BACKUP_DIR/"
+                warn "Backed up existing $dst → $BACKUP_DIR/$(basename "$dst")"
+        fi
 
-  # Stale symlink pointing elsewhere — remove it.
-  if [ -L "$dst" ]; then
-    rm "$dst"
-  fi
+        # Stale symlink pointing elsewhere — remove it.
+        if [ -L "$dst" ]; then
+                rm "$dst"
+        fi
 
-  ln -s "$src" "$dst"
-  ok "$dst"
+        ln -s "$src" "$dst"
+        ok "$dst"
 }
 
 # brew_install <formula> [formula...]
 # Installs only the packages that are not already present.
 brew_install() {
-  local to_install=()
-  for pkg in "$@"; do
-    if brew list --formula "$pkg" &>/dev/null; then
-      ok "$pkg (already installed)"
-    else
-      to_install+=("$pkg")
-    fi
-  done
-  if [ ${#to_install[@]} -gt 0 ]; then
-    brew install "${to_install[@]}"
-  fi
+        local to_install=()
+        for pkg in "$@"; do
+                if brew list --formula "$pkg" &>/dev/null; then
+                        ok "$pkg (already installed)"
+                else
+                        to_install+=("$pkg")
+                fi
+        done
+        if [ ${#to_install[@]} -gt 0 ]; then
+                brew install "${to_install[@]}"
+        fi
 }
 
 # brew_cask_install <cask> [cask...]
 # Installs only the casks that are not already present.
 brew_cask_install() {
-  local to_install=()
-  for pkg in "$@"; do
-    if brew list --cask "$pkg" &>/dev/null; then
-      ok "$pkg (already installed)"
-    else
-      to_install+=("$pkg")
-    fi
-  done
-  if [ ${#to_install[@]} -gt 0 ]; then
-    brew install --cask "${to_install[@]}"
-  fi
+        local to_install=()
+        for pkg in "$@"; do
+                if brew list --cask "$pkg" &>/dev/null; then
+                        ok "$pkg (already installed)"
+                else
+                        to_install+=("$pkg")
+                fi
+        done
+        if [ ${#to_install[@]} -gt 0 ]; then
+                brew install --cask "${to_install[@]}"
+        fi
 }
 
 # --- CLI tools (Homebrew) ---
@@ -96,7 +96,7 @@ brew_cask_install() {
 # lazygit   — terminal UI for git
 # git-delta — syntax-highlighted diffs (used by lazygit)
 echo "Installing CLI tools..."
-brew_install neovim ripgrep fzf node bat lazygit git-delta
+brew_install neovim ripgrep fzf node bat lazygit git-delta gh
 
 # --- GUI apps (Homebrew Cask) ---
 # iterm2                        — terminal emulator
