@@ -52,8 +52,8 @@ os:
 
 keybinding:
   universal:
-    # Navigate between panels with Ctrl+h/l (like Neovim splits)
-    prevBlock: '<c-h>'
+    # Navigate between panels with Ctrl+j/l (like Neovim splits).
+    # Note: <c-h> and <c-k> are reserved by the terminal (backspace / line-kill)
+    # and cannot be rebound in lazygit.
+    prevBlock: '<c-j>'
     nextBlock: '<c-l>'
-    prevBlock-alt: '<c-k>'
-    nextBlock-alt: '<c-j>'
