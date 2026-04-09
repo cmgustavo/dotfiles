@@ -32,10 +32,6 @@ gui:
 git:
   # Do not fetch all remotes on startup
   autoFetch: false
-  # Use delta for diffs
-  pagers:
-    - colorArg: always
-      pager: delta --dark --line-numbers --pager "less -RF"
 os:
   # Open files in Neovim
   edit: "nvim {{filename}}"
