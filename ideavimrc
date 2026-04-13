@@ -6,8 +6,6 @@ set incsearch
 set hlsearch
 set ignorecase
 set smartcase
-set ideajoin
-set idearefactormode=keep
 
 let mapleader=" "
 
