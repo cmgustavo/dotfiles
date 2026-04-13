@@ -1,29 +1,66 @@
-set scrolloff=10
-set incsearch
-set hlsearch
-set ignorecase
-set smartcase
-set ideajoin
-set idearefactormode=keep
-
-let mapleader=" "
-
+" =========================
+" Small Vim improvements
+" =========================
 nnoremap Y y$
 nnoremap <leader><space> :nohlsearch<CR>
 
-nnoremap <leader>e <Action>(SelectInProjectView)
-nnoremap <leader>p <Action>(SearchEverywhere)
-nnoremap <leader>f <Action>(GotoFile)
+vnoremap < <gv
+vnoremap > >gv
+nnoremap J mzJ`z
 
-nnoremap gd <Action>(GotoDeclaration)
-nnoremap gi <Action>(GotoImplementation)
-nnoremap gr <Action>(FindUsages)
+" =========================
+" Navigation / files
+" =========================
+nmap <leader>e <Action>(SelectInProjectView)
+nmap <leader>p <Action>(SearchEverywhere)
+nmap <leader>f <Action>(GotoFile)
+nmap <leader>r <Action>(RecentFiles)
+nmap <leader>s <Action>(FileStructurePopup)
 
-nnoremap <leader>rn <Action>(RenameElement)
-nnoremap <leader>cf <Action>(ReformatCode)
-nnoremap <leader>co <Action>(OptimizeImports)
-nnoremap <leader>a <Action>(ShowIntentionActions)
+" =========================
+" Code navigation
+" =========================
+nmap gd <Action>(GotoDeclaration)
+nmap gD <Action>(GotoTypeDeclaration)
+nmap gi <Action>(GotoImplementation)
+nmap gr <Action>(FindUsages)
+nmap gt <Action>(GotoTest)
+nmap <leader>a <Action>(ShowIntentionActions)
 
-nnoremap <leader>gl :action Vcs.Show.Log<CR>
-nnoremap <leader>rb <Action>(ToggleLineBreakpoint)
-nnoremap <leader>4 <Action>(ActivateTerminalToolWindow)
+" =========================
+" Refactor / formatting
+" =========================
+nmap <leader>rn <Action>(RenameElement)
+nmap <leader>cf <Action>(ReformatCode)
+nmap <leader>co <Action>(OptimizeImports)
+nmap <leader>cc <Action>(CommentByLineComment)
+vmap <leader>cc <Action>(CommentByLineComment)
+
+" =========================
+" Run / debug
+" =========================
+nmap <leader>rr <Action>(Run)
+nmap <leader>rd <Action>(Debug)
+nmap <leader>rb <Action>(ToggleLineBreakpoint)
+nmap <leader>rc <Action>(Resume)
+nmap <leader>rs <Action>(StepOver)
+nmap <leader>ri <Action>(StepInto)
+nmap <leader>ro <Action>(StepOut)
+nmap <leader>rx <Action>(Stop)
+
+" =========================
+" VCS / Git
+" =========================
+nmap <leader>gg <Action>(ActivateVersionControlToolWindow)
+nmap <leader>gl <Action>(Vcs.Show.Log)
+nmap <leader>ga <Action>(Annotate)
+
+" =========================
+" Tool windows / tabs
+" =========================
+nmap <leader>1 <Action>(ActivateProjectToolWindow)
+nmap <leader>3 <Action>(ActivateVersionControlToolWindow)
+nmap <leader>4 <Action>(ActivateTerminalToolWindow)
+
+nmap <S-h> <Action>(PreviousTab)
+nmap <S-l> <Action>(NextTab)
