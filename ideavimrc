@@ -1,4 +1,17 @@
 " =========================
+" Basic behavior
+" =========================
+set scrolloff=10
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+set ideajoin
+set idearefactormode=keep
+
+let mapleader=" "
+
+" =========================
 " Small Vim improvements
 " =========================
 nnoremap Y y$
@@ -64,3 +77,4 @@ nmap <leader>4 <Action>(ActivateTerminalToolWindow)
 
 nmap <S-h> <Action>(PreviousTab)
 nmap <S-l> <Action>(NextTab)
+
