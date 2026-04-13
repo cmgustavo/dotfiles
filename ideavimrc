@@ -1,27 +1,29 @@
-source ~/.intellimacs/spacemacs.vim
-
-" (Optional) Enable other Intellimacs modules
-source ~/.intellimacs/extra.vim
-source ~/.intellimacs/major.vim
-source ~/.intellimacs/hybrid.vim
-
-" (Optional) Enable which-key plugin
-source ~/.intellimacs/which-key.vim
-
-" (Optional) My own vim commands
-nnoremap Y y$
-
-" (Optional) Comma for major mode
-nmap , <leader>m
-vmap , <leader>m
-
-" (Optional) Add/edit actions
-nnoremap <leader>gl    :action Vcs.Show.Log<CR>
-vnoremap <leader>gl    :action Vcs.Show.Log<CR>
-
-" Commong settings
 set scrolloff=10
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+set ideajoin
+set idearefactormode=keep
 
-" Custom mappings
-map <leader>o <Action>(SelectInProjectView)
-map == <Action>(ReformatCode)
+let mapleader=" "
+
+nnoremap Y y$
+nnoremap <leader><space> :nohlsearch<CR>
+
+nnoremap <leader>e <Action>(SelectInProjectView)
+nnoremap <leader>p <Action>(SearchEverywhere)
+nnoremap <leader>f <Action>(GotoFile)
+
+nnoremap gd <Action>(GotoDeclaration)
+nnoremap gi <Action>(GotoImplementation)
+nnoremap gr <Action>(FindUsages)
+
+nnoremap <leader>rn <Action>(RenameElement)
+nnoremap <leader>cf <Action>(ReformatCode)
+nnoremap <leader>co <Action>(OptimizeImports)
+nnoremap <leader>a <Action>(ShowIntentionActions)
+
+nnoremap <leader>gl :action Vcs.Show.Log<CR>
+nnoremap <leader>rb <Action>(ToggleLineBreakpoint)
+nnoremap <leader>4 <Action>(ActivateTerminalToolWindow)
