@@ -1,101 +1,27 @@
-" Find more examples here: https://jb.gg/share-ideavimrc
-let mapleader=" "
+source ~/.intellimacs/spacemacs.vim
 
-""" Plugins  --------------------------------
-Plug 'easymotion/vim-easymotion'
-Plug 'machakann/vim-highlightedyank'
-set commentary
-set surround
-set nerdtree
-set easymotion
-set notimeout
-set which-key
-set sneak
+" (Optional) Enable other Intellimacs modules
+source ~/.intellimacs/extra.vim
+source ~/.intellimacs/major.vim
+source ~/.intellimacs/hybrid.vim
 
-""" Common settings -------------------------
+" (Optional) Enable which-key plugin
+source ~/.intellimacs/which-key.vim
+
+" (Optional) My own vim commands
+nnoremap Y y$
+
+" (Optional) Comma for major mode
+nmap , <leader>m
+vmap , <leader>m
+
+" (Optional) Add/edit actions
+nnoremap <leader>gl    :action Vcs.Show.Log<CR>
+vnoremap <leader>gl    :action Vcs.Show.Log<CR>
+
+" Commong settings
 set scrolloff=10
-set linenumber
-set showmode
-set showcmd
-set visualbell
-set clipboard+=unnamed
 
-" search
-set incsearch
-set hlsearch
-set ignorecase
-set smartcase
-set wildignorecase
-set showmatch
-
-" ident
-set breakindent
-set autoindent
-set smartindent
-
-" tab
-set expandtab
-set smarttab
-
-""" Idea specific settings ------------------
-set ideajoin
-set ideastatusicon=gray
-
-""" My Mappings -----------------------------
-map <leader>e <Action>(FileStructurePopup)
+" Custom mappings
 map <leader>o <Action>(SelectInProjectView)
-
-" (Open file)
-map <leader>n <Action>(OpenFile)
-
 map == <Action>(ReformatCode)
-
-" Goto
-map gi <Action>(GotoImplementation)
-map gd <Action>(GotoDeclaration)
-map gj <Action>(GotoNextError)
-map gk <Action>(GotoPreviousError)
-
-" Other actions
-map <leader>r <Action>(RecentChangedFiles)
-map <leader>R <Action>(RecentFiles)
-map <leader>g <Action>(ShowUsages)
-map <leader>p <Action>(FindUsages)
-map <leader>m <Action>(FindInPath)
-
-" Just makes me nervous
-map H h
-
-" I think it's a better solution
-map U <C-R>
-
-" Previous buffer
-map <leader><tab> :b#<CR>
-
-" Close the current buffer
-map <leader>xx :bd<cr>
-
-" Close all the buffers
-map <leader>xa :bufdo bd<cr>
-
-" Next/previous buffer
-map <leader>l :bnext<cr>
-map <leader>h :bprevious<cr>
-
-" Search
-map <leader>s <Action>(Find)
-map <leader>S <Action>(SearchEverywhere)
-map <leader>f <Action>(GotoFile)
-map <leader>c <Action>(GotoSymbol)
-map <leader>a <Action>(GotoAction)
-
-" Cancel highlight search
-nnoremap <silent> <Esc> :nohlsearch<Bar>:echo<CR>
-
-" Custom mappings for insert log
-function! InsertConsoleLog()
-  let word = expand("<cword>")
-  let linenumber = line(".")
-  execute "normal A \<BS>\<CR>\<ESC>0Aconsole.log('[" . expand('%:t'). ":" .linenumber. "]', ".word."); \/* TODO *\/"
-endfunction
-map <silent> <leader>v :call InsertConsoleLog()<CR>
