@@ -32,7 +32,7 @@ Plug 'tpope/vim-surround'
 Plug 'dense-analysis/ale'
 
 " AI
-Plug 'github/copilot.vim'
+Plug 'rishi-opensource/vim-claude-code', { 'tag': 'v1.4.1' }
 
 call plug#end()
 
@@ -115,12 +115,6 @@ map <leader>f /
 
 nnoremap * :keepjumps normal! mi*`i<CR>
 
-" Split navigation
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
-
 " Terminal
 nnoremap <leader>` :terminal<CR>
 tnoremap <Esc> <C-\><C-n>
@@ -149,7 +143,7 @@ map <leader><tab> :b#<CR>
 nnoremap <silent> <leader>e :BufExplorer<CR>
 
 " FZF
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'relative': v:true } }
+let g:fzf_layout = { 'down': '40%' }
 let $BAT_THEME = 'gruvbox-dark'
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
@@ -211,10 +205,6 @@ nnoremap <leader>gc :Git commit<CR>
 nnoremap <leader>gP :Git push<CR>
 nnoremap <leader>gd :Gvdiff<CR>
 nnoremap <leader>gb :Git blame<CR>
-
-" Copilot: use C-l to accept the current suggestion
-imap <silent><script><expr> <C-l> copilot#Accept("\<CR>")
-let g:copilot_no_tab_map = v:true
 
 " Airline
 let g:airline_powerline_fonts = 1
