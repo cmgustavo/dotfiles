@@ -1,56 +1,60 @@
-;; -*- mode: emacs-lisp; lexical-binding: t -*-
-;; This file is loaded by Spacemacs at startup.
-;; It must be stored in your home directory.
+;;; .spacemacs --- Configuración de Spacemacs para desarrollo diario -*- lexical-binding: t; -*-
+;;;
+;;; Esta configuración está orientada a proyectos JavaScript/TypeScript,
+;;; incluidos React Native. Usa LSP, ESLint y Prettier instalados en cada
+;;; proyecto (node_modules/.bin), igual que la configuración de Neovim.
 
 (defun dotspacemacs/layers ()
   (setq-default
    dotspacemacs-distribution 'spacemacs
    dotspacemacs-enable-lazy-installation 'unused
    dotspacemacs-ask-for-lazy-installation t
-
    dotspacemacs-configuration-layer-path '()
 
-   ;; List of configuration layers to load.
+   ;; `lsp' hace que javascript y typescript usen LSP en vez de Tern/Tide.
+   ;; `add-node-modules-path', incluido por esas capas, resuelve primero los
+   ;; binarios locales del proyecto: prettier, eslint y
+   ;; typescript-language-server.
    dotspacemacs-configuration-layers
-   '(html
-     ruby
-     auto-completion
+   '(auto-completion
      better-defaults
      emacs-lisp
      git
-     json
      helm
+     html
+     json
      lsp
      markdown
      multiple-cursors
      spell-checking
      syntax-checking
      version-control
+     prettier
      (javascript :variables
-                 js2-mode-show-strict-warnings nil
                  javascript-fmt-on-save t
                  javascript-fmt-tool 'prettier)
      (typescript :variables
+                 typescript-backend 'lsp
                  typescript-fmt-on-save t
-                 typescript-fmt-tool 'prettier)
+                 typescript-fmt-tool 'prettier
+                 typescript-linter 'eslint)
+     ;; `typescript' maneja .tsx; `react' conserva el soporte para .jsx.
      react
-     (osx :variables osx-command-as 'hyper
+     ruby
+     (osx :variables
+          osx-command-as 'hyper
           osx-option-as 'meta
           osx-right-option-as 'none)
      treemacs)
 
-   dotspacemacs-additional-packages '(prettier-js
-                                      (copilot :location (recipe
-                                                          :fetcher github
-                                                          :repo "copilot-emacs/copilot.el"))
-                                      )
-
-   ;; A list of packages that cannot be updated.
+   ;; prettier-js lo instala la capa `prettier'; no hace falta declararlo dos
+   ;; veces aquí. Copilot queda excluido explícitamente: no se instalará ni se
+   ;; activará aunque haya quedado registrado en una instalación anterior.
+   ;; code-review pertenece a la capa `git', pero no es necesario para este
+   ;; flujo y su receta de Quelpa puede fallar al resolver sus metadatos.
+   dotspacemacs-additional-packages '()
    dotspacemacs-frozen-packages '()
-
-   ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '()
-
+   dotspacemacs-excluded-packages '(code-review copilot copilot-chat)
    dotspacemacs-install-packages 'used-only))
 
 (defun dotspacemacs/init ()
@@ -59,7 +63,7 @@
    dotspacemacs-emacs-pdumper-executable-file "emacs"
    dotspacemacs-emacs-dumper-dump-file (format "spacemacs-%s.pdmp" emacs-version)
    dotspacemacs-elpa-https t
-   dotspacemacs-elpa-timeout 5
+   dotspacemacs-elpa-timeout 15
    dotspacemacs-gc-cons '(100000000 0.1)
    dotspacemacs-read-process-output-max (* 1024 1024)
    dotspacemacs-use-spacelpa nil
@@ -70,8 +74,7 @@
    dotspacemacs-startup-buffer-show-version t
    dotspacemacs-startup-banner 'official
    dotspacemacs-startup-banner-scale 'auto
-   dotspacemacs-startup-lists '((recents . 5)
-                                (projects . 7))
+   dotspacemacs-startup-lists '((recents . 5) (projects . 7))
    dotspacemacs-startup-buffer-responsive t
    dotspacemacs-show-startup-list-numbers t
    dotspacemacs-startup-buffer-multi-digit-delay 0.4
@@ -81,14 +84,10 @@
    dotspacemacs-scratch-buffer-persistent nil
    dotspacemacs-scratch-buffer-unkillable nil
    dotspacemacs-initial-scratch-message nil
-   dotspacemacs-themes '(spacemacs-light
-                         spacemacs-dark)
+   dotspacemacs-themes '(spacemacs-dark spacemacs-light)
    dotspacemacs-mode-line-theme '(spacemacs :separator nil :separator-scale 1.5)
    dotspacemacs-colorize-cursor-according-to-state t
-   dotspacemacs-default-font '("MesloLGM Nerd Font"
-                               :size 14.0
-                               :weight normal
-                               :width normal)
+   dotspacemacs-default-font '("MesloLGM Nerd Font" :size 14.0 :weight normal :width normal)
    dotspacemacs-leader-key "SPC"
    dotspacemacs-emacs-command-key "SPC"
    dotspacemacs-ex-command-key ":"
@@ -110,7 +109,8 @@
    dotspacemacs-loading-progress-bar t
    dotspacemacs-fullscreen-at-startup nil
    dotspacemacs-fullscreen-use-non-native nil
-   dotspacemacs-maximized-at-startup t
+   ;; No maximizar ni entrar en pantalla completa al iniciar.
+   dotspacemacs-maximized-at-startup nil
    dotspacemacs-undecorated-at-startup nil
    dotspacemacs-active-transparency 90
    dotspacemacs-inactive-transparency 90
@@ -143,56 +143,71 @@
    dotspacemacs-byte-compile nil))
 
 (defun dotspacemacs/user-env ()
-  "Environment variables setup.
-This function defines the environment variables for your Emacs session. By
-default it calls `spacemacs/load-spacemacs-env' which loads the environment
-variables declared in `~/.spacemacs.env' or `~/.spacemacs.d/.spacemacs.env'.
-See the header of this file for more information."
-  (spacemacs/load-spacemacs-env)
-)
+  "Carga las variables de entorno definidas por el usuario para Spacemacs."
+  (spacemacs/load-spacemacs-env))
 
-(defun dotspacemacs/user-init ()
-)
-
-
-(defun dotspacemacs/user-load ()
-)
-
+(defun dotspacemacs/user-init ())
+(defun dotspacemacs/user-load ())
 
 (defun dotspacemacs/user-config ()
+  ;; Evita archivos .#* en los repositorios sin desactivar el auto-guardado.
   (setq create-lockfiles nil)
-  (setq editorconfig-mode 1)
-  (with-eval-after-load 'company
-    (delq 'company-preview-if-just-one-frontend company-frontends))
 
-  (with-eval-after-load 'copilot
-    (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
-    (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
-    (define-key copilot-completion-map (kbd "C-TAB") 'copilot-accept-completion-by-word)
-    (define-key copilot-completion-map (kbd "C-<tab>") 'copilot-accept-completion-by-word))
+  ;; Mantiene la indentación y los finales de línea definidos por .editorconfig.
+  (when (fboundp 'editorconfig-mode)
+    (editorconfig-mode 1))
 
-  (add-hook 'prog-mode-hook 'copilot-mode)
-)
+  ;; Valores por defecto equivalentes a la configuración actual de Neovim.
+  ;; Prettier/.editorconfig pueden reemplazarlos por proyecto.
+  (setq-default indent-tabs-mode nil
+                tab-width 2
+                js-indent-level 2
+                typescript-indent-level 2)
 
+  ;; LSP ya publica diagnósticos de TypeScript y Flycheck usa ESLint local.
+  ;; Se evita la documentación flotante automática, que suele interrumpir al
+  ;; escribir; la documentación sigue disponible bajo SPC m h.
+  (with-eval-after-load 'lsp-mode
+    ;; Registra el cliente JavaScript/TypeScript antes de invocar
+    ;; `lsp-install-server`; sin esta carga el selector puede mostrar solo
+    ;; servidores de lenguajes abiertos anteriormente (por ejemplo Lua).
+    (require 'lsp-javascript)
+    (setq lsp-enable-snippet t
+          lsp-headerline-breadcrumb-enable t)
+    ;; Compatibilidad con Neovim: `gd` y `gD` usan la definición que aporta
+    ;; el servidor LSP en buffers donde LSP está activo. Spacemacs también
+    ;; conserva sus atajos nativos: SPC m g d y SPC m g D.
+    (evil-define-key 'normal lsp-mode-map (kbd "gd") #'xref-find-definitions)
+    (evil-define-key 'normal lsp-mode-map (kbd "gD")
+      #'xref-find-definitions-other-window))
+  (with-eval-after-load 'lsp-ui
+    (setq lsp-ui-doc-enable nil
+          lsp-ui-sideline-enable nil))
 
-;; Do not write anything past this comment. This is where Emacs will
-;; auto-generate custom variable definitions.
+  ;; Muestra los fallos de Prettier en el minibuffer en vez de ocultarlos.
+  (with-eval-after-load 'prettier-js
+    (setq prettier-js-show-errors 'echo)))
+
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(company-web web-completion-data counsel-css emmet-mode helm-css-scss impatient-mode htmlize pug-mode sass-mode haml-mode scss-mode slim-mode tagedit web-mode add-node-modules-path bundler chruby counsel-gtags counsel swiper ivy dap-mode lsp-docker bui enh-ruby-mode ggtags minitest rake rbenv robe inf-ruby rspec-mode rubocop rubocopfmt ruby-hash-syntax ruby-refactor ruby-test-mode ruby-tools rvm seeing-is-believing yasnippet-snippets ws-butler writeroom-mode winum which-key web-beautify volatile-highlights vim-powerline vi-tilde-fringe uuidgen undo-tree typescript-mode treemacs-projectile treemacs-persp treemacs-magit treemacs-icons-dired treemacs-evil toc-org term-cursor symon symbol-overlay string-inflection string-edit-at-point spacemacs-whitespace-cleanup spacemacs-purpose-popwin spaceline space-doc smeargle rjsx-mode reveal-in-osx-finder restart-emacs request rainbow-delimiters quickrun prettier-js popwin pcre2el password-generator paradox overseer osx-trash osx-dictionary osx-clipboard org-superstar open-junk-file npm-mode nodejs-repl nameless multi-line markdown-toc macrostep lsp-ui lsp-treemacs lsp-origami lorem-ipsum livid-mode link-hint launchctl json-reformat json-navigator json-mode js2-refactor js-doc inspector info+ indent-guide hybrid-mode hungry-delete holy-mode hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org helm-mode-manager helm-make helm-lsp helm-ls-git helm-git-grep helm-descbinds helm-company helm-comint helm-c-yasnippet helm-ag google-translate golden-ratio gitignore-templates git-timemachine git-modes git-messenger git-link gh-md forge flycheck-pos-tip flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-evilified-state evil-escape evil-easymotion evil-collection evil-cleverparens evil-args evil-anzu eval-sexp-fu emr elisp-slime-nav elisp-def dumb-jump drag-stuff dotenv-mode dired-quick-sort diminish diff-hl devdocs copilot column-enforce-mode centered-cursor-mode browse-at-remote auto-yasnippet auto-highlight-symbol auto-compile all-the-icons aggressive-indent ace-link ace-jump-helm-line)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-)
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(safe-local-variable-values
+     '((evil-shift-width . 2) (web-mode-indent-style . 2)
+       (web-mode-block-padding . 2) (web-mode-script-padding . 2)
+       (web-mode-style-padding . 2) (typescript-backend . tide)
+       (typescript-backend . lsp) (javascript-backend . tide)
+       (javascript-backend . tern) (javascript-backend . lsp))))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   )
+  )

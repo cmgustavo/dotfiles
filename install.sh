@@ -115,6 +115,12 @@ link nvim ~/.config/nvim
 # --- Vim ---
 link vimrc ~/.vimrc
 
+# --- Spacemacs ---
+# Keep the active Spacemacs configuration under version control. `link` backs
+# up a pre-existing ~/.spacemacs before replacing it with this repository's
+# file, so this is safe to run on an existing machine.
+link spacemacs ~/.spacemacs
+
 # --- Tmux ---
 link tmux.conf ~/.tmux.conf
 
