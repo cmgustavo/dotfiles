@@ -40,3 +40,13 @@ os:
   openDirInEditor: "nvim {{dir}}"
   # Suspend lazygit while the editor is open, then resume
   suspend: true
+customCommands:
+  - key: "<c-u>"
+    context: "global"
+    prompts:
+      - type: "input"
+        title: "Rebase onto upstream branch:"
+        key: "Branch"
+        initialValue: "develop"
+    command: "git pull --rebase upstream {{.Form.Branch}}"
+    output: log
