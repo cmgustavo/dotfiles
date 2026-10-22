@@ -1,126 +1,126 @@
 # Dotfiles
 
-Repositorio personal de archivos de configuración (*dotfiles*) para macOS, orientado al desarrollo diario (especialmente proyectos JavaScript/TypeScript, React y React Native) y al trabajo fluido en terminal.
+Personal configuration files (*dotfiles*) for macOS, tailored for daily development (especially JavaScript/TypeScript, React, and React Native projects) and a fast terminal-centric workflow.
 
 ---
 
-## Aplicaciones y herramientas soportadas
+## Supported Applications & Tools
 
-| Aplicación / Herramienta | Archivo / Directorio | Destino del enlace simbólico | Propósito principal |
+| Application / Tool | Repo Path | Symlink Destination | Main Purpose |
 | :--- | :--- | :--- | :--- |
-| **Neovim** ([LazyVim](https://www.lazyvim.org/)) | `nvim/` | `~/.config/nvim` | Editor principal moderno con LSP, Treesitter, Prettier, TypeScript, GitHub Copilot y navegación integrada con Tmux. |
-| **Vim** | `vimrc` | `~/.vimrc` | Configuración clásica con `vim-plug`, FZF, NERDTree, ALE (ESLint/Prettier), Fugitive, Gruvbox y `vim-claude-code`. |
-| **Spacemacs (Emacs)** | `spacemacs` | `~/.spacemacs` | Entorno Emacs con modo de edición Vim (*Evil*), LSP para JS/TS/React, ESLint, Prettier al guardar, Helm, Magit y Treemacs. |
-| **Tmux** | `tmux.conf` | `~/.tmux.conf` | Multiplexor de terminal con prefijo `C-a`, tema *Catppuccin Mocha High Contrast*, integración con Vim/Neovim y popup para Claude CLI. |
-| **Lazygit** | `lazygit/config.yml` | `~/Library/Application Support/lazygit/config.yml` | Interfaz de terminal para Git con tema *Catppuccin Mocha*, iconos Nerd Font, apertura de archivos en Neovim y comandos personalizados. |
-| **EditorConfig** | `editorconfig` | `~/.editorconfig` | Reglas globales de formato (finales de línea LF, sin espacios al final, indentación de 2 espacios en JS/TS/HTML/CSS/JSON y tabs en `Makefile`). |
-| **JetBrains IDEs (IdeaVim)** | `ideavimrc` | `~/.ideavimrc` *(enlace manual)* | Emulación de Vim y atajos con `<Space>` como tecla líder para IntelliJ IDEA, WebStorm, Android Studio, PyCharm, etc. |
-| **GnuCash** | `gnucash.css` | *(Uso en plantillas de GnuCash)* | Hoja de estilos CSS personalizada para el diseño e impresión de facturas (*invoices*) en GnuCash. |
+| **Neovim** ([LazyVim](https://www.lazyvim.org/)) | `nvim/` | `~/.config/nvim` | Primary modern editor with LSP, Treesitter, Prettier, TypeScript, GitHub Copilot, and Tmux navigation. |
+| **Vim** | `vimrc` | `~/.vimrc` | Classic Vim setup with `vim-plug`, FZF, NERDTree, ALE (ESLint/Prettier), Fugitive, Gruvbox, and `vim-claude-code`. |
+| **Spacemacs (Emacs)** | `spacemacs` | `~/.spacemacs` | Emacs distribution with Vim (*Evil*) keybindings, LSP for JS/TS/React, ESLint, Prettier on save, Helm, Magit, and Treemacs. |
+| **Tmux** | `tmux.conf` | `~/.tmux.conf` | Terminal multiplexer with `C-a` prefix, *Catppuccin Mocha High Contrast* theme, Vim/Neovim integration, and a Claude CLI popup. |
+| **Lazygit** | `lazygit/config.yml` | `~/Library/Application Support/lazygit/config.yml` | Terminal UI for Git with *Catppuccin Mocha* theme, Nerd Font icons, Neovim file editing, and custom rebase commands. |
+| **EditorConfig** | `editorconfig` | `~/.editorconfig` | Global formatting rules (LF line endings, trim trailing whitespace, 2-space indent for JS/TS/HTML/CSS/JSON, and tabs for `Makefile`). |
+| **JetBrains IDEs (IdeaVim)** | `ideavimrc` | `~/.ideavimrc` *(manual link)* | Vim emulation and `<Space>` leader keybindings for IntelliJ IDEA, WebStorm, Android Studio, PyCharm, etc. |
+| **GnuCash** | `gnucash.css` | *(Used in GnuCash templates)* | Custom CSS stylesheet for formatting and printing invoices in GnuCash. |
 
-### Herramientas instaladas automáticamente vía Homebrew
+### Automatically Installed Homebrew Packages
 
-El script `install.sh` instala los siguientes paquetes si aún no están presentes en el sistema:
+Running `install.sh` installs the following packages if they are not already present on the system:
 
-- **Fórmulas CLI:**
-  - `neovim`: Editor de texto principal.
-  - `ripgrep` (`rg`): Buscador ultrarrápido de texto usado por Neovim, FZF y Spacemacs.
-  - `fzf`: Buscador difuso (*fuzzy finder*) en terminal y Vim.
-  - `node`: Runtime de JavaScript requerido por servidores LSP, Prettier, ESLint y GitHub Copilot.
-  - `bat`: Reemplazo de `cat` con resaltado de sintaxis (usado en previsualizaciones de FZF).
-  - `lazygit`: Cliente interactivo de Git para terminal.
-  - `git-delta`: Visor de diferencias (`diff`) con resaltado de sintaxis.
-  - `gh`: CLI oficial de GitHub.
-- **Aplicaciones GUI y Fuentes (Casks):**
-  - `iterm2`: Emulador de terminal para macOS.
-  - `font-jetbrains-mono-nerd-font`: Fuente tipográfica con soporte de iconos Nerd Fonts para terminal y editores.
+- **CLI Formulae:**
+  - `neovim`: Primary text editor.
+  - `ripgrep` (`rg`): Fast text search tool used by Neovim pickers, FZF, and Spacemacs.
+  - `fzf`: Command-line fuzzy finder (used in terminal and Vim).
+  - `node`: JavaScript runtime required by LSP servers, Prettier, ESLint, and GitHub Copilot.
+  - `bat`: `cat` clone with syntax highlighting (used for FZF previews).
+  - `lazygit`: Interactive terminal UI for Git.
+  - `git-delta`: Syntax-highlighting pager for Git diffs.
+  - `gh`: Official GitHub CLI.
+- **GUI Apps & Fonts (Casks):**
+  - `iterm2`: macOS terminal emulator.
+  - `font-jetbrains-mono-nerd-font`: Nerd Font patched typeface used across iTerm2 and editors.
 
 ---
 
-## Funcionalidades por componente
+## Features by Component
 
 ### 1. Neovim (`nvim/`)
-Basado en **LazyVim** con carga automática de `lazy.nvim`:
-- **Extras habilitados (`nvim/lazyvim.json`):**
-  - Soporte completo para **TypeScript** (`lazyvim.plugins.extras.lang.typescript`).
-  - Formateo con **Prettier** (`lazyvim.plugins.extras.formatting.prettier`).
-  - Asistencia de IA con **GitHub Copilot** y **Copilot Chat** (`ai.copilot`, `ai.copilot-chat`).
-  - Historial mejorado de copiado/pegado con **Yanky** (`coding.yanky`).
-- **Opciones personalizadas (`nvim/lua/config/options.lua`):**
-  - Ajuste de línea visual activado (`wrap`, `linebreak`, `breakindent`) con indicador `↳ `.
-  - Indentación con espacios de tamaño 2 (`expandtab`, `shiftwidth = 2`).
-- **Atajos y plugins adicionales:**
-  - `<Leader><Tab>`: Alternar rápidamente al buffer anterior (`<C-^>`).
-  - `vim-tmux-navigator` (`nvim/lua/plugins/tmux.lua`): Navegación transparente entre divisiones de Neovim y paneles de Tmux usando `Ctrl-h`, `Ctrl-j`, `Ctrl-k` y `Ctrl-l`.
+Built on **LazyVim** with automatic `lazy.nvim` bootstrapping:
+- **Enabled LazyVim Extras (`nvim/lazyvim.json`):**
+  - Full **TypeScript** support (`lazyvim.plugins.extras.lang.typescript`).
+  - **Prettier** formatting (`lazyvim.plugins.extras.formatting.prettier`).
+  - AI assistance via **GitHub Copilot** and **Copilot Chat** (`ai.copilot`, `ai.copilot-chat`).
+  - Enhanced yank/paste history with **Yanky** (`coding.yanky`).
+- **Custom Options (`nvim/lua/config/options.lua`):**
+  - Soft line wrapping enabled (`wrap`, `linebreak`, `breakindent`) with `↳ ` prefix indicator.
+  - 2-space indentation (`expandtab`, `shiftwidth = 2`).
+- **Custom Keymaps & Plugins:**
+  - `<Leader><Tab>`: Quickly switch to the alternate buffer (`<C-^>`).
+  - `vim-tmux-navigator` (`nvim/lua/plugins/tmux.lua`): Seamless navigation between Neovim splits and Tmux panes using `Ctrl-h`, `Ctrl-j`, `Ctrl-k`, and `Ctrl-l`.
 
 ### 2. Vim (`vimrc`)
-Configuración completa e independiente que auto-instala **vim-plug** al iniciar si no existe:
-- **Plugins incluidos:** `fzf` y `fzf.vim`, `nerdtree`, `bufexplorer`, `mru`, `gruvbox`, `vim-airline`, `vim-devicons`, `nerdfont.vim`, `vim-fugitive`, `vim-commentary`, `vim-surround`, `ale` y `vim-claude-code`.
-- **Características principales:**
-  - Tema oscuro **Gruvbox**, números de línea híbridos (`number relativenumber`) y portapapeles compartido con el sistema (`unnamedplus`).
-  - Guardado automático de respaldos y deshacer persistente (`undofile`) en `~/.vim/backup/`.
-  - **Linter y formateo (ALE):** Ejecución automática de ESLint y Prettier al guardar en archivos JS, TS, TSX, CSS y SCSS, además de limpieza de espacios y líneas vacías.
-  - **Atajos principales (Líder `<Space>`):**
-    - `<Leader>s` guardar cambios / `<Leader>q` guardar y salir.
+Self-contained configuration that automatically installs **vim-plug** on first launch if missing:
+- **Included Plugins:** `fzf` & `fzf.vim`, `nerdtree`, `bufexplorer`, `mru`, `gruvbox`, `vim-airline`, `vim-devicons`, `nerdfont.vim`, `vim-fugitive`, `vim-commentary`, `vim-surround`, `ale`, and `vim-claude-code`.
+- **Key Features:**
+  - **Gruvbox** dark colorscheme, hybrid line numbers (`number relativenumber`), and system clipboard integration (`unnamedplus`).
+  - Persistent undo history (`undofile`) and backups stored in `~/.vim/backup/`.
+  - **Linting & Formatting (ALE):** Automatic ESLint and Prettier execution on save for JS, TS, TSX, CSS, and SCSS files, plus trailing whitespace and empty line cleanup.
+  - **Main Keybindings (Leader `<Space>`):**
+    - `<Leader>s` save file / `<Leader>q` save and quit.
     - `<Leader>p` (`:Files`), `<C-p>` (`:GFiles`), `<C-g>` (`:Rg`), `<Leader>b` (`:Buffers`), `<Leader>r` (`:MRU`), `<Leader>e` (`:BufExplorer`).
-    - `<C-t>` alternar NERDTree, `<C-m>` localizar archivo actual en NERDTree.
-    - `<Leader>gs` estado de Git, `<Leader>gc` commit, `<Leader>gP` push, `<Leader>gd` diff, `<Leader>gb` blame.
-    - `gd` ir a definición, `gr` buscar referencias, `gy` definición de tipo, `ge` detalle del error (vía ALE).
-    - `<Leader>v` inserta automáticamente un `console.log('[archivo:línea]', variable); /* TODO */` de la palabra bajo el cursor.
-    - Las teclas de flecha están deshabilitadas en modo normal para fomentar el uso de `h`, `j`, `k`, `l`.
+    - `<C-t>` toggle NERDTree, `<C-m>` reveal current file in NERDTree.
+    - `<Leader>gs` Git status, `<Leader>gc` commit, `<Leader>gP` push, `<Leader>gd` diff, `<Leader>gb` blame.
+    - `gd` go to definition, `gr` find references, `gy` go to type definition, `ge` error details (via ALE).
+    - `<Leader>v` inserts a `console.log('[file:line]', word); /* TODO */` statement for the word under the cursor.
+    - Arrow keys are disabled in normal mode to enforce `h`, `j`, `k`, `l` navigation.
 
 ### 3. Spacemacs (`spacemacs`)
-Configuración enfocada en el desarrollo diario con **JavaScript, TypeScript y React / React Native**:
-- **Capas (*Layers*) activas:** `auto-completion`, `better-defaults`, `emacs-lisp`, `git`, `helm`, `html`, `json`, `lsp`, `markdown`, `multiple-cursors`, `spell-checking`, `syntax-checking`, `version-control`, `prettier`, `javascript`, `typescript`, `react`, `ruby`, `osx`, `treemacs`.
-- **Integración con herramientas del proyecto:** Resuelve automáticamente los binarios locales en `node_modules/.bin` (`prettier`, `eslint`, `typescript-language-server`).
-- **Comportamiento:**
-  - Formateo con Prettier al guardar en JS/TS.
-  - Atajos `gd` y `gD` en modo normal conectados a `xref-find-definitions` sobre LSP para mantener consistencia con Neovim.
-  - Respeta `.editorconfig` y desactiva archivos de bloqueo (`.#*`) para no ensuciar los repositorios.
-  - Tecla `Command` de macOS configurada como `Hyper` y `Option` izquierdo como `Meta`.
+Configured for daily **JavaScript, TypeScript, and React / React Native** development:
+- **Active Layers:** `auto-completion`, `better-defaults`, `emacs-lisp`, `git`, `helm`, `html`, `json`, `lsp`, `markdown`, `multiple-cursors`, `spell-checking`, `syntax-checking`, `version-control`, `prettier`, `javascript`, `typescript`, `react`, `ruby`, `osx`, `treemacs`.
+- **Project-local Tooling:** Automatically resolves project binaries from `node_modules/.bin` (`prettier`, `eslint`, `typescript-language-server`).
+- **Behavior:**
+  - Formats on save with Prettier in JS/TS buffers.
+  - Maps `gd` and `gD` in Evil normal mode to `xref-find-definitions` over LSP for consistency with Neovim.
+  - Honors `.editorconfig` and disables lockfiles (`.#*`) to keep repositories clean.
+  - Maps macOS `Command` to `Hyper` and left `Option` to `Meta`.
 
 ### 4. Tmux (`tmux.conf`)
-- **Prefijo:** `Ctrl-a` (reemplaza a `Ctrl-b`) y soporte de ratón activado (`mouse on`).
-- **Gestión de paneles y ventanas:**
-  - `<Prefijo> |`: Dividir panel horizontalmente manteniendo la ruta actual.
-  - `<Prefijo> -`: Dividir panel verticalmente manteniendo la ruta actual.
-  - `<Prefijo> H / J / K / L`: Redimensionar paneles en incrementos de 5 celdas.
-  - `<Prefijo> Ctrl-h / Ctrl-l`: Cambiar a la ventana anterior / siguiente.
-- **Integración con Claude CLI:**
-  - `<Prefijo> g`: Abre una ventana emergente (*popup* al 90% de pantalla) ejecutando `claude` en el directorio actual del panel.
-- **Tema y plugins (TPM):**
-  - Estilo visual **Catppuccin Mocha High Contrast** (incluye variantes comentadas para *Mocha* estándar y *Catppuccin Latte*).
-  - Plugins gestionados con **TPM**: `tmux-sensible`, `vim-tmux-navigator`, `tmux-yank`, `tmux-open`.
+- **Prefix:** `Ctrl-a` (replaces `Ctrl-b`) with mouse support enabled (`mouse on`).
+- **Pane & Window Management:**
+  - `<Prefix> |`: Split pane horizontally in the current directory.
+  - `<Prefix> -`: Split pane vertically in the current directory.
+  - `<Prefix> H / J / K / L`: Resize panes in 5-cell increments.
+  - `<Prefix> Ctrl-h / Ctrl-l`: Switch to previous / next window.
+- **Claude CLI Integration:**
+  - `<Prefix> g`: Opens a 90% floating popup window running `claude` in the active pane's current working directory.
+- **Theme & Plugins (TPM):**
+  - Styled with **Catppuccin Mocha High Contrast** (includes commented presets for standard *Mocha* and *Catppuccin Latte*).
+  - Plugins managed via **TPM**: `tmux-sensible`, `vim-tmux-navigator`, `tmux-yank`, `tmux-open`.
 
 ### 5. Lazygit (`lazygit/config.yml`)
-- Interfaz con bordes redondeados, iconos Nerd Fonts v3 y paleta de colores **Catppuccin Mocha**.
-- Configurado para abrir y editar archivos directamente en **Neovim** (`nvim {{filename}}`), suspendiendo Lazygit hasta cerrar el editor.
-- `autoFetch` desactivado al iniciar para mayor velocidad.
-- **Comando personalizado:** Presionar `<Ctrl-u>` abre un prompt para hacer `git pull --rebase upstream <rama>` (por defecto `develop`).
+- Rounded borders, Nerd Fonts v3 icons, and **Catppuccin Mocha** color palette.
+- Configured to open and edit files directly in **Neovim** (`nvim {{filename}}`), suspending Lazygit until the editor exits.
+- Disables `autoFetch` on startup for faster responsiveness.
+- **Custom Command:** Pressing `<Ctrl-u>` prompts for an upstream branch (defaults to `develop`) and runs `git pull --rebase upstream <branch>`.
 
 ### 6. IdeaVim (`ideavimrc`)
-Configuración para el plugin IdeaVim en IDEs de JetBrains con `<Space>` como líder:
-- **Búsqueda y archivos:** `<Leader>f` ir a archivo, `<Leader>p` buscar en todo, `<Leader>r` archivos recientes, `<Leader>e` seleccionar en vista de proyecto, `<Leader>s` estructura del archivo.
-- **Navegación de código:** `gd` declaración, `gD` declaración de tipo, `gi` implementación, `gr` buscar usos, `gt` ir al test, `<Leader>a` acciones de intención.
-- **Refactorización y formato:** `<Leader>rn` renombrar, `<Leader>cf` formatear código, `<Leader>co` optimizar imports, `<Leader>cc` comentar línea/selección.
-- **Ejecución y depuración:** `<Leader>rr` ejecutar, `<Leader>rd` depurar, `<Leader>rb` alternar breakpoint, `<Leader>rc` reanudar, `<Leader>rs` step over, `<Leader>ri` step into, `<Leader>ro` step out, `<Leader>rx` detener.
-- **Git / VCS:** `<Leader>gg` ventana de control de versiones, `<Leader>gl` log de Git, `<Leader>ga` anotaciones (*blame*).
-- **Ventanas y pestañas:** `Shift-h` / `Shift-l` para cambiar de pestaña; `<Leader>1` Proyecto, `<Leader>3` VCS, `<Leader>4` Terminal.
+Configuration for the IdeaVim plugin across JetBrains IDEs with `<Space>` as the leader key:
+- **Search & Files:** `<Leader>f` Goto File, `<Leader>p` Search Everywhere, `<Leader>r` Recent Files, `<Leader>e` Select in Project View, `<Leader>s` File Structure popup.
+- **Code Navigation:** `gd` declaration, `gD` type declaration, `gi` implementation, `gr` find usages, `gt` go to test, `<Leader>a` intention actions.
+- **Refactoring & Formatting:** `<Leader>rn` rename element, `<Leader>cf` reformat code, `<Leader>co` optimize imports, `<Leader>cc` toggle line comment.
+- **Run & Debug:** `<Leader>rr` run, `<Leader>rd` debug, `<Leader>rb` toggle breakpoint, `<Leader>rc` resume, `<Leader>rs` step over, `<Leader>ri` step into, `<Leader>ro` step out, `<Leader>rx` stop.
+- **Git / VCS:** `<Leader>gg` VCS tool window, `<Leader>gl` Git log, `<Leader>ga` annotate (*git blame*).
+- **Tool Windows & Tabs:** `Shift-h` / `Shift-l` switch tabs; `<Leader>1` Project window, `<Leader>3` VCS window, `<Leader>4` Terminal window.
 
 ### 7. GnuCash (`gnucash.css`)
-Hoja de estilos CSS diseñada para mejorar la apariencia y el formato de impresión/PDF de las facturas en GnuCash (probado con GnuCash 4.x), estilizando encabezados, tablas de conceptos, totales y márgenes de página.
+Custom CSS stylesheet designed to improve the layout and print/PDF output of GnuCash invoices (tested with GnuCash 4.x), styling headers, entry tables, totals, and page margins.
 
 ---
 
-## Instalación
+## Installation
 
-### Requisitos previos
-1. **macOS** con [Homebrew](https://brew.sh/) instalado.
-2. **Git** disponible en el sistema.
+### Prerequisites
+1. **macOS** with [Homebrew](https://brew.sh/) installed.
+2. **Git** available on your system.
 
-### Paso a paso
+### Step-by-Step Setup
 
-1. **Clonar el repositorio en `~/GitHub/dotfiles`:**
-   > **Nota:** El script `install.sh` utiliza por defecto la ruta `$HOME/GitHub/dotfiles`.
+1. **Clone the repository into `~/GitHub/dotfiles`:**
+   > **Note:** `install.sh` expects the repository to live at `$HOME/GitHub/dotfiles`.
 
    ```bash
    mkdir -p ~/GitHub
@@ -128,89 +128,89 @@ Hoja de estilos CSS diseñada para mejorar la apariencia y el formato de impresi
    cd ~/GitHub/dotfiles
    ```
 
-2. **Ejecutar el script de instalación:**
+2. **Run the bootstrap script:**
 
    ```bash
    bash install.sh
    ```
 
-   **¿Qué hace `install.sh`?**
-   - Instala las herramientas CLI y aplicaciones GUI mediante Homebrew (omitiendo las que ya estén instaladas).
-   - Crea los directorios necesarios (`~/.config` y `~/.vim/backup`).
-   - Crea los enlaces simbólicos (*symlinks*) hacia este repositorio para Neovim, Vim, Spacemacs, Tmux, EditorConfig y Lazygit.
-   - Si ya existe algún archivo o carpeta real en las rutas de destino que no apunte a este repositorio, **hace una copia de seguridad automática** en `~/.dotfiles_backup/<YYYYMMDD_HHMMSS>/` antes de reemplazarlo.
+   **What `install.sh` does:**
+   - Installs CLI tools and GUI cask packages via Homebrew (skipping any that are already installed).
+   - Creates required directories (`~/.config` and `~/.vim/backup`).
+   - Creates symlinks pointing to this repository for Neovim, Vim, Spacemacs, Tmux, EditorConfig, and Lazygit.
+   - Automatically **backs up any pre-existing real files or directories** to `~/.dotfiles_backup/<YYYYMMDD_HHMMSS>/` before replacing them with symlinks.
 
-3. **Configuraciones manuales opcionales:**
-   - **IdeaVim:** Si usas IDEs de JetBrains, enlaza el archivo `ideavimrc`:
+3. **Optional Post-Install Steps:**
+   - **IdeaVim:** If you use JetBrains IDEs, symlink `ideavimrc`:
      ```bash
      ln -sf ~/GitHub/dotfiles/ideavimrc ~/.ideavimrc
      ```
-   - **TPM (Tmux Plugin Manager):** Si es una instalación limpia, clona TPM e instala los plugins con `<Prefijo> I` (`Ctrl-a` + `Shift-i` dentro de Tmux):
+   - **TPM (Tmux Plugin Manager):** On a fresh machine, clone TPM and press `<Prefix> I` (`Ctrl-a` + `Shift-i` inside Tmux) to install plugins:
      ```bash
      git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
      ```
    - **iTerm2:**
-     - En *Preferences → Profiles → Colors*, importa el tema **Catppuccin Mocha**.
-     - En *Preferences → Profiles → Text*, selecciona la fuente **JetBrainsMono Nerd Font Mono**.
-   - **GnuCash:** En las opciones del informe de factura en GnuCash, copia o referencia el contenido de `gnucash.css` en la configuración de hoja de estilos CSS.
+     - Go to *Preferences → Profiles → Colors* and import the **Catppuccin Mocha** theme.
+     - Go to *Preferences → Profiles → Text* and set the font to **JetBrainsMono Nerd Font Mono**.
+   - **GnuCash:** Paste or reference the contents of `gnucash.css` in your GnuCash invoice report stylesheet settings.
 
 ---
 
-## Actualización y mantenimiento
+## Updating & Maintenance
 
-### Actualizar el repositorio en una máquina existente
-Para descargar los últimos cambios del repositorio y asegurarse de que todos los enlaces simbólicos y paquetes de Homebrew estén al día:
+### Pulling the Latest Dotfiles Changes
+To pull recent updates from the repository and ensure all symlinks and Homebrew packages are in sync:
 
 ```bash
 cd ~/GitHub/dotfiles
 git pull
 bash install.sh
 ```
-`install.sh` es **idempotente**: puede ejecutarse tantas veces como sea necesario sin duplicar instalaciones ni sobrescribir enlaces que ya son correctos.
+`install.sh` is **idempotent** and safe to re-run at any time—already installed packages and valid symlinks are skipped without side effects.
 
-### Actualizar paquetes y plugins de cada herramienta
+### Updating Packages & Plugins
 
-- **Paquetes de Homebrew:**
+- **Homebrew Packages:**
   ```bash
   brew update && brew upgrade
   ```
 
 - **Neovim (LazyVim):**
-  - Abre `nvim` y ejecuta `:Lazy sync` (o presiona `<Space>l` para abrir la interfaz de Lazy y luego `S`).
-  - El archivo `nvim/lazy-lock.json` registra las versiones exactas de cada plugin; haz commit de este archivo cuando actualices plugins para mantener la misma versión en todas tus máquinas.
-  - Para actualizar servidores LSP y formateadores gestionados por Mason, ejecuta `:MasonUpdate` dentro de Neovim.
+  - Open `nvim` and run `:Lazy sync` (or press `<Space>l` to open the Lazy UI, then press `S`).
+  - `nvim/lazy-lock.json` locks exact plugin commits; commit changes to this file after updating plugins to keep your setup reproducible across machines.
+  - To update LSP servers, linters, and formatters managed by Mason, run `:MasonUpdate` inside Neovim.
 
 - **Vim (vim-plug):**
-  - Abre `vim` y ejecuta:
-    - `:PlugInstall` para instalar plugins nuevos.
-    - `:PlugUpdate` para actualizar los plugins existentes.
-    - `:PlugClean` para eliminar plugins que se hayan quitado del `vimrc`.
+  - Open `vim` and run:
+    - `:PlugInstall` to install newly added plugins.
+    - `:PlugUpdate` to update installed plugins.
+    - `:PlugClean` to remove unused plugins deleted from `vimrc`.
 
 - **Spacemacs:**
-  - Dentro de Spacemacs, presiona `SPC f e U` para actualizar los paquetes de las capas instaladas y `SPC f e R` para recargar la configuración tras editar `spacemacs`.
+  - Inside Spacemacs, press `SPC f e U` to update layer packages, and `SPC f e R` to reload your configuration after editing `spacemacs`.
 
 - **Tmux (TPM):**
-  - Dentro de una sesión de Tmux:
-    - `Ctrl-a` + `Shift-i` (`<Prefijo> I`): Instala nuevos plugins añadidos a `tmux.conf`.
-    - `Ctrl-a` + `Shift-u` (`<Prefijo> U`): Actualiza los plugins instalados.
-    - Para recargar `tmux.conf` sin reiniciar Tmux: `tmux source-file ~/.tmux.conf`.
+  - Inside a Tmux session:
+    - `Ctrl-a` + `Shift-i` (`<Prefix> I`): Install new plugins listed in `tmux.conf`.
+    - `Ctrl-a` + `Shift-u` (`<Prefix> U`): Update installed plugins.
+    - Reload `tmux.conf` without restarting Tmux: `tmux source-file ~/.tmux.conf`.
 
-### Cómo añadir o modificar configuraciones
+### Adding or Modifying Configurations
 
-1. **Modificar una configuración existente:**
-   Dado que los archivos en `~/` y `~/.config/` son enlaces simbólicos hacia `~/GitHub/dotfiles`, cualquier cambio que hagas en `~/.vimrc`, `~/.tmux.conf`, `~/.spacemacs` o `~/.config/nvim/` modifica directamente los archivos dentro del repositorio. Solo necesitas revisar los cambios con `git status` / `lazygit` y hacer commit.
+1. **Editing an existing config:**
+   Because the files in `~/` and `~/.config/` are symlinked to `~/GitHub/dotfiles`, editing `~/.vimrc`, `~/.tmux.conf`, `~/.spacemacs`, or `~/.config/nvim/` directly modifies the files in this repository. Simply review your changes with `git status` / `lazygit` and commit them.
 
-2. **Agregar una nueva herramienta o dotfile al repositorio:**
-   - Mueve o crea el archivo de configuración dentro de `~/GitHub/dotfiles/`.
-   - Si requiere un paquete de Homebrew, agrégalo a la llamada `brew_install` o `brew_cask_install` en `install.sh`.
-   - Añade una línea `link <ruta-en-repo> <ruta-destino>` en `install.sh`.
-   - Ejecuta `bash install.sh` para crear el enlace simbólico y verifica su funcionamiento.
+2. **Adding a new tool or dotfile:**
+   - Place the configuration file or directory inside `~/GitHub/dotfiles/`.
+   - If it requires a Homebrew package, add it to `brew_install` or `brew_cask_install` in `install.sh`.
+   - Add a `link <repo-relative-path> <destination>` entry in `install.sh`.
+   - Run `bash install.sh` to create the symlink and verify everything works.
 
-3. **Restaurar copias de seguridad:**
-   Si necesitas recuperar un archivo previo que fue reemplazado al ejecutar `install.sh`, revisa las carpetas con marca de tiempo dentro de `~/.dotfiles_backup/`.
+3. **Restoring Backups:**
+   If you ever need to recover a file that was replaced by `install.sh`, check the timestamped directories under `~/.dotfiles_backup/`.
 
 ---
 
-## Licencia
+## License
 
-Distribuido bajo la licencia [MIT](LICENSE).
+Distributed under the [MIT License](LICENSE).
