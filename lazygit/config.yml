@@ -6,29 +6,29 @@ gui:
   nerdFontsVersion: "3"
   # Rounded borders
   border: rounded
-  # Catppuccin Mocha theme
+  # Catppuccin Latte theme
   theme:
     activeBorderColor:
-      - "#cba6f7" # Mauve
+      - "#8839ef" # Mauve
       - bold
     inactiveBorderColor:
-      - "#45475a" # Surface1
+      - "#acb0be" # Surface1
     optionsTextColor:
-      - "#89b4fa" # Blue
+      - "#1e66f5" # Blue
     selectedLineBgColor:
-      - "#313244" # Surface0
+      - "#ccd0da" # Surface0
     selectedRangeBgColor:
-      - "#313244" # Surface0
+      - "#ccd0da" # Surface0
     cherryPickedCommitBgColor:
-      - "#45475a" # Surface1
+      - "#acb0be" # Surface1
     cherryPickedCommitFgColor:
-      - "#cba6f7" # Mauve
+      - "#8839ef" # Mauve
     unstagedChangesColor:
-      - "#f38ba8" # Red
+      - "#d20f39" # Red
     defaultFgColor:
-      - "#cdd6f4" # Text
+      - "#4c4f69" # Text
     searchingActiveBorderColor:
-      - "#f9e2af" # Yellow
+      - "#df8e1d" # Yellow
 git:
   # Do not fetch all remotes on startup
   autoFetch: false
