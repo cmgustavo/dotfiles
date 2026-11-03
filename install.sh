@@ -130,6 +130,11 @@ link editorconfig ~/.editorconfig
 # --- lazygit ---
 mkdir -p "$HOME/Library/Application Support/lazygit"
 link lazygit/config.yml "$HOME/Library/Application Support/lazygit/config.yml"
+link lazygit ~/.config/lazygit
+
+# --- IdeaVim ---
+# IdeaVim (JetBrains IDEs) reads ~/.ideavimrc.
+link ideavimrc ~/.ideavimrc
 
 echo ""
 echo "Done."
