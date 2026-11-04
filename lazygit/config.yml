@@ -51,7 +51,7 @@ customCommands:
     command: "git pull --rebase upstream {{.Form.Branch}}"
     output: log
   # Paste "user:branch" from a GitHub PR page; fetches it if not local.
-  - key: "P"
+  - key: "C"
     context: "localBranches"
     description: "Checkout PR branch (user:branch)"
     prompts:
