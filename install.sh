@@ -132,6 +132,11 @@ mkdir -p "$HOME/Library/Application Support/lazygit"
 link lazygit/config.yml "$HOME/Library/Application Support/lazygit/config.yml"
 link lazygit ~/.config/lazygit
 
+# --- Scripts ---
+# bin/ghco — check out a PR branch from "user:branch" (used by lazygit too).
+mkdir -p ~/.local/bin
+link bin/ghco ~/.local/bin/ghco
+
 # --- IdeaVim ---
 # IdeaVim (JetBrains IDEs) reads ~/.ideavimrc.
 link ideavimrc ~/.ideavimrc

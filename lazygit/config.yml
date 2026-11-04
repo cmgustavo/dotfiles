@@ -50,3 +50,13 @@ customCommands:
         initialValue: "develop"
     command: "git pull --rebase upstream {{.Form.Branch}}"
     output: log
+  # Paste "user:branch" from a GitHub PR page; fetches it if not local.
+  - key: "P"
+    context: "localBranches"
+    description: "Checkout PR branch (user:branch)"
+    prompts:
+      - type: "input"
+        title: "PR branch (user:branch)"
+        key: "Ref"
+    command: "ghco {{.Form.Ref | quote}}"
+    loadingText: "Fetching branch..."

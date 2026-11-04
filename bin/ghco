@@ -1,0 +1,52 @@
+#!/bin/bash
+# ghco — check out a GitHub PR branch given the "user:branch" string that the
+# GitHub PR page shows (e.g. cmgustavo:feat/floating-tab-bar-01).
+#
+# Usage: ghco user:branch
+#        ghco <PR number | PR URL>   (delegates to `gh pr checkout`)
+#        ghco branch                 (plain branch on origin)
+#
+# If the local branch already exists it is just checked out; otherwise the
+# fork is added as a remote (named after the user), the branch is fetched, and
+# a local tracking branch is created.
+set -euo pipefail
+
+arg="${1:-}"
+arg="${arg//[[:space:]]/}"
+[ -n "$arg" ] || { echo "usage: ghco user:branch" >&2; exit 1; }
+
+# PR number or URL → let gh handle it.
+if [[ "$arg" =~ ^[0-9]+$ || "$arg" =~ ^https://github\.com/.*/pull/ ]]; then
+        exec gh pr checkout "$arg"
+fi
+
+if [[ "$arg" == *:* ]]; then
+        user="${arg%%:*}"
+        branch="${arg#*:}"
+else
+        user=""
+        branch="$arg"
+fi
+
+# Local branch already there → just switch.
+if git show-ref --verify --quiet "refs/heads/$branch"; then
+        git checkout "$branch"
+        exit 0
+fi
+
+origin_url="$(git remote get-url origin)"
+origin_owner="$(echo "$origin_url" | sed -E 's#.*github\.com[:/]([^/]+)/.*#\1#')"
+
+if [ -z "$user" ] || [ "$user" = "$origin_owner" ]; then
+        remote=origin
+else
+        remote="$user"
+        if ! git remote get-url "$remote" &>/dev/null; then
+                fork_url="$(echo "$origin_url" | sed -E "s#(github\.com[:/])[^/]+/#\1$user/#")"
+                git remote add "$remote" "$fork_url"
+                echo "Added remote $remote → $fork_url"
+        fi
+fi
+
+git fetch "$remote" "$branch"
+git checkout -b "$branch" --track "$remote/$branch"
